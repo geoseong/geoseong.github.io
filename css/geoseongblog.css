@@ -1,8 +1,14 @@
-@import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css');
+/* @import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css'); */
+@font-face{
+    font-family: GodoM;src:url('../fonts/GodoM.ttf');
+}
+@font-face{
+    font-family: GodoB;src:url('../fonts/GodoB.ttf');
+}
 
 /* 공통 사용 클래스 */
 body, div, p {
-    font-family:'Nanum Gothic'
+    font-family:'GodoM', GodoB;
 }
 .gs-center-all {
     display: flex;
@@ -21,13 +27,17 @@ body, div, p {
 }
 .gs-header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     position: fixed;
     top: 0;
+    left: 0;
+    margin-left: 0;
     width: 100%;
     z-index: 999;
-    background-color: rgba(255,255,255, 0.9);
+    /* background-color: rgba(255,255,255, 0.9); */
+    background: linear-gradient(to right, rgba(255,0,0,0), #0089ff);
+    padding: 0 0.5em;
 }
 .gs-header div{
     display: flex;
@@ -42,7 +52,8 @@ body, div, p {
 }
 .gs-header-title {
     font-weight: bold;
-    font-style: italic;
+    color: white;
+    /* font-style: italic; */
 }
 .gs-header-list {
     font-size: large;
@@ -62,8 +73,9 @@ body, div, p {
     margin: 0.5em 0;
 }
 .gs-content {
-    /* margin: 10% 1em; */
+    width: 100%;
     padding: 7em 1em;
+    margin-left: 0;
 }
 .gs-item-title-area {
     display: flex;
@@ -86,7 +98,8 @@ body, div, p {
     top: 1em;
     right: 2em;
 }
-/* 작은 기기들 (태블릿, 768px 이상) */
+
+/* 작은 기기들 (태블릿, 768px 이상, sm) */
 @media (min-width: 768px) {
     .logoimg {
         height: 100%;
@@ -97,17 +110,18 @@ body, div, p {
         margin: 1em 0;
     }
     .gs-content {
-        padding: 6em 1em;
+        padding: 6em 0em;
+        margin-left: 0;
     }
     .gs-header-title {
-        font-size: x-large;
+        font-size: large;
     }
     .gs-header-list {
         font-size: xx-large;
     }
 }
 
-/* 중간 기기들 (데스크탑, 992px 이상) */
+/* 중간 기기들 (데스크탑, 992px 이상, md) */
 @media (min-width: 992px) {
     .logoimg {
         height: 100%;
@@ -117,14 +131,15 @@ body, div, p {
         margin: 1em 0;
     }
     .gs-content {
-        padding: 7em 1em;
+        padding: 7em 0em;
+        margin-left: 0;
     }
     .gs-header-title {
-        font-size: xx-large;
+        font-size: x-large;
     }
 }
 
-/* 큰 기기들 (큰 데스크탑, 1200px 이상) */
+/* 큰 기기들 (큰 데스크탑, 1200px 이상, lg) */
 @media (min-width: 1200px) {
     .logoimg {
         height: 100%;
@@ -134,6 +149,7 @@ body, div, p {
         margin: 1em 0;
     }
     .gs-content {
-        padding: 7em 1em;
+        padding: 7em 0em;
+        margin-left: 0;
     }
 }
