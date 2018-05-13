@@ -1,0 +1,155 @@
+/* @import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css'); */
+@font-face{
+    font-family: GodoM;src:url('../fonts/GodoM.ttf');
+}
+@font-face{
+    font-family: GodoB;src:url('../fonts/GodoB.ttf');
+}
+
+/* 공통 사용 클래스 */
+body, div, p {
+    font-family:'GodoM', GodoB;
+}
+.gs-center-all {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 매우 작은 기기들 (모바일폰, 768px 보다 작은) */
+/* 부트스트랩에서 이것은 기본이므로 미디어쿼리가 없습니다. */
+.logoimg {
+    height: 70%;
+    margin-left: 1em;
+}
+.gs-header div{
+    height: 3em;
+}
+.gs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-left: 0;
+    width: 100%;
+    z-index: 999;
+    /* background-color: rgba(255,255,255, 0.9); */
+    background: linear-gradient(to right, rgba(255,0,0,0), #0089ff);
+    padding: 0 0.5em;
+}
+.gs-header div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gs-header-logoimg-lg-3, .gs-header-logoimg-md-3, .gs-header-logoimg-sm-3, .gs-header-logoimg-xs-3 {
+    margin-left: 1em;
+}
+.gs-header-title-area {
+    /* justify-content: left !important; */
+}
+.gs-header-title {
+    font-weight: bold;
+    color: white;
+    /* font-style: italic; */
+}
+.gs-header-list {
+    font-size: large;
+}
+.gs-sidebar-title {
+    display: flex;
+    justify-content: space-between;
+    margin: 1em 1em 1em 0;
+}
+.gs-sidebar-title span {
+    margin-left: 1em;
+}
+.gs-sidebar-arrow {
+    margin: 0.5em;
+}
+.gs-sidebar-item-area {
+    margin: 0.5em 0;
+}
+.gs-content {
+    width: 100%;
+    padding: 7em 1em;
+    margin-left: 0;
+}
+.gs-item-title-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    word-break: break-all;
+    border-radius: 0.5em;
+    padding: 5em 1em 1em 1em;
+}
+.gs-item-title-area span {
+    /* margin: 1em; */
+}
+.gs-item-title-area .gs-item-title {
+    font-size: x-large;
+}
+.gs-item-title-area .gs-item-modifiedDt {
+    position: absolute;
+    top: 1em;
+    right: 2em;
+}
+
+/* 작은 기기들 (태블릿, 768px 이상, sm) */
+@media (min-width: 768px) {
+    .logoimg {
+        height: 100%;
+        margin-left: 0em;
+    }
+    .gs-header div{
+        height: 3em;
+        margin: 1em 0;
+    }
+    .gs-content {
+        padding: 6em 0em;
+        margin-left: 0;
+    }
+    .gs-header-title {
+        font-size: large;
+    }
+    .gs-header-list {
+        font-size: xx-large;
+    }
+}
+
+/* 중간 기기들 (데스크탑, 992px 이상, md) */
+@media (min-width: 992px) {
+    .logoimg {
+        height: 100%;
+    }
+    .gs-header div {
+        height: 4em;
+        margin: 1em 0;
+    }
+    .gs-content {
+        padding: 7em 0em;
+        margin-left: 0;
+    }
+    .gs-header-title {
+        font-size: x-large;
+    }
+}
+
+/* 큰 기기들 (큰 데스크탑, 1200px 이상, lg) */
+@media (min-width: 1200px) {
+    .logoimg {
+        height: 100%;
+    }
+    .gs-header div {
+        height: 4em;
+        margin: 1em 0;
+    }
+    .gs-content {
+        padding: 7em 0em;
+        margin-left: 0;
+    }
+}
