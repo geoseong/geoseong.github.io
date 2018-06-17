@@ -25,4 +25,4 @@ yarn-error.log*
 /samples
 
 # ignore vscode related
-.code-workspace
+*.code-workspace
