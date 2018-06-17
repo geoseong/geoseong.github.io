@@ -23,3 +23,6 @@ yarn-error.log*
 # my custom ignorance
 /geoseong.github.io
 /samples
+
+# ignore vscode related
+.code-workspace
