@@ -1,6 +1,6 @@
 import request from 'request';
 import cheerio from 'cheerio';
-            
+
 export const GET_TOKEN = 'GET_TOKEN';
 export const REFRESH_TOKEN = 'REFRESH_TOKEN';
 
@@ -9,6 +9,7 @@ export const NOTEBOOK_SECTION_LIST = 'NOTEBOOK_SECTION_LIST';
 export const NOTEBOOK_SECTION_PAGE_LIST = 'NOTEBOOK_SECTION_PAGE_LIST';
 export const PAGE_CONTENT = 'PAGE_CONTENT';
 export const CLEAR_SIDEBAR = 'CLEAR_SIDEBAR';
+export const SWITCH_LOADER = 'SWITCH_LOADER';
 
 const GET_TOKEN_URL = 'https://duok8m97kh.execute-api.ap-northeast-2.amazonaws.com/v001/getToken';
 // const GET_TOKEN_URL = `http://localhost:3000/getToken`;
@@ -17,6 +18,31 @@ const NOTEBOOK_SECTION_LIST_URL = (notebookId) => {return 'https://www.onenote.c
 const NOTEBOOK_SECTION_PAGE_LIST_URL = (sectionId) => {return 'https://www.onenote.com/api/v1.0/me/notes/sections/' + sectionId + '/pages'};
 const PAGE_CONTENT_URL = (pageId) => {return 'https://www.onenote.com/api/v1.0/me/notes/pages/' + pageId + '/content?preAuthenticated=true'};
 
+const getFormmatedDt = (formattedDtBefore) => {
+    let set2Length = (val) => {return (val<10)?"0" + val:val;}
+    let date = new Date(formattedDtBefore);
+    let formattedDatetimeAfter = `${date.getFullYear()}-${set2Length(date.getMonth()+1)}-${set2Length(date.getDate())} ${set2Length(date.getHours())}:${set2Length(date.getMinutes())}`;
+    let formattedDateAfter = `${date.getFullYear()}-${set2Length(date.getMonth()+1)}-${set2Length(date.getDate())}`;
+    
+    return {datetime: formattedDatetimeAfter, date: formattedDateAfter};
+}
+
+export function switchLoadStatus(type, bool) {
+    return (dispatch) => {
+        console.log('switchLoader type:', type, '/bool:', bool);
+        let loadstatus = {main: false, sidebar: false};
+        if(type==='main'){
+            loadstatus = {main: bool, sidebar: true}
+        }if(type==='all'){
+            loadstatus = {main: bool, sidebar: bool}
+        }else{
+            loadstatus = {main: true, sidebar: bool}
+        }
+        dispatch({
+            type: SWITCH_LOADER, payload: loadstatus
+        });
+    };
+}
 export function clearSidebar() {
     return (dispatch) => {
         // console.log('clearSidebar');
@@ -76,11 +102,27 @@ export function getSectionsList(token, notebookId, callback) {
         });
     };
 }
-export function getSectionPagesList(token, sectionId, callback) {
-    // console.log('[action_index]getSectionPagesList, sectionId', sectionId)
+export function getSectionPagesList(token, sectionId, callback, getPageContent) {
+    console.log('[action]getSectionPagesList, sectionId', sectionId)
+
+    let actualSectionId = '';
+    if(!sectionId){
+        actualSectionId = '';
+        return;
+    }
+    if(sectionId.indexOf('0-') > -1 && sectionId.indexOf('1-') > -1){  
+        actualSectionId = sectionId.substring(sectionId.indexOf('1-')).replace('1-', '0-');
+    }
+    else{
+        actualSectionId = sectionId;
+    }
+    
+    console.log('[action]getSectionPagesList, still? sectionId', sectionId)
+    // console.log('[action]getSectionPagesList, actualSectionId', actualSectionId);
+
     var options = {
         method: 'GET',
-        url: NOTEBOOK_SECTION_PAGE_LIST_URL(sectionId),
+        url: NOTEBOOK_SECTION_PAGE_LIST_URL(actualSectionId),
         headers:
          { 'Authorization': `Bearer ${token}` },
         body: {},
@@ -93,7 +135,19 @@ export function getSectionPagesList(token, sectionId, callback) {
                 // console.log('[getSectionPagesList]error!!', error);
                 return callback(error);
             }
-            // console.log('getSectionPagesList request then', body);
+            let pageQueryItem = {};
+            // console.log('[action]getSectionPagesList request then', body);
+            
+            if(getPageContent){
+                body.value.forEach((data, idx)=>{
+                    if(data.id != sectionId){   return false;   }
+                    // console.log('[action]getSectionPagesList body.value forEach', data);
+                    pageQueryItem = {id:data.id, lastModifiedTime: data.lastModifiedTime};
+                });
+                /* 페이지의 내용을 읽어온다 */
+                getPageContent(token, pageQueryItem, callback);
+            }
+
             dispatch({
                 type: NOTEBOOK_SECTION_PAGE_LIST, payload: body
             });
@@ -132,34 +186,17 @@ export function getPageContent(token, listItem, callback) {
             /* 노트 페이지의 이름 추출 */
             let cheerTitle = $('title').text();
             /* 노트 페이지의 수정날짜 */
-            let listItemLastModifiedDt = (listItem.lastModifiedTime)?listItem.lastModifiedTime:'';
+            let listItemLastModifiedDt = (listItem.lastModifiedTime)?getFormmatedDt(listItem.lastModifiedTime).datetime:'';
             /* div영역의 style 바꾸기 */
             let cheerbody = $('body div').attr('style', 'word-break:break-all; padding:1em');
             
-            /* 노트 페이지의 이름 */
-            // let listItemTitle = (listItem.title)?listItem.title:body.substring(body.indexOf('<title>')+'<title>'.length, body.indexOf('</title>'));
             // 노트 페이지의 제목 추출
-            // var titleDom = (!listItem)?'':`<div class="gs-item-title-area">
-            //     <span class="gs-item-title">${listItemTitle}</span><span class="gs-item-modifiedDt">${listItemLastModifiedDt}</span>
-            // </div>`;
             var titleDom = (!listItem)?'':`<div class="gs-item-title-area">
                 <span class="gs-item-title">${cheerTitle}</span><span class="gs-item-modifiedDt">${listItemLastModifiedDt}</span>
             </div>`;
 
-            // <body>, <div>의 style변경
-            // var bodyEntireDom = body.substring(body.indexOf('<body'));
-            // var lengthDiv = '<div style="'.length;
-            // var idxDiv = bodyEntireDom.indexOf('<div style="')
-            // var divSizeStyleDomRare = bodyEntireDom.substring(idxDiv+lengthDiv);
-            // var idxSizeStyleEnd = divSizeStyleDomRare.indexOf('">');
-            // var sizeStyle = divSizeStyleDomRare.substring(0,idxSizeStyleEnd);
-            // var mergedStyle = 'word-break:break-all; padding:1em;';
-
-            // var resultBodyDom = bodyEntireDom.replace(sizeStyle, mergedStyle).replace(/body/g, 'div')
-
             dispatch({
                 type: PAGE_CONTENT,
-                // payload: titleDom + resultBodyDom
                 payload: titleDom + $.html()
             });
             // callback(titleDom + resultBodyDom);
