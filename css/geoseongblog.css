@@ -15,6 +15,10 @@ body, div, p {
     justify-content: center;
     align-items: center;
 }
+/* Loader */
+.loader-wrapper {
+    padding: 1em;
+}
 
 /* 매우 작은 기기들 (모바일폰, 768px 보다 작은) */
 /* 부트스트랩에서 이것은 기본이므로 미디어쿼리가 없습니다. */
