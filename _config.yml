@@ -1,0 +1,5 @@
+plugins:
+  - jekyll-seo-tag
+title: Geoseong's dev Note
+url: https://geoseong.github.io
+author: geoseong
