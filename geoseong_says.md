@@ -15,7 +15,8 @@
     - 존재한다면 사이드바 리스트 불러와보기 (OneNote 호출이다.)
 
     - 근데 token존재확인을 어디 영역에서 하지??
-        - components의 최상위에서 token을 얻어오자. : src/components/app.js 애서.
+        1. components의 최상위에서 token을 얻어오자. : src/components/app.js 애서.
+        2. sessionStorage를 이용해서 보관하고 얻어오자.
 
 ## OneNote의 구조
 - Notebooks
