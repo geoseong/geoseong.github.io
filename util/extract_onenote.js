@@ -20,31 +20,33 @@ const axios = require('axios')
 const fs = require('fs')
 const tokens = require(process.env.ONENOTE).tokens
 const cheerio = require('cheerio')
+const startTime = new Date();
 
 const notebookLists = [
-  ['AWS', '0-BC575AB8E2AB9833!2000'],
-  ['Dev', '0-BC575AB8E2AB9833!1937'],
+  // ['AWS', '0-BC575AB8E2AB9833!2000'],
+  // ['Dev', '0-BC575AB8E2AB9833!1937'],
   ['MacBook', '0-BC575AB8E2AB9833!1940'],
-  ['Database', '0-BC575AB8E2AB9833!2160'],
-  ['React-Native', '0-BC575AB8E2AB9833!2149'],
+  // ['Database', '0-BC575AB8E2AB9833!2160'],
+  // ['React-Native', '0-BC575AB8E2AB9833!2149'],
 ]
 /* 노출시키고픈 NoteBook List */
 const notebooks = new Map(notebookLists);
-const endpointPath = './postings/post_contents.json';
 const GET_NOTEBOOK_SECTION_LIST_URL = (notebookId) => {return 'https://www.onenote.com/api/v1.0/me/notes/notebooks/' + notebookId + '/sections'};
 const GET_NOTEBOOK_SECTION_PAGE_LIST_URL = (sectionId) => {return 'https://www.onenote.com/api/v1.0/me/notes/sections/' + sectionId + '/pages'};
 const GET_NOTEBOOK_SECTION_PAGE_CONTENT_URL = (pageId) => {return 'https://www.onenote.com/api/v1.0/me/notes/pages/' + pageId + '/content?preAuthenticated=true'};
 
-/* All endpoints */
-const endpoints = {};
+/* All routings */
+const routings = {};
+const routingsPath = './postings/routings.json';
 /* All posting contents */
 const postContent = [];
+const postContentPath = './postings/post_contents.json';
 
 /**
  * @name savePost
  * @param {String} path 
  * @param {*} context 
- * @description 포스팅 정보를 파일로 저장해 놓기. 
+ * @description 포스팅 관련 정보를 파일로 저장해 놓기. 
  * 해당 파일이 나중에 gatsby-node.js에서 페이지 생성에 쓰일 것임
  */
 const savePost = (path, context) => {
@@ -63,11 +65,11 @@ const savePost = (path, context) => {
  */
 const assemblePostInfo = (props) => {
   return {
-    type: `${props.type}`,
-    endpoint: `${props.endpoint}`,
+    type: props.type,
+    endpoint: props.endpoint,
     notebook: props.notebook,
     section: props.section,
-    page: (props.type !== 'page') ? null : props.page,
+    page: props.page,
   }
 }
 /**
@@ -121,6 +123,10 @@ const recurrReqSectionData = (notebookList) => {
               notebook: notebookName,
               section: section.name,
             }))
+            /* push routings */
+            Object.assign(routings, {
+              [page.id]: `${notebookName.toLowerCase()}/${section.id}/${pageIdx}`
+            })
             /* process log */
             console.log('NOTEBOOK[%s] SECTION[%s] PAGE[%s](%s) process: %d/%d', notebookName, section.id, pageIdx, page.id, pageIdx, pageObj.length);
             
@@ -165,7 +171,6 @@ const recurrReqSectionData = (notebookList) => {
               'Authorization': `Bearer ${tokens.access_token}`
             },
           }).then(result => {
-            
             /* Page List: result.data.value = Array[10] */
             sectionIdx++;
             console.log('------------------------------\nNOTEBOOK[%s] SECTION[%s](%s) try ----------(%d/%d)', notebookName, sectionIdx, section.id, sectionIdx, sectionObj.length);
@@ -175,9 +180,12 @@ const recurrReqSectionData = (notebookList) => {
               endpoint: `/${notebookName.toLowerCase()}/${sectionIdx}`,
               notebook: notebookName,
               section: section,
-              // section: sectionObj.filter(obj => obj.id == section.id)[0],
-              page: null,
+              page: result.data.value,
             }))
+            /* push routings */
+            Object.assign(routings, {
+              [section.id]: `/${notebookName.toLowerCase()}/${sectionIdx}`
+            })
             pageReqExec(notebookName, {id: sectionIdx, name: section.name}, result.data.value).then(page => {
               /* Get Section's Page Info */
               singleReq(notebookName, sectionObj[sectionIdx]);
@@ -213,17 +221,18 @@ const recurrReqSectionData = (notebookList) => {
             }).then(result => {
               /* Section List: result.data.value = Array[24] */
               console.log('NOTEBOOK[%s] try', notebookNextItem.value);
-              // /* make folder and make html file */
-              // !fs.existsSync(`./postings/${notebookNextItem.value}`) && fs.mkdirSync(`./postings/${notebookNextItem.value}`);
               /* push posting contents */
               postContent.push(assemblePostInfo({
                 type: `notebook`,
                 endpoint: `/${notebookNextItem.value.toLowerCase()}`,
                 notebook: `${notebookNextItem.value}`,
-                section: null,
+                section: result.data.value,
                 page: null,
               }))
-              
+              /* push routings */
+              Object.assign(routings, {
+                [notebookNextItem.value.toLowerCase()]: `/${notebookNextItem.value.toLowerCase()}`
+              })
               /* Get Section's Pages */
               sectionReqExec(notebookNextItem.value, result.data.value).then(page => {
                 /* Recursive Notebook */
@@ -250,9 +259,10 @@ const recurrReqSectionData = (notebookList) => {
 }
 
 recurrReqSectionData(notebooks).then(data => {
-  console.log('# final then #', data);
-  // fs.writeFileSync(endpointPath, JSON.stringify(endpoints, null, 2));
-  savePost(endpointPath, JSON.stringify(postContent, null, 2))
+  const leadtime = new Date() - startTime
+  console.log('# finished. total %s sec #', leadtime / 1000)
+  savePost(postContentPath, JSON.stringify(postContent, null, 2))
+  savePost(routingsPath, JSON.stringify(routings, null, 2))
   return;
 }).catch(e => {
   console.log('# final catch #', e)
