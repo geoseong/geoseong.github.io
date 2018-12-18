@@ -29,9 +29,20 @@ exports.createPages = ({ graphql, actions: {createPage} }) => {
       }); // end createPage
     } // end createPageRoute
 
+    let notebookList = []
     for(let i=0; i<blogpost.length; i++) {
       createPageRoute(blogpost[i])
+      if (blogpost[i].type === 'notebook') {
+        notebookList.push(blogpost[i])
+      }
     }
+    createPage({
+      path: '/',
+      component: require.resolve('./src/blogposts/index.js'),
+      context: {   /* pageContext */
+        notebookList
+      }
+    }); // end createPage
     resolve()
   }); //end Promise
 }

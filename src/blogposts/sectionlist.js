@@ -1,23 +1,50 @@
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
-import cheerio from 'cheerio'
-
 import Layout from '../components/layout'
 import routing from '../../postings/routings.json'
+import { getFormmatedDt } from '../../util/convert'
+
+const inlineStyle = {
+  alignRight: {
+    textAlign: 'right'
+  },
+  marginHorizontal: {
+    margin: '0 .5rem',
+    padding: '.3rem 1rem',
+  },
+  moreBtnArea: {
+    marginTop: '.5rem',
+  },
+  listItem: {
+    marginTop: '1rem',
+    padding: '1rem',
+    borderBottom: '1px solid #073642',
+  }
+}
 
 class IndexPage extends Component {
   render() {
     const { props: {pageContext} } = this
-    console.log('pageContext:', pageContext);
+    console.log('pageContext:', pageContext)
     return (
       <Layout>
         <React.Fragment>
-          <h2>{pageContext.section.name}</h2>
+          <h5 className="">{pageContext.notebook}</h5>
+          <h2 className="text-light">{pageContext.section.name}</h2>
           {
-            pageContext.page.length>0 && pageContext.page.map((data, idx) => {
-              /* Routing Table object에서 data.id를 key로 한 endpoint를 가져다 써야할 듯 */
+            pageContext.page.length>0 && pageContext.page.map((item, idx) => {
               return (
-                <div key={idx}><Link to={routing[data.id]}>{data.title}</Link></div>
+                <div key={'section-'+idx} style={inlineStyle.listItem}>
+                  <Link className="card-link" to={routing[item.id]}>
+                    <div className="">
+                      <h4 className="">{item.title}</h4>
+                      <h6 className="text-right">{getFormmatedDt(item.lastModifiedTime).datetime}</h6>
+                    </div>
+                    <div className="geoseong-more-txt" style={{...inlineStyle.alignRight, ...inlineStyle.moreBtnArea}}>
+                      More...
+                    </div>
+                  </Link>
+                </div>
               )
             })
           }

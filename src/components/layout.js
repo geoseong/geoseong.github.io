@@ -2,51 +2,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
-
+import { Link } from 'gatsby'
 import Header from './header'
-// import './layout.css'
+import './bootswatch.css'
+import './geoseong.css'
+
 const pageTitle = 'Geoseong\'s dev note'
 
-const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-      }
-    `}
-    render={data => (
-      <>
-        <Helmet
-          title={data.site.siteMetadata.title}
-          meta={[
-            { name: 'description', content: 'Sample' },
-            { name: 'keywords', content: 'sample, something' },
-          ]}
-        >
-          <html lang="en" />
-        </Helmet>
-        <Header siteTitle={data.site.siteMetadata.title} />
-        <div
-          style={{
-            margin: '0 auto',
-            maxWidth: 960,
-            padding: '0px 1.0875rem 1.45rem',
-            paddingTop: 0,
-          }}
-        >
-          {children}
-        </div>
-      </>
-    )}
-  />
-)
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+const inlineStyle = {
+  header: {
+    height: '4rem',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    zIndex: 999,
+  },
+  content: {
+    marginTop: '4rem',
+    padding: '1rem',
+  }
 }
 
 const RealLayout = ({children}) => (
@@ -73,36 +48,14 @@ const RealLayout = ({children}) => (
       <meta name="twitter:image" content="https://avatars2.githubusercontent.com/u/19166187?s=460&v=4" />
       <meta name="twitter:url" content="https://blog.outsider.ne.kr/922" />
       {/* Style */}
-      <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css" />
+      {/* <link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css" /> */}
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous"></link>
     </Helmet>
     <React.Fragment>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a className="navbar-brand" href="#">{pageTitle}</a>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarColor01">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">Features</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">Pricing</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">About</a>
-            </li>
-          </ul>
-          <form className="form-inline my-2 my-lg-0">
-            <input className="form-control mr-sm-2" type="text" placeholder="Search" />
-            <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-          </form>
-        </div>
-      </nav>
-      {children}
+      <Header title={pageTitle} style={inlineStyle}/>
+      <div className="geoseong-page" style={inlineStyle.content}>
+        {children}
+      </div>
     </React.Fragment>
   </>
 )
