@@ -30,25 +30,33 @@ const About = () => (
     </h1>
     <h3 className="text-primary">Full Stack Web Developer</h3>
     <h4>Interested in DevOps, new cool things about programming</h4>
+    <h5>This is Blog developed with
+      &nbsp;
+      <a className="text-primary" href="https://docs.microsoft.com/en-us/previous-versions/office/office-365-api/how-to/onenote-supported-ops" target="_blank">OneNote API</a>
+      &nbsp;&amp;&nbsp;
+      <a className="text-primary" href="https://www.gatsbyjs.org/docs/" target="_blank">GatsbyJS</a>
+      &nbsp;&amp;&nbsp;
+      <a className="text-primary" href="https://bootswatch.com/" target="_blank">Bootswatch</a>
+      </h5>
     <h6>DELL Technical Supporter, IT Operation Helpdesk Staff for 4 years</h6>
     <h6>Started as Developer in 2016 learning Java/Spring</h6>
     <ul>
       <li><span className="text-light">Blog</span>
         <ul>
           <li>
-            <a href="https://geoseong.tistory.com/" target="_blank">
+            <a className="text-primary" href="https://geoseong.tistory.com/" target="_blank">
               Tistory Blog
               <img style={{...inlineStyle.titleContentSize, ...inlineStyle.space}} src="http://i68.tinypic.com/2nim96v.png" />
             </a>
           </li>
           <li>
-            <a href="https://blog.naver.com/imf4" target="_blank">
+            <a className="text-primary" href="https://blog.naver.com/imf4" target="_blank">
               Naver Blog
               <img style={{...inlineStyle.titleContentSize, ...inlineStyle.space}} src="http://sire-korea.com/UI_FANDANGO/img/uif_sns_naverblog.png" />
             </a>
           </li>
           <li>
-            <a href="https://geoseong.github.io/" target="_blank">
+            <a className="text-primary" href="https://geoseong.github.io/" target="_blank">
               GitHub Page Blog
               <i style={{...inlineStyle.titleContentSize, ...inlineStyle.space}} className="fab fa-github"></i>
             </a>
@@ -61,10 +69,10 @@ const About = () => (
         <span className="text-light">Open Source &amp; Community</span>
         <ul>
           <li>
-            <a href="https://github.com/awskrug/gudi-group" target="_blank">AWSKRUG(AWS Korea User Group) guro-digital meetup leader</a>
+            <a className="text-primary" href="https://github.com/awskrug/gudi-group" target="_blank">AWSKRUG(AWS Korea User Group) guro-digital meetup leader</a>
           </li>
           <li>
-            <a href="https://github.com/react-native-seoul" target="_blank">React Native Seoul meetup admin</a>
+            <a className="text-primary" href="https://github.com/react-native-seoul" target="_blank">React Native Seoul meetup admin</a>
           </li>
         </ul>
       </li>

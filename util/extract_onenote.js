@@ -23,11 +23,12 @@ const cheerio = require('cheerio')
 const startTime = new Date();
 
 const notebookLists = [
-  // ['AWS', '0-BC575AB8E2AB9833!2000'],
-  // ['Dev', '0-BC575AB8E2AB9833!1937'],
+  ['AWS', '0-BC575AB8E2AB9833!2000'],
+  ['Dev', '0-BC575AB8E2AB9833!1937'],
   ['MacBook', '0-BC575AB8E2AB9833!1940'],
-  // ['Database', '0-BC575AB8E2AB9833!2160'],
-  // ['React-Native', '0-BC575AB8E2AB9833!2149'],
+  ['Database', '0-BC575AB8E2AB9833!2160'],
+  ['React-Native', '0-BC575AB8E2AB9833!2149'],
+  ['React-web', '0-BC575AB8E2AB9833!2142'],
 ]
 /* 노출시키고픈 NoteBook List */
 const notebooks = new Map(notebookLists);

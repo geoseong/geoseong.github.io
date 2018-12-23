@@ -32,7 +32,7 @@ class RealLayout extends Component {
   }
 
   handleClickOutside(event) {
-    console.log('handleClickOutside event.target.id', event.target.id)
+    // console.log('handleClickOutside event.target.id', event.target.id)
     if (!event.target.id || event.target.id.length === 0) {
       return
     }

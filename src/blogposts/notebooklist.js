@@ -25,7 +25,7 @@ const inlineStyle = {
 class IndexPage extends Component {
   render() {
     const { props: {pageContext} } = this
-    console.log('pageContext:', pageContext)
+    // console.log('pageContext:', pageContext)
     return (
       <Layout type="blog">
         <MetaInfo 

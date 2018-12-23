@@ -39,7 +39,7 @@ class Header extends Component {
     this.searchResultDom = null
   }
   componentDidMount = () => {
-    console.log('[componentDidMount]this.props', this.props)
+    // console.log('[componentDidMount]this.props', this.props)
     this.detectSize()
     window.addEventListener("resize", this.detectSize);
     if ( document.querySelector(`#gs-topmenu-${this.props.type}`) ) {
@@ -75,7 +75,7 @@ class Header extends Component {
     }
   }
   render() {
-    console.log('Header', this.props)
+    // console.log('Header', this.props)
     return (
       <React.Fragment>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark geoseong-header" style={this.props.style.header}>

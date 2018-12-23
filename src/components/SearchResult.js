@@ -36,14 +36,14 @@ export default class SearchResult extends Component {
   }
 
   fuseSearchResult = (searchResult) => {
-    console.log({searchResult})
+    // console.log({searchResult})
     if (searchResult.length === 0) {
       if ( this.searchResultDom ) {
         this.searchResultDom.classList.remove('border-light')
       }
       return (<div></div>)
     }
-    console.log('fuseSearchResult after', searchResult)
+    // console.log('fuseSearchResult after', searchResult)
     const filteredResult = (searchResult.length > 0) && searchResult.filter((ele) => ele.page && ele.type === 'page' )
     return filteredResult.map((ele, idx) => {
       this.searchResultDom.classList.add('border-light')
@@ -57,7 +57,7 @@ export default class SearchResult extends Component {
               <span className="">{ele.section}</span>
             </div>
           </div>
-          {ele.type === 'page' && ele.page && <div style={inlineStyle.padding}>{ele.page.content.substring(0,150)}</div>}
+          {ele.type === 'page' && ele.page && <div style={inlineStyle.padding}>{(ele.page.content.length > 150) ? ele.page.content.substring(0,150)+'...': ele.page.content}</div>}
         </Link>
       )
     })

@@ -4,7 +4,6 @@ import { Link } from 'gatsby'
 import Layout from '../components/Layout'
 
 const IndexPage = ({ pageContext }) => {
-  console.log('pageContext:', pageContext)
   return (
     <Layout type="blog">
       <h1>Hi people</h1>

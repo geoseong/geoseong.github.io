@@ -22,7 +22,7 @@ const inlineStyle = {
 class IndexPage extends Component {
   render() {
     const { props: {pageContext} } = this
-    console.log('pageContext:', pageContext)
+    // console.log('pageContext:', pageContext)
     
     return (
       <Layout type="blog">
@@ -32,7 +32,6 @@ class IndexPage extends Component {
             pageContext.notebookList && pageContext.notebookList.map((item, idx) => {
               const maxItemCnt = 5
               const sections = item.section.map((section, sectionIdx) => {
-                console.log('index', section)
                 if (sectionIdx === maxItemCnt) {
                   return (<span style={inlineStyle.spaceHorizontal}>...</span>)
                 } else if (sectionIdx < maxItemCnt) {

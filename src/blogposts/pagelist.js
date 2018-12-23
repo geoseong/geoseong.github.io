@@ -20,7 +20,7 @@ const inlineStyle = {
 class IndexPage extends Component {
   render() {
     const { props: {pageContext} } = this
-    console.log('pageContext:', pageContext)
+    // console.log('pageContext:', pageContext)
 
     /* OneNote 페이지의 전체 DOM */
     const $ = cheerio.load(pageContext.page.html);
