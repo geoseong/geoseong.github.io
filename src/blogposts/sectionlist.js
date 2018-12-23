@@ -19,6 +19,11 @@ const inlineStyle = {
     marginTop: '1rem',
     padding: '1rem',
     borderBottom: '1px solid #073642',
+  },
+  alignDomCenter: {
+    margin: '1em 0',
+    display: 'flex',
+    justifyContent: 'center',
   }
 }
 
@@ -29,7 +34,7 @@ class IndexPage extends Component {
     return (
       <Layout>
         <React.Fragment>
-          <h5 className="">{pageContext.notebook}</h5>
+          <Link to={pageContext.notebook.toLowerCase()}><h5 className="">{pageContext.notebook}</h5></Link>
           <h2 className="text-light">{pageContext.section.name}</h2>
           {
             pageContext.page.length>0 && pageContext.page.map((item, idx) => {
@@ -48,6 +53,31 @@ class IndexPage extends Component {
               )
             })
           }
+          {/* <div style={inlineStyle.alignDomCenter}>
+            <ul class="pagination">
+              <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">2</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">3</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">4</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">5</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="#">&raquo;</a>
+              </li>
+            </ul>
+          </div> */}
         </React.Fragment>
       </Layout>
     )
