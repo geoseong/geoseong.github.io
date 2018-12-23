@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 import routing from '../../postings/routings.json'
+import MetaInfo from '../components/MetaInfo'
 
 const inlineStyle = {
   alignRight: {
@@ -26,7 +27,14 @@ class IndexPage extends Component {
     const { props: {pageContext} } = this
     console.log('pageContext:', pageContext)
     return (
-      <Layout>
+      <Layout type="blog">
+        <MetaInfo 
+          title={pageContext.notebook}
+          type="website"
+          locationAfterOrigin={pageContext.notebook.toLowerCase()}
+          twittercard="summary"
+          keywords={`${pageContext.notebook},geoseong,dev note`}
+        />
         <React.Fragment>
           <h1 className="text-light">{pageContext.notebook}</h1>
           {

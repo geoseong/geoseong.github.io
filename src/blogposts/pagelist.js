@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import cheerio from 'cheerio'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 import routing from '../../postings/routings.json'
 import { getFormmatedDt } from '../../util/convert'
 import MetaInfo from '../components/MetaInfo'
@@ -30,22 +30,25 @@ class IndexPage extends Component {
     bodyTag.find('a').attr('target', '_blank');
     /* body 태그 바로 밑의 div의 스타일 attr 없애기 */
     bodyTag.children('div').removeAttr('style');
+    /* html태그가 없는 내용 */
+    const content = pageContext.page.content.replace(/  /g, '')
 
     return (
-      <Layout>
+      <Layout type="blog">
         <MetaInfo 
           title={pageContext.page.title}
-          description="MOM Index Page"
+          description={content}
           type="website"
           locationAfterOrigin={routing[pageContext.page.id]}
           twittercard="summary"
+          keywords={`${pageContext.notebook},${pageContext.section},geoseong,dev note,`+pageContext.page.title.split(' ').join(',')}
         />
         <div style={inlineStyle.titleArea}>
-          <h3 className="text-light">{pageContext.page.title}</h3>
+          <h1 className="text-light">{pageContext.page.title}</h1>
           <div className="text-info">
-            <Link className="text-info" to={pageContext.notebook.toLowerCase()}><span className="">{pageContext.notebook}</span></Link>
+            <Link className="text-info btn" to={pageContext.notebook.toLowerCase()}><span className="">{pageContext.notebook}</span></Link>
             <span className="fas fa-angle-double-right" style={inlineStyle.spaceHorizontal}></span>
-            <Link className="text-info" to={routing[pageContext.page.parentSection.id]}><span className="">{pageContext.section}</span></Link>
+            <Link className="text-info btn" to={routing[pageContext.page.parentSection.id]}><span className="">{pageContext.section}</span></Link>
           </div>
           <h6 className="text-right">{getFormmatedDt(pageContext.page.lastModifiedTime).datetime}</h6>
         </div>

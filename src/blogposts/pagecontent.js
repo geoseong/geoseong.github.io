@@ -21,7 +21,7 @@ class IndexPage extends Component {
     /* body 태그 바로 밑의 div의 스타일 attr 없애기 */
     bodyTag.children('div').removeAttr('style');
     return (
-      <Layout>
+      <Layout type="blog">
         <h1>{cheerTitle}</h1>
         <div dangerouslySetInnerHTML={{__html: bodyTag}} />
       </Layout>

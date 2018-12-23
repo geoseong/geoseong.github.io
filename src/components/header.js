@@ -1,25 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import Fuse from 'fuse.js'
+import SearchResult from './SearchResult'
 
 const blogpost = require('../../postings/post_contents.json')
 const inlineStyle = {
   relativePosition: {
     position: 'relative'
-  },
-  searchResultWindow: {
-    position: 'absolute',
-    right: 0,
-    maxWidth: '100vh',
-    maxHeight: '50vh',
-    overflow: 'scroll',
-  },
-  searchHeader: {
-    backgroundColor: '#073642',
-    padding: '.3em',
-  },
-  searchHeaderSmall: {
-    fontSize: '.5em',
   },
   padding: {
     padding: '.3em',
@@ -32,8 +19,6 @@ class Header extends Component {
     this.state = {
       searchResult: [],
     }
-    this.searchInputDom = null
-    this.searchResultDom = null
     this.options = {
       shouldSort: true,
       threshold: 0.6,
@@ -49,69 +34,76 @@ class Header extends Component {
     ]
     };
     this.fuse = new Fuse(blogpost, this.options); // "blogpost" is the item array
+    this.collapseDiv = null
+    this.searchInputDom = null
+    this.searchResultDom = null
   }
-
   componentDidMount = () => {
-    setTimeout(() => {
-      if (this.searchInputDom) {
-        this.searchResultDom.style.top = this.searchInputDom.scrollHeight + 'px'
-      }
-    }, 500)
+    console.log('[componentDidMount]this.props', this.props)
+    this.detectSize()
+    window.addEventListener("resize", this.detectSize);
+    if ( document.querySelector(`#gs-topmenu-${this.props.type}`) ) {
+      document.querySelector(`#gs-topmenu-${this.props.type}`).classList.add('active')
+    }
+  }
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.detectSize);
+  }
+  detectSize = (prop) => {
+    const resultdom = document.querySelector('#geoseong-search-area')
+    if (window.innerWidth < 992) {
+      resultdom.classList.remove('align-desktop')
+      resultdom.classList.add('align-mobile')
+    } else {
+      resultdom.classList.add('align-desktop')
+      resultdom.classList.remove('align-mobile')
+    }
   }
   onFuseSearch = (data) => {
-    const searchResult = this.fuse.search(data.target.value)
-    const filteredResult = (searchResult.length > 0) && searchResult.filter((ele) => ele.page && ele.type === 'page' )
-    const resultHTML = filteredResult.map((ele, idx) => {
-      console.log({ele})
-      return (
-        <Link to={ele.endpoint} key={`searchres-${idx}`}>
-          <div style={inlineStyle.searchHeader}>
-            {ele.type === 'page' && ele.page && <div className="text-white">{ele.page.title}</div>}
-            <div className="text-right" style={inlineStyle.searchHeaderSmall}>
-              <span className="">{ele.notebook}</span>
-              <span className="fas fa-angle-double-right" style={inlineStyle.spaceHorizontal}></span>
-              <span className="">{ele.section}</span>
-            </div>
-          </div>
-          {ele.type === 'page' && ele.page && <div style={inlineStyle.padding}>{ele.page.content.substring(0,150)}</div>}
-        </Link>
-      )
+    const searchResultRaw = this.fuse.search(data.target.value)
+    this.setState({
+      searchResult: searchResultRaw
     })
-    // console.log({filteredResult})
-    if (searchResult.length > 0) {
-      this.setState({
-        searchResult: resultHTML
-      })
+  }
+  spreadMenuMobile = () => {
+    if (this.collapseDiv.classList.value.indexOf('show') > -1) {
+      this.collapseDiv.classList.remove('show')
+      this.collapseDiv.classList.remove('geoseong-collapse-menu')
+    } else {
+      this.collapseDiv.classList.add('show')
+      this.collapseDiv.classList.add('geoseong-collapse-menu')
     }
   }
   render() {
-    console.log('[render]header props', this.props);
-    console.log('[render]header state', this.state);
+    console.log('Header', this.props)
     return (
       <React.Fragment>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark geoseong-header" style={this.props.style.header}>
           <Link className="navbar-brand" to="/">{this.props.title}</Link>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
+
+          <button className="navbar-toggler" id="geoseong-collapse-toggler" onClick={this.spreadMenuMobile} type="button" data-toggle="collapse" data-target="#collapseExample" aria-controls="collapseExample" aria-expanded="false" aria-label="메뉴">
+            <span className="navbar-toggler-icon" id="geoseong-collapse-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarColor01">
+          <div className="collapse navbar-collapse" id="collapseDiv" ref={e => this.collapseDiv = e}>
             <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+              <li id="gs-topmenu-blog" className="nav-item">
+                <Link className="nav-link" to="/">Blog</Link>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">Features</a>
+              <li id="gs-topmenu-about" className="nav-item">
+                <Link className="nav-link" to="/about">About</Link>
               </li>
             </ul>
             <form className="form-inline my-2 my-lg-0">
               <div style={inlineStyle.relativePosition}>
-                <input className="form-control mr-sm-2" type="text" placeholder="Search" onChange={this.onFuseSearch} ref={e => this.searchInputDom = e} />
-                <div style={{...inlineStyle.searchResultWindow}} className="card bg-light" ref={e => this.searchResultDom = e}>
-                  {this.state.searchResult}
-                </div>
+                <input id="searchInput" className="form-control mr-sm-2" type="text" 
+                  placeholder="Search" 
+                  onChange={this.onFuseSearch} 
+                  ref={e => this.searchInputDom = e} />
+                <SearchResult searchResult={this.state.searchResult} ref={e => this.searchResultDom = e} />
               </div>
             </form>
           </div>
+
         </nav>
       </React.Fragment>
     )

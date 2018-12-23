@@ -41,6 +41,8 @@ const routingsPath = './postings/routings.json';
 /* All posting contents */
 const postContent = [];
 const postContentPath = './postings/post_contents.json';
+/* collapsed menu */
+const collapsedMenu = { notebook: {} };
 
 /**
  * @name savePost
@@ -61,7 +63,7 @@ const savePost = (path, context) => {
  * @param {String} props.notebook notebook
  * @param {Object} props.section section info
  * @param {Object} props.page page info {title, content}
- * @description OneNote게시물 추출하기
+ * @description OneNote게시물 정규화시키기
  */
 const assemblePostInfo = (props) => {
   return {

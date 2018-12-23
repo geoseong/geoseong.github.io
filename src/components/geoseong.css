@@ -21,3 +21,16 @@ body {
 .geoseong-more-txt {
   color: #b5cecc;
 }
+.geoseong-collapse-menu {
+  padding-left: .5em;
+  background-color: rgba(7, 54, 66, 0.8);
+}
+.align-desktop {
+  right: 0;
+}
+.align-mobile {
+  left: 0;
+}
+.geoseong-hide {
+  display: none !important;
+}

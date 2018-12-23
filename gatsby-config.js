@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'Geoseong\'s dev note',
+    siteUrl: `https://geoseong.github.io/`,
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -10,6 +11,28 @@ module.exports = {
         name: `images`,
         path: `${__dirname}/src/images`,
       },
+    },
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        output: `./sitemap.xml`,
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+
+            allSitePage {
+              edges {
+                node {
+                  path
+                }
+              }
+            }
+          }`
+      }
     },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
