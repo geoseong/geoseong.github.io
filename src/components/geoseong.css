@@ -27,9 +27,11 @@ body {
 }
 .align-desktop {
   right: 0;
+  max-width: 60vw;
 }
 .align-mobile {
   left: 0;
+  max-width: 90vw;
 }
 .geoseong-hide {
   display: none !important;

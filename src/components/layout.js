@@ -66,6 +66,14 @@ class RealLayout extends Component {
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
           {/* WebMaster */}
           <meta name="google-site-verification" content="F982oVX7H0KLHXZ48aBOJW917-yg4gujHSA4TsMDsHk" />
+          {/* AdSense */}
+          {/* <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-4861235624374871",
+              enable_page_level_ads: true
+            });
+          </script> */}
           {/* OpenGraph */}
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content="Geoseong's Next.js" />

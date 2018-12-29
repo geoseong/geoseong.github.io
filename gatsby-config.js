@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: 'Geoseong\'s dev note',
-    siteUrl: `https://geoseong.github.io/`,
+    siteUrl: `https://geoseong.github.io`,
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -23,7 +23,6 @@ module.exports = {
                 siteUrl
               }
             }
-
             allSitePage {
               edges {
                 node {

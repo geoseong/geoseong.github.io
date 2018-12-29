@@ -180,7 +180,7 @@ const recurrReqSectionData = (notebookList) => {
             /* push posting contents */
             postContent.push(assemblePostInfo({
               type: `section`,
-              endpoint: `/${notebookName.toLowerCase()}/${sectionIdx}`,
+              endpoint: `${notebookName.toLowerCase()}/${sectionIdx}`,
               notebook: notebookName,
               section: section,
               page: result.data.value,
@@ -227,7 +227,7 @@ const recurrReqSectionData = (notebookList) => {
               /* push posting contents */
               postContent.push(assemblePostInfo({
                 type: `notebook`,
-                endpoint: `/${notebookNextItem.value.toLowerCase()}`,
+                endpoint: `${notebookNextItem.value.toLowerCase()}`,
                 notebook: `${notebookNextItem.value}`,
                 section: result.data.value,
                 page: null,

@@ -6,10 +6,14 @@ import SearchResult from './SearchResult'
 const blogpost = require('../../postings/post_contents.json')
 const inlineStyle = {
   relativePosition: {
-    position: 'relative'
+    position: 'relative',
+    width: '100%',
   },
   padding: {
     padding: '.3em',
+  },
+  searchInput: {
+    width: '70vw',
   }
 }
 

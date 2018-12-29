@@ -7,7 +7,6 @@ const inlineStyle = {
   },
   searchResultWindow: {
     position: 'absolute',
-    maxWidth: '90vw',
     maxHeight: '70vh',
     overflow: 'scroll',
   },
