@@ -30,16 +30,29 @@
   ],
   "license": "MIT",
   "scripts": {
+    "lint": "eslint -c .eslintrc.json './src/**/*.js'",
     "build": "rm -rf public && gatsby build",
     "gitpage": "gh-pages -d public -b master",
     "develop": "gatsby develop",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npm run lint",
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
-    "deploy": "rm -rf public && gatsby build && gh-pages -d public -b master",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "updateblog": "node util/refresh_token.js && node util/extract_onenote.js",
+    "deploy": "npm run build && gh-pages -d public -b master"
   },
   "devDependencies": {
-    "prettier": "^1.14.2",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.13.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-standard": "^4.0.0",
+    "prettier": "^1.16.4",
     "querystring": "^0.2.0"
   },
   "repository": {
