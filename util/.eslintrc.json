@@ -1,14 +1,23 @@
 {
-  "root": true,
-  "env": {
-      "browser": true,
-      "node": true
-  },
-  "rules": {
+	"root": true,
+	"extends": [
+		"eslint:recommended",
+		"plugin:node/recommended"
+	],
+	"env": {
+		"node": true
+	},
+	"rules": {
 		"semi": ["error", "never"],
 		"no-var": "error",
-    "no-unused-vars": 1,
-    "arrow-spacing": ["error", { "before": true, "after": true }],
-    "indent": ["error", 2]
+		"no-unused-vars": 1,
+		"no-console": 0,
+		"newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
+		"arrow-spacing": ["error", { "before": true, "after": true }],
+		"indent": ["error", 2],
+		"node/no-unsupported-features/es-syntax": ["error", {
+			"version": ">=8.3.0",
+			"ignores": []
+		}]
 	}
 }
