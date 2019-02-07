@@ -30,16 +30,18 @@
   ],
   "license": "MIT",
   "scripts": {
-    "lint": "eslint -c .eslintrc.json './src/**/*.js'",
+    "lint:src": "eslint -c .eslintrc.json './src/**/*.js'",
+    "lint:util": "eslint -c util/.eslintrc.json util/extract_onenote.js --no-ignore",
+    "lint:all": "npm run lint:src && npm run lint:util",
     "build": "rm -rf public && gatsby build",
     "gitpage": "gh-pages -d public -b master",
     "develop": "gatsby develop",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prestart": "npm run lint",
+    "prestart": "npm run lint:src",
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
     "updateblog": "node util/refresh_token.js && node util/extract_onenote.js",
-    "deploy": "npm run build && gh-pages -d public -b master"
+    "deploy": "npm run lint:all && npm run build && gh-pages -d public -b master"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

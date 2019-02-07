@@ -83,7 +83,7 @@ const appendPost = ({ type, routeKey, endpoint, note, maxCnts }) => {
       break
     }
   } // end for
-
+  // console.log({findExists})
   if (findExists) {
     validEndpoint =
       originalRoutings[validKey].substring(0, 1) === '/'
@@ -479,21 +479,14 @@ const recurrReqSectionData = (notebookList, maxCnts, tokens) => {
  */
 getMaxCnts()
   .then(maxCnts => {
-    // console.log({originalRoutings});
     return recurrReqSectionData(notebooks, maxCnts, tokens)
   })
   .then(() => {
     const leadtime = new Date() - startTime
-    // savePost(postContentPath, JSON.stringify(postContent, null, 2)); // prod
-    // savePost(routingsPath, JSON.stringify(routings, null, 2)); // prod
-    savePost(
-      './postings/post_contents_debug.json',
-      JSON.stringify(postContent, null, 2)
-    ) // prod
-    savePost(
-      './postings/routings_debug.json',
-      JSON.stringify(routings, null, 2)
-    ) // debug
+    savePost(postContentPath, JSON.stringify(postContent, null, 2)); // prod
+    savePost(routingsPath, JSON.stringify(routings, null, 2)); // prod
+    // savePost('./postings/post_contents_debug.json', JSON.stringify(postContent, null, 2)) // debug
+    // savePost('./postings/routings_debug.json', JSON.stringify(routings, null, 2)) // debug
     console.log('# finished. total %s sec #', leadtime / 1000)
   })
   .catch(e => {
