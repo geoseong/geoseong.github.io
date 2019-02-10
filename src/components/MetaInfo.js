@@ -6,7 +6,7 @@ import Helmet from 'react-helmet'
  * @param {Object} props 
  * @description <meta>태그 조합해서 내뱉어주는 컴포넌트
  * @example 
-    <MetaInfo 
+    <MetaInfo
       title="Match Online Manager"
       description="MOM Index Page"
       type="website"
@@ -23,10 +23,10 @@ import Helmet from 'react-helmet'
     keyword: 
  }   
  */
-const domain = "https://geoseong.github.io/"
-const pageTitle = 'Geoseong\'s dev note'
+const domain = 'https://geoseong.github.io/'
+const pageTitle = "Geoseong's dev note"
 const mainIcon = ''
-const MetaInfo = (props) => {
+const MetaInfo = props => {
   // console.log('MetaInfo props', props)
   const descriptionLength = 320
   let metaDescDom = []
@@ -34,10 +34,34 @@ const MetaInfo = (props) => {
   let twitDescDom = []
   if (props.description && props.description.length > descriptionLength) {
     const recurCnt = Math.floor(props.description.length / descriptionLength)
-    for(let i=0; i<recurCnt; i++) {
-      metaDescDom.push(<meta name="description" content={props.description.substring(i*descriptionLength, i*descriptionLength + descriptionLength)} />)
-      openDescDom.push(<meta name="og:description" content={props.description.substring(i*descriptionLength, i*descriptionLength + descriptionLength)} />)
-      twitDescDom.push(<meta name="twitter:description" content={props.description.substring(i*descriptionLength, i*descriptionLength + descriptionLength)} />)
+    for (let i = 0; i < recurCnt; i++) {
+      metaDescDom.push(
+        <meta
+          name="description"
+          content={props.description.substring(
+            i * descriptionLength,
+            i * descriptionLength + descriptionLength
+          )}
+        />
+      )
+      openDescDom.push(
+        <meta
+          name="og:description"
+          content={props.description.substring(
+            i * descriptionLength,
+            i * descriptionLength + descriptionLength
+          )}
+        />
+      )
+      twitDescDom.push(
+        <meta
+          name="twitter:description"
+          content={props.description.substring(
+            i * descriptionLength,
+            i * descriptionLength + descriptionLength
+          )}
+        />
+      )
     }
   }
   return (
@@ -46,19 +70,18 @@ const MetaInfo = (props) => {
         <title>{props.title + ' : ' + pageTitle}</title>
         {/* open graph */}
         <meta property="og:title" content={props.title} />
-        {/* <meta property="og:description" content={props.description} /> */}
+        {/* og:description */}
         {openDescDom}
         <meta property="og:url" content={domain + props.locationAfterOrigin} />
         <meta property="og:image" content={mainIcon} />
         {/* twitter card */}
         <meta name="twitter:title" content={props.title} />
-        {/* <meta name="twitter:description" content={props.description} /> */}
+        {/* twitter:description */}
         {twitDescDom}
         <meta name="twitter:card" content={props.twittercard} />
         <meta name="twitter:domain" content={domain} />
         <meta name="twitter:url" content={domain + props.locationAfterOrigin} />
         {/* description(required) */}
-        {/* <meta name="description" content={props.description} /> */}
         {metaDescDom}
         {/* keyword */}
         <meta name="keywords" content={props.keywords} />

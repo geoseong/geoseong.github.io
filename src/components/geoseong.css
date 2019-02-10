@@ -1,4 +1,4 @@
-/* @import url('http://fonts.googleapis.com/earlyaccess/nanumgothic.css'); */
+/* @import url('https://fonts.googleapis.com/earlyaccess/nanumgothic.css'); */
 @font-face{
   font-family: GodoM;src:url('../fonts/GodoM.ttf');
 }
@@ -35,4 +35,7 @@ body {
 }
 .geoseong-hide {
   display: none !important;
+}
+.font-dot7 {
+  font-size: .7em;
 }

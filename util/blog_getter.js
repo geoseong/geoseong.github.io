@@ -1,11 +1,17 @@
 'use strict';
 
-const routingsPath = '../postings/routings.json';
+const routingsPath = '../postings/routings_debug.json'; // debug
+const postContentPath = '../postings/post_contents_overwrite.json'; // debug
+// const routingsPath = '../postings/routings.json';  // prod
+// const postContentPath = '../postings/post_contents.json' // prod
 let routings = {};
+let postings = {};
 try {
   routings = require(routingsPath);
+  postings = require(postContentPath);
 } catch(e) {
   routings = {};
+  postings = {};
 }
 
 const getMaxCnts = () => {
@@ -27,13 +33,16 @@ const getMaxCnts = () => {
       let notebook = splittedUrl[notebookIdx];
       let section = splittedUrl[sectionIdx];
       let page = splittedUrl[pageIdx];
-      /*** calculate section's max count ***/
+      if (notebook === 'ai') {
+        console.log('what the hell?');
+      }
+      /*** calculate notebook's max count ***/
       if (!section && !maxCnts[notebook]) { // ex) /web dev/{n}
         maxCnts[notebook] = 0;
       } else if (section && Number(maxCnts[notebook]) < Number(section)) {
         maxCnts[notebook] = Number(section);
       } // end if
-      /*** calculate page's max count ***/
+      /*** calculate section and page's max count ***/
       if (section && !page && !maxCnts[`${notebook}/${section}`]) { // ex) /web dev/1/{n}
         maxCnts[`${notebook}/${section}`] = 0;
       } else if (section && page && Number(maxCnts[`${notebook}/${section}`]) < Number(page)){
@@ -52,4 +61,11 @@ if (process.argv[2]) {
 }
 
 exports.getMaxCnts = getMaxCnts;
-exports.originalRoutings = routings;
+exports.originalRoutings = {
+  path: routingsPath, // prod
+  content: require(routingsPath),  // prod
+};
+exports.originalPostings = {
+  path: postContentPath,
+  content: require(postContentPath), // prod
+};

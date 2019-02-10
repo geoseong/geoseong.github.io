@@ -74,7 +74,6 @@ const appendPost = ({ type, routeKey, endpoint, note, maxCnts }) => {
   let findExists = false
   let validKey = routeKey
   let updatedMaxCnts = maxCnts
-  let maxCntKey = endpoint.split('/').filter((val, idx) => idx < 2).join('/');
 
   if (routings[routeKey]) {
     findExists = true
@@ -83,14 +82,10 @@ const appendPost = ({ type, routeKey, endpoint, note, maxCnts }) => {
   if (findExists) {
     validEndpoint =
       routings[validKey].substring(0, 1) === '/' ? routings[validKey].substring(1) : routings[validKey]
-    // updatedMaxCnts[maxCntKey] = maxCnts[maxCntKey] + 1
+    updatedMaxCnts[endpoint] = maxCnts[endpoint] + 1
   } else if (!findExists) {
-    updatedMaxCnts[maxCntKey] = !maxCnts[maxCntKey] ? 1 : maxCnts[maxCntKey] + 1
-    if (type === 'section') {
-      validEndpoint = endpoint
-    } else if (type === 'page') {
-      validEndpoint = maxCntKey+'/'+updatedMaxCnts[maxCntKey]
-    }
+    validEndpoint = endpoint
+    updatedMaxCnts[endpoint] = !maxCnts[endpoint] ? 1 : maxCnts[endpoint] + 1
   }
 
   /* push routings */
@@ -110,7 +105,7 @@ const appendPost = ({ type, routeKey, endpoint, note, maxCnts }) => {
   // )
   /* push posting contents */
   Object.assign(postContent, {
-    [validEndpoint]: assemblePostInfo({
+    [validKey]: assemblePostInfo({
       type: type,
       endpoint: validEndpoint,
       notebook: note.notebook,
@@ -481,11 +476,9 @@ const recurrReqSectionData = (notebookList, maxCnts, tokens) => {
  */
 getMaxCnts()
   .then(maxCnts => {
-    if (originalPostings.content.length > 0) {
-      for(let i=0; i<originalPostings.content.length; i++) {
-        postContent[originalPostings.content[i].endpoint] = originalPostings.content[i]
-      }
-    }
+    originalPostings.content.forEach((posting, idx) => {
+      postContent[posting.endpoint] = posting
+    })
     return recurrReqSectionData(notebooks, maxCnts, tokens)
   })
   .then(() => {
@@ -495,8 +488,10 @@ getMaxCnts()
   })
   .then((formattedPostContent) => {
     const leadtime = new Date() - startTime
-    savePost(originalPostings.path.substring(1), JSON.stringify(formattedPostContent, null, 2)) // prod
-    savePost(originalRoutings.path.substring(1), JSON.stringify(routings, null, 2)) // prod
+    savePost(originalPostings.path.substring(1), JSON.stringify(formattedPostContent, null, 2)); // prod
+    savePost(originalRoutings.path.substring(1), JSON.stringify(routings, null, 2)); // prod
+    // savePost('./postings/post_contents_debug.json', JSON.stringify(postContent, null, 2)) // debug
+    // savePost('./postings/routings_debug.json', JSON.stringify(routings, null, 2)) // debug
     console.log('# finished. total %s sec #', leadtime / 1000)
   })
   .catch(e => {

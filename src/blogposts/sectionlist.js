@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import Layout from '../components/Layout'
-import routing from '../../postings/routings.json'
+// import routing from '../../postings/routings.json' // prod
+import routing from '../../postings/routings_debug.json' // debug
 import { getFormmatedDt } from '../../util/convert'
 import MetaInfo from '../components/MetaInfo'
 
 const inlineStyle = {
   alignRight: {
-    textAlign: 'right'
+    textAlign: 'right',
   },
   marginHorizontal: {
     margin: '0 .5rem',
@@ -25,42 +26,55 @@ const inlineStyle = {
     margin: '1em 0',
     display: 'flex',
     justifyContent: 'center',
-  }
+  },
 }
 
 class IndexPage extends Component {
   render() {
-    const { props: {pageContext} } = this
+    const {
+      props: { pageContext },
+    } = this
     // console.log('pageContext:', pageContext)
     return (
       <Layout type="blog">
-        <MetaInfo 
+        <MetaInfo
           title={pageContext.section.name}
           type="website"
           locationAfterOrigin={routing[pageContext.section.id]}
           twittercard="summary"
-          keywords={`${pageContext.notebook},${pageContext.section.name},geoseong,dev note`}
+          keywords={`${pageContext.notebook},${
+            pageContext.section.name
+          },geoseong,dev note`}
         />
         <React.Fragment>
-          <Link to={pageContext.notebook.toLowerCase()}><h5 className="">{pageContext.notebook}</h5></Link>
+          <Link to={pageContext.notebook.toLowerCase()}>
+            <h5 className="">{pageContext.notebook}</h5>
+          </Link>
           <h1 className="text-light">{pageContext.section.name}</h1>
-          {
-            pageContext.page.length>0 && pageContext.page.map((item, idx) => {
+          {pageContext.page.length > 0 &&
+            pageContext.page.map((item, idx) => {
               return (
-                <div key={'section-'+idx} style={inlineStyle.listItem}>
+                <div key={'section-' + idx} style={inlineStyle.listItem}>
                   <Link className="card-link" to={routing[item.id]}>
                     <div className="">
                       <h4 className="">{item.title}</h4>
-                      <h6 className="text-right">{getFormmatedDt(item.lastModifiedTime).datetime}</h6>
+                      <h6 className="text-right">
+                        {getFormmatedDt(item.lastModifiedTime).datetime}
+                      </h6>
                     </div>
-                    <div className="geoseong-more-txt" style={{...inlineStyle.alignRight, ...inlineStyle.moreBtnArea}}>
+                    <div
+                      className="geoseong-more-txt"
+                      style={{
+                        ...inlineStyle.alignRight,
+                        ...inlineStyle.moreBtnArea,
+                      }}
+                    >
                       More...
                     </div>
                   </Link>
                 </div>
               )
-            })
-          }
+            })}
           {/* <div style={inlineStyle.alignDomCenter}>
             <ul class="pagination">
               <li class="page-item disabled">

@@ -6,7 +6,7 @@ import MetaInfo from '../components/MetaInfo'
 
 const inlineStyle = {
   alignRight: {
-    textAlign: 'right'
+    textAlign: 'right',
   },
   marginHorizontal: {
     margin: '0 .5rem',
@@ -19,16 +19,18 @@ const inlineStyle = {
     marginTop: '1rem',
     padding: '1rem',
     borderBottom: '1px solid #073642',
-  }
+  },
 }
 
 class IndexPage extends Component {
   render() {
-    const { props: {pageContext} } = this
+    const {
+      props: { pageContext },
+    } = this
     // console.log('pageContext:', pageContext)
     return (
       <Layout type="blog">
-        <MetaInfo 
+        <MetaInfo
           title={pageContext.notebook}
           type="website"
           locationAfterOrigin={pageContext.notebook.toLowerCase()}
@@ -37,22 +39,26 @@ class IndexPage extends Component {
         />
         <React.Fragment>
           <h1 className="text-light">{pageContext.notebook}</h1>
-          {
-            pageContext.section.length>0 && pageContext.section.map((item, idx) => {
+          {pageContext.section.length > 0 &&
+            pageContext.section.map((item, idx) => {
               return (
-                <div key={'section-'+idx} style={inlineStyle.listItem}>
+                <div key={'section-' + idx} style={inlineStyle.listItem}>
                   <Link className="card-link" to={routing[item.id]}>
                     <div className="">
                       <h4 className="">{item.name}</h4>
-                      <div style={{...inlineStyle.alignRight, ...inlineStyle.moreBtnArea}}>
+                      <div
+                        style={{
+                          ...inlineStyle.alignRight,
+                          ...inlineStyle.moreBtnArea,
+                        }}
+                      >
                         More...
                       </div>
                     </div>
                   </Link>
                 </div>
               )
-            })
-          }
+            })}
         </React.Fragment>
       </Layout>
     )
