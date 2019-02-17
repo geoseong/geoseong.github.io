@@ -37,6 +37,7 @@ const MetaInfo = props => {
     for (let i = 0; i < recurCnt; i++) {
       metaDescDom.push(
         <meta
+          key={'desc-' + i}
           name="description"
           content={props.description.substring(
             i * descriptionLength,
@@ -46,6 +47,7 @@ const MetaInfo = props => {
       )
       openDescDom.push(
         <meta
+          key={'ogdesc-' + i}
           name="og:description"
           content={props.description.substring(
             i * descriptionLength,
@@ -55,6 +57,7 @@ const MetaInfo = props => {
       )
       twitDescDom.push(
         <meta
+          key={'twitdesc-' + i}
           name="twitter:description"
           content={props.description.substring(
             i * descriptionLength,

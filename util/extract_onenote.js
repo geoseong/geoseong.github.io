@@ -74,7 +74,10 @@ const appendPost = ({ type, routeKey, endpoint, note, maxCnts }) => {
   let findExists = false
   let validKey = routeKey
   let updatedMaxCnts = maxCnts
-  let maxCntKey = endpoint.split('/').filter((val, idx) => idx < 2).join('/');
+  let maxCntKey = endpoint
+    .split('/')
+    .filter((val, idx) => idx < 2)
+    .join('/')
 
   if (routings[routeKey]) {
     findExists = true
@@ -98,16 +101,6 @@ const appendPost = ({ type, routeKey, endpoint, note, maxCnts }) => {
     [validKey]: validEndpoint,
   })
 
-  // /* push posting contents */
-  // postContent.push(
-  //   assemblePostInfo({
-  //     type: type,
-  //     endpoint: validEndpoint,
-  //     notebook: note.notebook,
-  //     section: note.section,
-  //     page: note.page,
-  //   })
-  // )
   /* push posting contents */
   Object.assign(postContent, {
     [validEndpoint]: assemblePostInfo({
@@ -489,7 +482,7 @@ getMaxCnts()
     return recurrReqSectionData(notebooks, maxCnts, tokens)
   })
   .then(() => {
-    return Object.keys(postContent).map((key, idx) => {
+    return Object.keys(postContent).map((key) => {
       return postContent[key]
     })
   })

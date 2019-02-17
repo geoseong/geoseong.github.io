@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import Layout from '../components/Layout'
-// import routing from '../../postings/routings.json' // prod
-import routing from '../../postings/routings_debug.json' // debug
+import routing from '../../postings/routings.json' // prod
+// import routing from '../../postings/routings_debug.json' // debug
 import { getFormmatedDt } from '../../util/convert'
 import MetaInfo from '../components/MetaInfo'
 

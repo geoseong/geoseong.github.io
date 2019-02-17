@@ -25,53 +25,54 @@ const inlineStyle = {
 export default class SearchResult extends Component {
   constructor(props) {
     super(props)
-    this.searchResultDom = null
+    this.searchResultDiv = null
   }
 
   componentDidMount = () => {
-    // setTimeout(() => {
-    //   this.searchResultDom.style.top = document.querySelector('input#searchInput').scrollHeight + 'px'
-    // }, 500);
+    /*  */
   }
 
-  fuseSearchResult = searchResult => {
-    // console.log({searchResult})
+  fuseSearchResult = ({ searchResult }) => {
     if (searchResult.length === 0) {
-      if (this.searchResultDom) {
-        this.searchResultDom.classList.remove('border-light')
+      if (this.searchResultDiv) {
+        this.searchResultDiv.classList.remove('border-light')
       }
-      return <div />
+      return <div className="geoseong-hide" />
     }
-    // console.log('fuseSearchResult after', searchResult)
     const filteredResult =
       searchResult.length > 0 &&
       searchResult.filter(ele => ele.page && ele.type === 'page')
     return filteredResult.map((ele, idx) => {
-      this.searchResultDom.classList.add('border-light')
+      this.searchResultDiv.classList.add('border-light')
       return (
         <Link
           to={ele.endpoint}
           key={`searchres-${idx}`}
           className="badge-light"
         >
-          <div style={inlineStyle.searchHeader}>
+          <div
+            style={inlineStyle.searchHeader}
+            className="geoseong-search-result"
+          >
             {ele.type === 'page' && ele.page && (
-              <div className="text-white">{ele.page.title}</div>
+              <div className="text-white geoseong-search-result">
+                {ele.page.title}
+              </div>
             )}
             <div
-              className="text-right text-info"
+              className="text-right text-info geoseong-search-result"
               style={inlineStyle.searchHeaderSmall}
             >
-              <span className="">{ele.notebook}</span>
+              <span className="geoseong-search-result">{ele.notebook}</span>
               <span
-                className="fas fa-angle-double-right"
+                className="fas fa-angle-double-right geoseong-search-result"
                 style={inlineStyle.spaceHorizontal}
               />
-              <span className="">{ele.section}</span>
+              <span className="geoseong-search-result">{ele.section}</span>
             </div>
           </div>
           {ele.type === 'page' && ele.page && (
-            <div style={inlineStyle.padding}>
+            <div style={inlineStyle.padding} className="geoseong-search-result">
               {ele.page.content.length > 150
                 ? ele.page.content.substring(0, 150) + '...'
                 : ele.page.content}
@@ -82,14 +83,15 @@ export default class SearchResult extends Component {
     })
   }
   render() {
+    let FuseSearchResult = this.fuseSearchResult
     return (
       <div
         id="geoseong-search-area"
         style={{ ...inlineStyle.searchResultWindow }}
         className="card bg-light"
-        ref={e => (this.searchResultDom = e)}
+        ref={e => (this.searchResultDiv = e)}
       >
-        {this.fuseSearchResult(this.props.searchResult)}
+        <FuseSearchResult searchResult={this.props.searchResult} />
       </div>
     )
   }

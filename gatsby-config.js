@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Geoseong\'s dev note',
+    title: "Geoseong's dev note",
     siteUrl: `https://geoseong.github.io`,
   },
   plugins: [
@@ -30,8 +30,8 @@ module.exports = {
                 }
               }
             }
-          }`
-      }
+          }`,
+      },
     },
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',

@@ -22,19 +22,31 @@ const inlineStyle = {
 }
 
 class RealLayout extends Component {
+  headerDom = null
+
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside)
+    document.addEventListener('mousedown', e => {
+      this.handleClickOutside(e, this.headerDom)
+    })
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside)
+    document.removeEventListener('mousedown', e => {
+      this.handleClickOutside(e, this.headerDom)
+    })
   }
 
-  handleClickOutside(event) {
-    // console.log('handleClickOutside event.target.id', event.target.id)
-    if (!event.target.id || event.target.id.length === 0) {
-      return
-    }
+  handleClickOutside(event, headerDom) {
+    // console.dir(event.target)
+    /* 
+      1. 텍스트박스 눌렀을때 #searchInput
+      2. 검색결과 박스 눌렀을때 -
+      3. [모바일] 텍스트박스 옆의 영역 눌렀을때 #search-form-area
+      4. 아얘 다른 영역 눌렀을때 -
+      5. [모바일] 펼치는 리스트버튼 눌렀을때 
+        #geoseong-collapse-toggler-icon || #geoseong-collapse-toggler
+      6. 헤더 영역 혹은 모바일의 펼침메뉴 영역 눌렀을 때 #collapseDiv
+    */
     if (
       ['geoseong-collapse-toggler', 'geoseong-collapse-toggler-icon'].indexOf(
         event.target.id
@@ -42,21 +54,31 @@ class RealLayout extends Component {
     ) {
       return
     }
-    if (event.target.id !== 'searchInput') {
+    if (
+      event.target.classList.contains('geoseong-search-result') ||
+      event.target.classList.contains('nav-link')
+    ) {
+      return
+    }
+    document.querySelector(`#collapseDiv`).classList.add('show')
+    if (event.target.id === 'searchInput') {
+      document
+        .querySelector('#geoseong-search-area')
+        .classList.remove('geoseong-hide')
+    } else if (event.target.id === 'search-form-area') {
       document
         .querySelector('#geoseong-search-area')
         .classList.add('geoseong-hide')
     } else {
       document
         .querySelector('#geoseong-search-area')
-        .classList.remove('geoseong-hide')
-      return
-    }
-    if (event.target.id !== 'collapseDiv') {
+        .classList.add('geoseong-hide')
       document.querySelector(`#collapseDiv`).classList.remove('show')
-    } else {
-      document.querySelector(`#collapseDiv`).classList.add('show')
     }
+  }
+
+  setRef = e => {
+    return (this.headerDom = e)
   }
 
   render() {
@@ -108,7 +130,12 @@ class RealLayout extends Component {
           />
         </Helmet>
         <React.Fragment>
-          <Header title={pageTitle} style={inlineStyle} type={type} />
+          <Header
+            title={pageTitle}
+            style={inlineStyle}
+            type={type}
+            ref={this.setRef}
+          />
           <div className="geoseong-page" style={inlineStyle.content}>
             {children}
           </div>

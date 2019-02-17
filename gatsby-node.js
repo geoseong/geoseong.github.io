@@ -3,7 +3,7 @@
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
-const blogpost = require('./postings/post_contents_overwrite.json')
+const blogpost = require('./postings/post_contents.json')
 const jsfile = {
   notebook: './src/blogposts/notebooklist.js',
   section: './src/blogposts/sectionlist.js',
@@ -25,20 +25,6 @@ exports.createPages = ({ graphql, actions: { createPage } }) => {
         },
       }) // end createPage
     } // end createPageRoute
-
-    // const generateRoutePage = (postContents, idx) => {
-    //   const { type, endpoint, notebook, section, page } = postContents
-    //   createPage({
-    //     path: endpoint,
-    //     component: require.resolve(jsfile[type]),
-    //     context: {
-    //       /* pageContext */
-    //       notebook,
-    //       section,
-    //       page,
-    //     },
-    //   }) // end createPage
-    // } // end createPageRoute
 
     let notebookList = []
     for (let i = 0; i < blogpost.length; i++) {

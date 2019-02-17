@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import cheerio from 'cheerio'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 
 class IndexPage extends Component {
   render() {

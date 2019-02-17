@@ -23,45 +23,48 @@ class Header extends Component {
     this.state = {
       searchResult: [],
     }
-    this.options = {
+    this.fuseoptions = {
       shouldSort: true,
-      threshold: 0.6,
+      threshold: 0.1,
       location: 0,
       distance: 100,
       maxPatternLength: 32,
       minMatchCharLength: 1,
       keys: ['notebook', 'section.name', 'page.title', 'page.content'],
     }
-    this.fuse = new Fuse(blogpost, this.options) // "blogpost" is the item array
+    this.fuse = new Fuse(blogpost, this.fuseoptions) // "blogpost" is the item array
     this.collapseDiv = null
     this.searchInputDom = null
     this.searchResultDom = null
+    this.topMenuBtn = {
+      blog: null,
+      about: null,
+    }
+    this.mobileMode = false
   }
   componentDidMount = () => {
-    // console.log('[componentDidMount]this.props', this.props)
     this.detectSize()
     window.addEventListener('resize', this.detectSize)
-    if (document.querySelector(`#gs-topmenu-${this.props.type}`)) {
-      document
-        .querySelector(`#gs-topmenu-${this.props.type}`)
-        .classList.add('active')
-    }
+    this.topMenuBtn[this.props.type].classList.add('active')
   }
   componentWillUnmount = () => {
     window.removeEventListener('resize', this.detectSize)
   }
   detectSize = prop => {
-    const resultdom = document.querySelector('#geoseong-search-area')
+    const resultdom = this.searchResultDom.searchResultDiv
     if (window.innerWidth < 992) {
+      this.mobileMode = true
       resultdom.classList.remove('align-desktop')
       resultdom.classList.add('align-mobile')
     } else {
+      this.mobileMode = false
       resultdom.classList.add('align-desktop')
       resultdom.classList.remove('align-mobile')
     }
   }
   onFuseSearch = data => {
-    const searchResultRaw = this.fuse.search(data.target.value)
+    let searchResultRaw =
+      data.target.value.length === 0 ? [] : this.fuse.search(data.target.value)
     this.setState({
       searchResult: searchResultRaw,
     })
@@ -76,7 +79,6 @@ class Header extends Component {
     }
   }
   render() {
-    // console.log('Header', this.props)
     return (
       <React.Fragment>
         <nav
@@ -109,19 +111,27 @@ class Header extends Component {
             ref={e => (this.collapseDiv = e)}
           >
             <ul className="navbar-nav mr-auto">
-              <li id="gs-topmenu-blog" className="nav-item">
+              <li
+                id="gs-topmenu-blog"
+                className="nav-item"
+                ref={e => (this.topMenuBtn.blog = e)}
+              >
                 <Link className="nav-link" to="/">
                   Blog
                 </Link>
               </li>
-              <li id="gs-topmenu-about" className="nav-item">
+              <li
+                id="gs-topmenu-about"
+                className="nav-item"
+                ref={e => (this.topMenuBtn.about = e)}
+              >
                 <Link className="nav-link" to="/about">
                   About
                 </Link>
               </li>
             </ul>
-            <form className="form-inline my-2 my-lg-0">
-              <div style={inlineStyle.relativePosition}>
+            <form id="search-form" className="form-inline my-2 my-lg-0">
+              <div id="search-form-area" style={inlineStyle.relativePosition}>
                 <input
                   id="searchInput"
                   className="form-control mr-sm-2"

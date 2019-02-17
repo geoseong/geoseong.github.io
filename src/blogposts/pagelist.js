@@ -22,16 +22,25 @@ class IndexPage extends Component {
     const {
       props: { pageContext },
     } = this
-    // console.log('pageContext:', pageContext)
+
+    let htmlTagCovered1 = pageContext.page.html.replace(
+      /\t\t\t<p lang="ko-KR" style="/g,
+      '<p lang="ko-KR" style="padding-left: 1.5rem;'
+    )
+    let htmlTagCovered = htmlTagCovered1.replace(
+      /\t\t\t<p style="/g,
+      '<p style="padding-left: 1.5rem;'
+    )
 
     /* OneNote 페이지의 전체 DOM */
-    const $ = cheerio.load(pageContext.page.html)
+    const $ = cheerio.load(htmlTagCovered)
     /* body 태그 */
     const bodyTag = $('body')
     /* a태그는 target="_blank" attr을 부여하기 */
     bodyTag.find('a').attr('target', '_blank')
     /* body 태그 바로 밑의 div의 스타일 attr 없애기 */
     bodyTag.children('div').removeAttr('style')
+
     /* html태그가 없는 내용 */
     const content = pageContext.page.content.replace(/  /g, '')
 
