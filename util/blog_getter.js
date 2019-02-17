@@ -1,9 +1,9 @@
 'use strict';
 
-const routingsPath = '../postings/routings_debug.json'; // debug
-const postContentPath = '../postings/post_contents_overwrite.json'; // debug
-// const routingsPath = '../postings/routings.json';  // prod
-// const postContentPath = '../postings/post_contents.json' // prod
+// const routingsPath = '../postings/routings_debug.json'; // debug
+// const postContentPath = '../postings/post_contents_overwrite.json'; // debug
+const routingsPath = '../postings/routings.json';  // prod
+const postContentPath = '../postings/post_contents.json' // prod
 let routings = {};
 let postings = {};
 try {

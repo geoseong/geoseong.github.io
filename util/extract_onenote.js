@@ -23,14 +23,14 @@ const fs = require('fs')
 const cheerio = require('cheerio')
 const { setValidToken } = require('./refresh_token')
 const notebooks = new Map([
-  // ['Web Dev', '0-BC575AB8E2AB9833!1937'],
-  // ['App Dev', '0-BC575AB8E2AB9833!2179'],
-  // ['Security Dev', '0-BC575AB8E2AB9833!2191'],
-  // ['React-web', '0-BC575AB8E2AB9833!2142'],
-  // ['React-Native', '0-BC575AB8E2AB9833!2149'],
-  // ['AWS', '0-BC575AB8E2AB9833!2000'],
-  // ['Database', '0-BC575AB8E2AB9833!2160'],
-  // ['MacBook', '0-BC575AB8E2AB9833!1940'],
+  ['Web Dev', '0-BC575AB8E2AB9833!1937'],
+  ['App Dev', '0-BC575AB8E2AB9833!2179'],
+  ['Security Dev', '0-BC575AB8E2AB9833!2191'],
+  ['React-web', '0-BC575AB8E2AB9833!2142'],
+  ['React-Native', '0-BC575AB8E2AB9833!2149'],
+  ['AWS', '0-BC575AB8E2AB9833!2000'],
+  ['Database', '0-BC575AB8E2AB9833!2160'],
+  ['MacBook', '0-BC575AB8E2AB9833!1940'],
   ['AI', '0-BC575AB8E2AB9833!2197'],
 ])
 const startTime = new Date()
