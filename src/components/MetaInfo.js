@@ -71,6 +71,10 @@ const MetaInfo = props => {
     <React.Fragment>
       <Helmet>
         <title>{props.title + ' : ' + pageTitle}</title>
+        {/* Last Modified */}
+        <meta name="date" content={props.modifiedDt} />
+        <meta name="last-modified" content={props.modifiedDt} />
+        <meta httpEquiv="last-modified" content={props.modifiedDt} />
         {/* open graph */}
         <meta property="og:title" content={props.title} />
         {/* og:description */}
