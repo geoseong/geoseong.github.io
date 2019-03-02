@@ -17,6 +17,9 @@ img {
   max-width: calc(100% - .5rem);
   overflow: auto;
 }
+span {
+  white-space: pre-line !important;
+}
 
 .geoseong-badge:hover {
   background-color: #7A8288;
@@ -72,7 +75,6 @@ p[data-tag*="remember-for-later"] span {
   font-size: 85%;
   line-height: 1;
   text-align: center;
-  white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem;
   white-space: pre-line;
@@ -269,4 +271,21 @@ p[data-tag*="client-request"]::before {
   height: 1em;
   background-size: 1rem;
   background-repeat: no-repeat;
+}
+
+@media (min-width: 576px) {
+  .author {
+    font-size: 2em;
+  }
+  .author-ul {
+    padding-left: 1.5rem !important;
+  }
+  .gist-wrapper {
+    padding-left: 1.5rem;
+  }
+}
+@media (max-width: 576px) {
+  .gist-wrapper {
+    padding-left: 0 !important;
+  }  
 }

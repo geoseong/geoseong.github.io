@@ -23,7 +23,36 @@ const About = () => (
       twittercard="summary"
       keywords={`about geoseong,aws,gcp,javascript,node.js,react,react-native,geoseong,dev note`}
     />
-    <h2 className="text-info">What I used in this blog is...</h2>
+    <div className="mb-4">
+      <h1 className="text-info">Contact &amp; Comment</h1>
+      <ul className="list-unstyled">
+        <li>
+          <p data-tag="critical" className="pl-4">
+            <a
+              href="https://github.com/geoseong/geoseong.github.io/issues/new?&title=%EB%B2%84%EA%B7%B8+-+[%EA%B2%8C%EC%8B%9C%EB%AC%BC%20url]&body=[%EA%B2%8C%EC%8B%9C%EB%AC%BC%20url]%20(%EA%B2%8C%EC%8B%9C%EB%AC%BC%20url%20%EB%84%A3%EB%8A%94%20%EA%B3%B3)%20//%20%EB%B2%84%EA%B7%B8%EC%9A%94%EC%B2%AD%EC%82%AC%ED%95%AD%EC%9D%B4%20%EC%9E%88%EB%8B%A4%EB%A9%B4%20%EC%9E%91%EC%84%B1%20%ED%95%B4%20%EC%A3%BC%EC%84%B8%EC%9A%94&labels=bug"
+              className="pl-4 text-light"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              게시글 버그 수정요청하기
+            </a>
+          </p>
+        </li>
+        <li>
+          <p data-tag="question" className="pl-4">
+            <a
+              href="https://github.com/geoseong/geoseong.github.io/issues/new?&title=%EB%AC%B8%EC%9D%98%EC%82%AC%ED%95%AD+-+[%EC%A0%9C%EB%AA%A9]&body=[%EB%AC%B8%EC%9D%98%EC%82%AC%ED%95%AD%EC%9D%B4%20%EC%9E%88%EB%8B%A4%EB%A9%B4%20%EC%9E%91%EC%84%B1%20%ED%95%B4%20%EC%A3%BC%EC%84%B8%EC%9A%94]&labels=question"
+              className="pl-4 text-light"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              문의하기
+            </a>
+          </p>
+        </li>
+      </ul>
+    </div>
+    <h1 className="text-info">This blog is made up of...</h1>
     <ul className="pl-4 pb-5 fa-2x list-unstyled">
       <li className="text-light">
         <a
@@ -105,23 +134,25 @@ const About = () => (
         </a>
       </li>
     </ul>
-    <h2 className="text-info">Who am I</h2>
-    <h4 className="text-primary pl-4">
+    <h1 className="text-info">Author</h1>
+    <h4 className="text-primary">
       <a
-        className="fa-2x"
+        className="author"
         href="https://github.com/geoseong"
         rel="noopener noreferrer"
         target="_blank"
       >
-        <span className="text-primary">TaeSeong Park</span>
-        <i
-          style={{ ...inlineStyle.titleImageSize, ...inlineStyle.space }}
-          className="fab fa-github"
-        />
+        <div>
+          <h3 className="text-primary d-inline">TaeSeong Park</h3>
+          <i
+            style={{ ...inlineStyle.titleImageSize, ...inlineStyle.space }}
+            className="fab fa-github"
+          />
+        </div>
       </a>
     </h4>
-    <h4 className="pl-5 pb-4">Javascript Full Stack Developer</h4>
-    <ul className="pl-4 fa-2x list-unstyled">
+    <h4 className="pl-4 pb-4">Javascript Full Stack Developer</h4>
+    <ul className="fa-2x list-unstyled author-ul">
       <li>
         <span className="text-light">Blog</span>
         <ul className="pl-4 list-unstyled">
@@ -158,7 +189,7 @@ const About = () => (
         </ul>
       </li>
     </ul>
-    <ul className="pl-4 fa-2x list-unstyled">
+    <ul className="fa-2x list-unstyled author-ul">
       <li>
         <span className="text-light">Open Source &amp; Community</span>
         <ul className="pl-4 list-unstyled">
@@ -169,11 +200,10 @@ const About = () => (
               target="_blank"
               rel="noopener noreferrer"
             >
+              <span className="font-dot7 mr-2">co-leader of :</span>
               <span className="badge badge-secondary">
-                AWSKRUG (AWS Korea User Group)
+                AWSKRUG (AWS Korea User Group) #guro-digital meetup
               </span>
-              &nbsp;
-              <span className="font-dot7">guro-digital meetup leader</span>
             </a>
           </li>
           <li>
@@ -183,15 +213,16 @@ const About = () => (
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="badge badge-secondary">React Native Seoul</span>
-              &nbsp;
-              <span className="font-dot7">meetup admin</span>
+              <span className="font-dot7 mr-2">admin of :</span>
+              <span className="badge badge-secondary">
+                React Native Seoul meetup
+              </span>
             </a>
           </li>
         </ul>
       </li>
     </ul>
-    <ul className="pl-4 fa-2x list-unstyled">
+    <ul className="fa-2x list-unstyled author-ul">
       <li>
         <span className="text-light">Contribution</span>
         <ul className="pl-4 list-unstyled">
