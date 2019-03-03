@@ -4,7 +4,6 @@ import Layout from '../components/Layout'
 
 class IndexPage extends Component {
   render() {
-    // console.log('pageContext:', this.props.pageContext);
     /* OneNote 페이지의 전체 DOM */
     const $ = cheerio.load(this.props.pageContext.data)
     /* OneNote 페이지의 이름 추출 */

@@ -27,7 +27,6 @@ class IndexPage extends Component {
     const {
       props: { pageContext },
     } = this
-    // console.log('pageContext:', pageContext)
     return (
       <Layout type="blog">
         <MetaInfo

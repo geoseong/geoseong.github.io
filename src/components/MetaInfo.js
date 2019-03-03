@@ -27,7 +27,6 @@ const domain = 'https://geoseong.github.io/'
 const pageTitle = "Geoseong's dev note"
 const mainIcon = ''
 const MetaInfo = props => {
-  // console.log('MetaInfo props', props)
   const descriptionLength = 320
   let metaDescDom = []
   let openDescDom = []

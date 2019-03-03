@@ -57,7 +57,6 @@ class IndexPage extends Component {
 
   /* thanks to: https://github.com/tleunen/react-gist */
   _updateIframeContent = ({ id, file, domId }) => {
-    console.log('_updateIframeContent', { domId })
     let gistLink = this._defineUrl({ id, file })
     let gistScript =
       '<script type="text/javascript" src="' + gistLink + '"></script>'
@@ -97,7 +96,6 @@ class IndexPage extends Component {
       .parent('p')
       .addClass('gist-wrapper')
 
-    console.log('gist github', bodyTag.find('a[href*="gist.github.com"]'))
     let gistDom = bodyTag.find('a[href*="gist.github.com"]')
     let gistUrl =
       gistDom.length > 0 &&
@@ -105,8 +103,6 @@ class IndexPage extends Component {
         .find('a[href*="gist.github.com"]')
         .attr('href')
         .split('/')
-
-    console.log({ gistUrl })
 
     if (gistUrl) {
       let gistInfo = gistUrl[gistUrl.length - 1].split('#file-')
