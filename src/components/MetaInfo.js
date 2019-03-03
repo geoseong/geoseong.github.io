@@ -71,6 +71,9 @@ const MetaInfo = props => {
       <Helmet>
         <title>{props.title + ' : ' + pageTitle}</title>
         {/* Last Modified */}
+        <meta name="article:author" content={'geoseong'} />
+        <meta name="article:published_time" content={props.createdDt} />
+        <meta name="article:modified_time" content={props.modifiedDt} />
         <meta name="date" content={props.modifiedDt} />
         <meta name="last-modified" content={props.modifiedDt} />
         <meta httpEquiv="last-modified" content={props.modifiedDt} />

@@ -151,6 +151,7 @@ class IndexPage extends Component {
             },geoseong,dev note,` + pageContext.page.title.split(' ').join(',')
           }
           modifiedDt={pageContext.page.lastModifiedTime}
+          createdDt={pageContext.page.createdTime}
         />
         <div style={inlineStyle.titleArea}>
           <h1 className="text-light">{pageContext.page.title}</h1>
