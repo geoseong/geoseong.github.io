@@ -39,7 +39,8 @@ span {
 }
 .align-desktop {
   right: 0;
-  max-width: 60vw;
+  /* max-width: 60vw; */
+  width: 50vw;
 }
 .align-mobile {
   left: 0;
