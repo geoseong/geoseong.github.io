@@ -33,9 +33,6 @@ const getMaxCnts = () => {
       let notebook = splittedUrl[notebookIdx];
       let section = splittedUrl[sectionIdx];
       let page = splittedUrl[pageIdx];
-      if (notebook === 'ai') {
-        console.log('what the hell?');
-      }
       /*** calculate notebook's max count ***/
       if (!section && !maxCnts[notebook]) { // ex) /web dev/{n}
         maxCnts[notebook] = 0;

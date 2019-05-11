@@ -95,6 +95,25 @@ class IndexPage extends Component {
       .find('a[href*="gist.github.com"]')
       .parent('p')
       .addClass('gist-wrapper')
+    /* h태그의 style 중 font-size 발라내기 */
+    let inlineStyleH1 = bodyTag.find('h1').attr('style')
+    let inlineStyleH2 = bodyTag.find('h2').attr('style')
+    let inlineStyleH3 = bodyTag.find('h3').attr('style')
+    if (inlineStyleH1) {
+      bodyTag
+        .find('h1')
+        .attr('style', inlineStyleH1.replace(/font-size:\d+pt;/g, ''))
+    }
+    if (inlineStyleH2) {
+      bodyTag
+        .find('h2')
+        .attr('style', inlineStyleH2.replace(/font-size:\d+pt;/g, ''))
+    }
+    if (inlineStyleH3) {
+      bodyTag
+        .find('h3')
+        .attr('style', inlineStyleH3.replace(/font-size:\d+pt;/g, ''))
+    }
 
     let gistDom = bodyTag.find('a[href*="gist.github.com"]')
     let gistUrl =

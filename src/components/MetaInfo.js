@@ -25,20 +25,30 @@ import Helmet from 'react-helmet'
  */
 const domain = 'https://geoseong.github.io/'
 const pageTitle = "Geoseong's dev note"
-const mainIcon = ''
+const defaultOgImage = `blogcard.png`
 const MetaInfo = props => {
   const descriptionLength = 320
+  const {
+    description,
+    title,
+    createdDt,
+    modifiedDt,
+    locationAfterOrigin,
+    twittercard,
+    keywords,
+    ogImage,
+  } = props
   let metaDescDom = []
   let openDescDom = []
   let twitDescDom = []
-  if (props.description && props.description.length > descriptionLength) {
-    const recurCnt = Math.floor(props.description.length / descriptionLength)
+  if (description && description.length > descriptionLength) {
+    const recurCnt = Math.floor(description.length / descriptionLength)
     for (let i = 0; i < recurCnt; i++) {
       metaDescDom.push(
         <meta
           key={'desc-' + i}
           name="description"
-          content={props.description.substring(
+          content={description.substring(
             i * descriptionLength,
             i * descriptionLength + descriptionLength
           )}
@@ -48,7 +58,7 @@ const MetaInfo = props => {
         <meta
           key={'ogdesc-' + i}
           name="og:description"
-          content={props.description.substring(
+          content={description.substring(
             i * descriptionLength,
             i * descriptionLength + descriptionLength
           )}
@@ -58,7 +68,7 @@ const MetaInfo = props => {
         <meta
           key={'twitdesc-' + i}
           name="twitter:description"
-          content={props.description.substring(
+          content={description.substring(
             i * descriptionLength,
             i * descriptionLength + descriptionLength
           )}
@@ -69,31 +79,31 @@ const MetaInfo = props => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>{props.title + ' : ' + pageTitle}</title>
+        <title>{title + ' : ' + pageTitle}</title>
         {/* Last Modified */}
         <meta name="article:author" content={'geoseong'} />
-        <meta name="article:published_time" content={props.createdDt} />
-        <meta name="article:modified_time" content={props.modifiedDt} />
-        <meta name="date" content={props.modifiedDt} />
-        <meta name="last-modified" content={props.modifiedDt} />
-        <meta httpEquiv="last-modified" content={props.modifiedDt} />
+        <meta name="article:published_time" content={createdDt} />
+        <meta name="article:modified_time" content={modifiedDt} />
+        <meta name="date" content={modifiedDt} />
+        <meta name="last-modified" content={modifiedDt} />
+        <meta httpEquiv="last-modified" content={modifiedDt} />
         {/* open graph */}
-        <meta property="og:title" content={props.title} />
+        <meta property="og:title" content={title} />
         {/* og:description */}
         {openDescDom}
-        <meta property="og:url" content={domain + props.locationAfterOrigin} />
-        <meta property="og:image" content={mainIcon} />
+        <meta property="og:url" content={domain + locationAfterOrigin} />
+        <meta property="og:image" content={ogImage || defaultOgImage} />
         {/* twitter card */}
-        <meta name="twitter:title" content={props.title} />
+        <meta name="twitter:title" content={title} />
         {/* twitter:description */}
         {twitDescDom}
-        <meta name="twitter:card" content={props.twittercard} />
+        <meta name="twitter:card" content={twittercard} />
         <meta name="twitter:domain" content={domain} />
-        <meta name="twitter:url" content={domain + props.locationAfterOrigin} />
+        <meta name="twitter:url" content={domain + locationAfterOrigin} />
         {/* description(required) */}
         {metaDescDom}
         {/* keyword */}
-        <meta name="keywords" content={props.keywords} />
+        <meta name="keywords" content={keywords} />
         {/* canonical */}
         <link rel="canonical" href={domain + '/'} />
       </Helmet>

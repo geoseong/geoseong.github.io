@@ -45,7 +45,8 @@ class Header extends Component {
   componentDidMount = () => {
     this.detectSize()
     window.addEventListener('resize', this.detectSize)
-    this.topMenuBtn[this.props.type].classList.add('active')
+    this.topMenuBtn[this.props.type] &&
+      this.topMenuBtn[this.props.type].classList.add('active')
   }
   componentWillUnmount = () => {
     window.removeEventListener('resize', this.detectSize)
@@ -106,7 +107,7 @@ class Header extends Component {
             />
           </button>
           <div
-            className="collapse navbar-collapse"
+            className="collapse navbar-collapse p-2 rounded-bottom"
             id="collapseDiv"
             ref={e => (this.collapseDiv = e)}
           >

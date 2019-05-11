@@ -23,39 +23,42 @@ const fs = require('fs')
 const cheerio = require('cheerio')
 const { setValidToken } = require('./refresh_token')
 const notebooks = new Map([
-  ['Web Dev', '0-BC575AB8E2AB9833!1937'],
-  ['App Dev', '0-BC575AB8E2AB9833!2179'],
-  ['Security Dev', '0-BC575AB8E2AB9833!2191'],
+  // ['Web Dev', '0-BC575AB8E2AB9833!1937'],
+  // ['App Dev', '0-BC575AB8E2AB9833!2179'],
+  // ['Security Dev', '0-BC575AB8E2AB9833!2191'],
   ['React-web', '0-BC575AB8E2AB9833!2142'],
-  ['React-Native', '0-BC575AB8E2AB9833!2149'],
-  ['AWS', '0-BC575AB8E2AB9833!2000'],
-  ['Database', '0-BC575AB8E2AB9833!2160'],
-  ['MacBook', '0-BC575AB8E2AB9833!1940'],
-  ['AI', '0-BC575AB8E2AB9833!2197'],
+  // ['React-Native', '0-BC575AB8E2AB9833!2149'],
+  // ['AWS', '0-BC575AB8E2AB9833!2000'],
+  // ['Database', '0-BC575AB8E2AB9833!2160'],
+  // ['MacBook', '0-BC575AB8E2AB9833!1940'],
+  // ['AI', '0-BC575AB8E2AB9833!2197'],
 ])
 const startTime = new Date()
 const { getMaxCnts, originalRoutings, originalPostings } = require('./blog_getter')
 const routings = originalRoutings.content
 const postContent = {}
-const GET_NOTEBOOK_SECTION_LIST_URL = notebookId => {
-  return (
-    'https://www.onenote.com/api/v1.0/me/notes/notebooks/' +
-    notebookId +
-    '/sections'
-  )
-}
-const GET_NOTEBOOK_SECTION_PAGE_LIST_URL = sectionId => {
-  return (
-    'https://www.onenote.com/api/v1.0/me/notes/sections/' + sectionId + '/pages'
-  )
-}
-const GET_NOTEBOOK_SECTION_PAGE_CONTENT_URL = pageId => {
-  return (
-    'https://www.onenote.com/api/v1.0/me/notes/pages/' +
-    pageId +
-    '/content?preAuthenticated=true'
-  )
-}
+const GET_NOTEBOOK_SECTION_LIST_URL = notebookId => `https://www.onenote.com/api/v1.0/me/notes/notebooks/${notebookId}/sections`
+const GET_NOTEBOOK_SECTION_PAGE_LIST_URL = sectionId => `https://www.onenote.com/api/v1.0/me/notes/sections/${sectionId}/pages`
+const GET_NOTEBOOK_SECTION_PAGE_CONTENT_URL = pageId => `https://www.onenote.com/api/v1.0/me/notes/pages/${pageId}/content?preAuthenticated=true`
+// const GET_NOTEBOOK_SECTION_LIST_URL = notebookId => {
+//   return (
+//     'https://www.onenote.com/api/v1.0/me/notes/notebooks/' +
+//     notebookId +
+//     '/sections'
+//   )
+// }
+// const GET_NOTEBOOK_SECTION_PAGE_LIST_URL = sectionId => {
+//   return (
+//     'https://www.onenote.com/api/v1.0/me/notes/sections/' + sectionId + '/pages'
+//   )
+// }
+// const GET_NOTEBOOK_SECTION_PAGE_CONTENT_URL = pageId => {
+//   return (
+//     'https://www.onenote.com/api/v1.0/me/notes/pages/' +
+//     pageId +
+//     '/content?preAuthenticated=true'
+//   )
+// }
 
 // #region utility function
 /**
@@ -72,7 +75,6 @@ const appendPost = ({ type, routeKey, endpoint, note, maxCnts }) => {
   // 이미 존재하는 url에 있는 내용이 전혀 다른 내용으로 바꿔치기가 되는 상황이 나오지 않게 신경쓰자
   let validEndpoint = endpoint
   let findExists = false
-  let validKey = routeKey
   let updatedMaxCnts = maxCnts
   let maxCntKey = endpoint
     .split('/')
@@ -85,27 +87,36 @@ const appendPost = ({ type, routeKey, endpoint, note, maxCnts }) => {
 
   if (findExists) {
     validEndpoint =
-      routings[validKey].substring(0, 1) === '/' ? routings[validKey].substring(1) : routings[validKey]
+      routings[routeKey].substring(0, 1) === '/' ? routings[routeKey].substring(1) : routings[routeKey]
     // updatedMaxCnts[maxCntKey] = maxCnts[maxCntKey] + 1
   } else if (!findExists) {
-    updatedMaxCnts[maxCntKey] = !maxCnts[maxCntKey] ? 1 : maxCnts[maxCntKey] + 1
+    // TODO: routings.json에 새로운 key가 추가되는 건 내가 의도한 건데, endpoint중복을 견제하는 로직이 빠졌다.
     if (type === 'section') {
-      validEndpoint = endpoint
+      if (maxCnts[endpoint]) {
+        // 새로 추가될 OneNote Section의 endpoint가 이미 존재하는 endpoint라면, 새로운 endpoint로 변경.
+        let notebookName = endpoint.split('/')[0]
+        let newSectionCnt = updatedMaxCnts[notebookName] + 1
+        validEndpoint = `${notebookName}/${newSectionCnt}`
+        updatedMaxCnts[notebookName] = newSectionCnt
+      } else {
+        validEndpoint = endpoint
+      }
     } else if (type === 'page') {
+      updatedMaxCnts[maxCntKey] = !maxCnts[maxCntKey] ? 1 : maxCnts[maxCntKey] + 1
       validEndpoint = maxCntKey+'/'+updatedMaxCnts[maxCntKey]
     }
   }
 
   /* push routings */
   Object.assign(routings, {
-    [validKey]: validEndpoint,
+    [routeKey]: validEndpoint,
   })
 
   /* push posting contents */
   Object.assign(postContent, {
     [validEndpoint]: assemblePostInfo({
       type: type,
-      endpoint: validEndpoint,
+      endpoint: validEndpoint+'/',
       notebook: note.notebook,
       section: note.section,
       page: note.page,
@@ -196,8 +207,6 @@ const shouldRecurse = e => {
  */
 const recurrReqSectionData = (notebookList, maxCnts, tokens) => {
   return new Promise((resolve, reject) => {
-    // let routeMaxCnts = maxCnts
-
     /**
      * @name pageReqExec
      * @param {String} notebookName
@@ -332,8 +341,8 @@ const recurrReqSectionData = (notebookList, maxCnts, tokens) => {
               pageReqExec(
                 notebookName,
                 {
-                  // sectionUrl: updatedContents.endpoint.split('/')[1],
-                  sectionUrl: sectionIdx,
+                  sectionUrl: updatedContents.endpoint.split('/')[1],
+                  // sectionUrl: sectionIdx,
                   name: section.name,
                 },
                 result.data.value,

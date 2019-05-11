@@ -83,6 +83,7 @@ class RealLayout extends Component {
 
   render() {
     const { children, type } = this.props
+    const defaultOgImage = `blogcard.png`
     return (
       <React.Fragment>
         <Helmet title={pageTitle}>
@@ -115,12 +116,9 @@ class RealLayout extends Component {
           {/* OpenGraph */}
           <meta property="og:locale" content="ko_KR" />
           <meta property="og:type" content="article" />
-          <meta property="og:site_name" content="Geoseong's Next.js" />
+          <meta property="og:site_name" content="Geoseong's Dev Note" />
           {/* Twittercard */}
-          <meta
-            name="twitter:image"
-            content="https://avatars2.githubusercontent.com/u/19166187?s=460&v=4"
-          />
+          <meta name="twitter:image" content={defaultOgImage} />
           {/* Style */}
           <link
             rel="stylesheet"
