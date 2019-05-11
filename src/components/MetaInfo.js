@@ -1,5 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import { StaticQuery, graphql } from 'gatsby'
 
 /**
  * @name MetaInfo
@@ -23,9 +24,6 @@ import Helmet from 'react-helmet'
     keyword: 
  }   
  */
-const domain = 'https://geoseong.github.io/'
-const pageTitle = "Geoseong's dev note"
-const defaultOgImage = `blogcard.png`
 const MetaInfo = props => {
   const descriptionLength = 320
   const {
@@ -76,37 +74,69 @@ const MetaInfo = props => {
       )
     }
   }
+  const query = graphql`
+    query SEO2 {
+      site {
+        siteMetadata {
+          defaultTitle: title
+          siteUrl: siteUrl
+          defaultImage: image
+        }
+      }
+    }
+  `
   return (
     <React.Fragment>
-      <Helmet>
-        <title>{title + ' : ' + pageTitle}</title>
-        {/* Last Modified */}
-        <meta name="article:author" content={'geoseong'} />
-        <meta name="article:published_time" content={createdDt} />
-        <meta name="article:modified_time" content={modifiedDt} />
-        <meta name="date" content={modifiedDt} />
-        <meta name="last-modified" content={modifiedDt} />
-        <meta httpEquiv="last-modified" content={modifiedDt} />
-        {/* open graph */}
-        <meta property="og:title" content={title} />
-        {/* og:description */}
-        {openDescDom}
-        <meta property="og:url" content={domain + locationAfterOrigin} />
-        <meta property="og:image" content={ogImage || defaultOgImage} />
-        {/* twitter card */}
-        <meta name="twitter:title" content={title} />
-        {/* twitter:description */}
-        {twitDescDom}
-        <meta name="twitter:card" content={twittercard} />
-        <meta name="twitter:domain" content={domain} />
-        <meta name="twitter:url" content={domain + locationAfterOrigin} />
-        {/* description(required) */}
-        {metaDescDom}
-        {/* keyword */}
-        <meta name="keywords" content={keywords} />
-        {/* canonical */}
-        <link rel="canonical" href={domain + '/'} />
-      </Helmet>
+      <StaticQuery
+        query={query}
+        render={({
+          site: {
+            siteMetadata: {
+              defaultTitle,
+              defaultDescription,
+              siteUrl,
+              defaultImage,
+              twitterUsername,
+            },
+          },
+        }) => {
+          const defaultOgImage = `${siteUrl}/${defaultImage}`
+          return (
+            <Helmet>
+              <title>{title + ' : ' + defaultTitle}</title>
+              {/* Last Modified */}
+              <meta name="article:author" content={'geoseong'} />
+              <meta name="article:published_time" content={createdDt} />
+              <meta name="article:modified_time" content={modifiedDt} />
+              <meta name="date" content={modifiedDt} />
+              <meta name="last-modified" content={modifiedDt} />
+              <meta httpEquiv="last-modified" content={modifiedDt} />
+              {/* open graph */}
+              <meta property="og:title" content={title} />
+              {/* og:description */}
+              {openDescDom}
+              <meta property="og:url" content={siteUrl + locationAfterOrigin} />
+              <meta property="og:image" content={ogImage || defaultOgImage} />
+              {/* twitter card */}
+              <meta name="twitter:title" content={title} />
+              {/* twitter:description */}
+              {twitDescDom}
+              <meta name="twitter:card" content={twittercard} />
+              <meta name="twitter:domain" content={siteUrl} />
+              <meta
+                name="twitter:url"
+                content={siteUrl + locationAfterOrigin}
+              />
+              {/* description(required) */}
+              {metaDescDom}
+              {/* keyword */}
+              <meta name="keywords" content={keywords} />
+              {/* canonical */}
+              <link rel="canonical" href={siteUrl + '/'} />
+            </Helmet>
+          )
+        }}
+      />
     </React.Fragment>
   )
 }

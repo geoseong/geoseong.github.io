@@ -2,6 +2,7 @@ module.exports = {
   siteMetadata: {
     title: "Geoseong's dev note",
     siteUrl: `https://geoseong.github.io`,
+    image: 'blogcard.png',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -38,7 +39,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'gatsby-starter-default',
+        name: "Geoseong's Dev Note",
         short_name: 'starter',
         start_url: '/',
         background_color: '#663399',

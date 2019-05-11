@@ -90,7 +90,6 @@ const appendPost = ({ type, routeKey, endpoint, note, maxCnts }) => {
       routings[routeKey].substring(0, 1) === '/' ? routings[routeKey].substring(1) : routings[routeKey]
     // updatedMaxCnts[maxCntKey] = maxCnts[maxCntKey] + 1
   } else if (!findExists) {
-    // TODO: routings.json에 새로운 key가 추가되는 건 내가 의도한 건데, endpoint중복을 견제하는 로직이 빠졌다.
     if (type === 'section') {
       if (maxCnts[endpoint]) {
         // 새로 추가될 OneNote Section의 endpoint가 이미 존재하는 endpoint라면, 새로운 endpoint로 변경.
