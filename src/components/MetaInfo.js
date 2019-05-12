@@ -11,7 +11,7 @@ import { StaticQuery, graphql } from 'gatsby'
       title="Match Online Manager"
       description="MOM Index Page"
       type="website"
-      locationAfterOrigin="/test"
+      locationAfterOrigin="/test/"
       twittercard="summary"
       keyword="key,word"
     />
@@ -115,7 +115,7 @@ const MetaInfo = ({
             {openDescDom}
             <meta
               property="og:url"
-              content={`${siteUrl}/${locationAfterOrigin}/`}
+              content={`${siteUrl}/${locationAfterOrigin}`}
             />
             <meta property="og:image" content={ogImage || defaultOgImage} />
             {/* twitter card */}
@@ -124,9 +124,10 @@ const MetaInfo = ({
             {twitDescDom}
             <meta name="twitter:card" content={twittercard} />
             <meta name="twitter:domain" content={siteUrl} />
+            {/* <meta name="twitter:domain" content={`${siteUrl}/${locationAfterOrigin}`} /> */}
             <meta
               name="twitter:url"
-              content={`${siteUrl}/${locationAfterOrigin}/`}
+              content={`${siteUrl}/${locationAfterOrigin}`}
             />
             {/* description(required) */}
             {metaDescDom}

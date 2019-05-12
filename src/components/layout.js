@@ -93,7 +93,7 @@ class RealLayout extends Component {
           {/* Default */}
           <meta charset="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-          <meta name="description" content={defaultTitle} />
+          {intro && <meta name="description" content={defaultTitle} />}
           <meta name="keywords" content="geoseong, react, javascript" />
           <meta
             name="viewport"
@@ -143,7 +143,7 @@ class RealLayout extends Component {
           type={type}
           ref={this.setRef}
         />
-        <div className="geoseong-page" style={inlineStyle.content}>
+        <div className="geoseong-page container" style={inlineStyle.content}>
           {children}
         </div>
       </React.Fragment>

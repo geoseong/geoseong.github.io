@@ -36,6 +36,7 @@ class IndexPage extends Component {
 
   initUtterances = () => {
     // https://github.com/adhrinae/gatsby-blog-template-rinae/blob/5b22ca6b72e2ecb447e0e90e4a91e698fbf87271/src/templates/Post.js
+    // TODO: utterances로 댓글 남길 때 issue보드 내용에 본문 내용과 endpoint찍히는 게 이상한데, 한번 살펴봐야 할 듯.
     const utterancesConfig = {
       src: 'https://utteranc.es/client.js',
       repo: 'geoseong/geoseong.github.io',
@@ -186,7 +187,6 @@ class IndexPage extends Component {
       state: { onLoad },
     } = this
 
-    console.log({ onLoad })
     /* html태그가 없는 내용 */
     const content = pageContext.page.content.replace(/  /g, '')
 
@@ -238,7 +238,7 @@ class IndexPage extends Component {
           ref={this.contentRef}
         />
         {/* utterances */}
-        <div className="commentbox" />
+        <div className="commentbox mt-5" />
         {!onLoad && (
           <div className="comment-loading bg-dark p-3 rounded">
             댓글 로딩 중...
