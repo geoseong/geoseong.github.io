@@ -124,7 +124,10 @@ const MetaInfo = ({
             {twitDescDom}
             <meta name="twitter:card" content={twittercard} />
             <meta name="twitter:domain" content={siteUrl} />
-            <meta name="twitter:url" content={siteUrl + locationAfterOrigin} />
+            <meta
+              name="twitter:url"
+              content={`${siteUrl}/${locationAfterOrigin}/`}
+            />
             {/* description(required) */}
             {metaDescDom}
             {/* keyword */}

@@ -25,9 +25,42 @@ class IndexPage extends Component {
   gistId = ''
   gistFile = null
   gistIframeId = ''
-  state = {}
+  state = {
+    onLoad: false,
+  }
 
   componentDidMount = () => {
+    this.execGitGist()
+    this.initUtterances()
+  }
+
+  initUtterances = () => {
+    // https://github.com/adhrinae/gatsby-blog-template-rinae/blob/5b22ca6b72e2ecb447e0e90e4a91e698fbf87271/src/templates/Post.js
+    const utterancesConfig = {
+      src: 'https://utteranc.es/client.js',
+      repo: 'geoseong/geoseong.github.io',
+      // branch: 'master',
+      async: true,
+      theme: 'icy-dark',
+      label: 'comment',
+      'issue-term': 'pathname',
+      crossorigin: 'anonymous',
+    }
+    const utterances = document.createElement('script')
+    const commentBox = document.querySelector('.commentbox')
+
+    Object.keys(utterancesConfig).forEach(configKey => {
+      utterances.setAttribute(configKey, utterancesConfig[configKey])
+    })
+
+    this.setState({
+      onLoad: true,
+    })
+
+    commentBox.insertAdjacentElement('afterend', utterances)
+  }
+
+  execGitGist = () => {
     if (!this.gistId) {
       return
     }
@@ -48,7 +81,6 @@ class IndexPage extends Component {
     doc.writeln(iframeHtml)
     doc.close()
   }
-
   /* thanks to: https://github.com/tleunen/react-gist */
   _defineUrl = ({ id, file }) => {
     let fileArg = file ? '?file=' + file : ''
@@ -78,7 +110,7 @@ class IndexPage extends Component {
     return iframeHtml
   }
 
-  getMarkup = htmlTagCovered => {
+  setGistMarkup = htmlTagCovered => {
     /* OneNote 페이지의 전체 DOM */
     const $ = cheerio.load(htmlTagCovered)
     /* body 태그 */
@@ -145,14 +177,16 @@ class IndexPage extends Component {
 
   getHtmlTagCovered = pageContext => {
     let htmlTag = pageContext.page.html
-    return this.getMarkup(htmlTag)
+    return this.setGistMarkup(htmlTag)
   }
 
   render() {
     const {
       props: { pageContext },
+      state: { onLoad },
     } = this
 
+    console.log({ onLoad })
     /* html태그가 없는 내용 */
     const content = pageContext.page.content.replace(/  /g, '')
 
@@ -203,6 +237,13 @@ class IndexPage extends Component {
           }}
           ref={this.contentRef}
         />
+        {/* utterances */}
+        <div className="commentbox" />
+        {!onLoad && (
+          <div className="comment-loading bg-dark p-3 rounded">
+            댓글 로딩 중...
+          </div>
+        )}
         <div style={inlineStyle.listBtn}>
           <Link to={routing[pageContext.page.parentSection.id]}>
             <button type="button" className="btn btn-secondary">
