@@ -24,18 +24,17 @@ import { StaticQuery, graphql } from 'gatsby'
     keyword: 
  }   
  */
-const MetaInfo = props => {
+const MetaInfo = ({
+  description,
+  title,
+  createdDt,
+  modifiedDt,
+  locationAfterOrigin,
+  twittercard,
+  keywords,
+  ogImage,
+}) => {
   const descriptionLength = 320
-  const {
-    description,
-    title,
-    createdDt,
-    modifiedDt,
-    locationAfterOrigin,
-    twittercard,
-    keywords,
-    ogImage,
-  } = props
   let metaDescDom = []
   let openDescDom = []
   let twitDescDom = []
@@ -86,58 +85,56 @@ const MetaInfo = props => {
     }
   `
   return (
-    <React.Fragment>
-      <StaticQuery
-        query={query}
-        render={({
-          site: {
-            siteMetadata: {
-              defaultTitle,
-              defaultDescription,
-              siteUrl,
-              defaultImage,
-              twitterUsername,
-            },
+    <StaticQuery
+      query={query}
+      render={({
+        site: {
+          siteMetadata: {
+            defaultTitle,
+            defaultDescription,
+            siteUrl,
+            defaultImage,
+            twitterUsername,
           },
-        }) => {
-          const defaultOgImage = `${siteUrl}/${defaultImage}`
-          return (
-            <Helmet>
-              <title>{title + ' : ' + defaultTitle}</title>
-              {/* Last Modified */}
-              <meta name="article:author" content={'geoseong'} />
-              <meta name="article:published_time" content={createdDt} />
-              <meta name="article:modified_time" content={modifiedDt} />
-              <meta name="date" content={modifiedDt} />
-              <meta name="last-modified" content={modifiedDt} />
-              <meta httpEquiv="last-modified" content={modifiedDt} />
-              {/* open graph */}
-              <meta property="og:title" content={title} />
-              {/* og:description */}
-              {openDescDom}
-              <meta property="og:url" content={siteUrl + locationAfterOrigin} />
-              <meta property="og:image" content={ogImage || defaultOgImage} />
-              {/* twitter card */}
-              <meta name="twitter:title" content={title} />
-              {/* twitter:description */}
-              {twitDescDom}
-              <meta name="twitter:card" content={twittercard} />
-              <meta name="twitter:domain" content={siteUrl} />
-              <meta
-                name="twitter:url"
-                content={siteUrl + locationAfterOrigin}
-              />
-              {/* description(required) */}
-              {metaDescDom}
-              {/* keyword */}
-              <meta name="keywords" content={keywords} />
-              {/* canonical */}
-              <link rel="canonical" href={siteUrl + '/'} />
-            </Helmet>
-          )
-        }}
-      />
-    </React.Fragment>
+        },
+      }) => {
+        const defaultOgImage = `${siteUrl}/${defaultImage}`
+        return (
+          <Helmet>
+            <title>{title + ' : ' + defaultTitle}</title>
+            {/* Last Modified */}
+            <meta name="article:author" content={'geoseong'} />
+            <meta name="article:published_time" content={createdDt} />
+            <meta name="article:modified_time" content={modifiedDt} />
+            <meta name="date" content={modifiedDt} />
+            <meta name="last-modified" content={modifiedDt} />
+            <meta httpEquiv="last-modified" content={modifiedDt} />
+            {/* open graph */}
+            <meta property="og:title" content={title} />
+            {/* og:description */}
+            {openDescDom}
+            <meta
+              property="og:url"
+              content={`${siteUrl}/${locationAfterOrigin}/`}
+            />
+            <meta property="og:image" content={ogImage || defaultOgImage} />
+            {/* twitter card */}
+            <meta name="twitter:title" content={title} />
+            {/* twitter:description */}
+            {twitDescDom}
+            <meta name="twitter:card" content={twittercard} />
+            <meta name="twitter:domain" content={siteUrl} />
+            <meta name="twitter:url" content={siteUrl + locationAfterOrigin} />
+            {/* description(required) */}
+            {metaDescDom}
+            {/* keyword */}
+            <meta name="keywords" content={keywords} />
+            {/* canonical */}
+            <link rel="canonical" href={siteUrl + '/'} />
+          </Helmet>
+        )
+      }}
+    />
   )
 }
 export default MetaInfo

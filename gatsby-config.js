@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: "Geoseong's dev note",
     siteUrl: `https://geoseong.github.io`,
-    image: 'blogcard.png',
+    image: 'logo.png',
   },
   plugins: [
     'gatsby-plugin-react-helmet',

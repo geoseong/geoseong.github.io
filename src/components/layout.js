@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
+import { StaticQuery, graphql } from 'gatsby'
 import Helmet from 'react-helmet'
 import Header from './Header'
 import '../styles/bootswatch.css'
 import '../styles/geoseong.css'
-import { StaticQuery, graphql } from 'gatsby'
 
 const inlineStyle = {
   header: {
@@ -19,17 +19,7 @@ const inlineStyle = {
     padding: '1rem',
   },
 }
-const query = graphql`
-  query SEO {
-    site {
-      siteMetadata {
-        defaultTitle: title
-        siteUrl: siteUrl
-        defaultImage: image
-      }
-    }
-  }
-`
+
 class RealLayout extends Component {
   headerDom = null
 
@@ -90,84 +80,88 @@ class RealLayout extends Component {
     return (this.headerDom = e)
   }
 
-  render() {
-    const { children, type } = this.props
+  LayoutRenderer = ({
+    site: {
+      siteMetadata: { defaultTitle, siteUrl, defaultImage },
+    },
+  }) => {
+    const { children, type, intro } = this.props
+    const defaultOgImage = `${siteUrl}/${defaultImage}`
     return (
       <React.Fragment>
-        <StaticQuery
-          query={query}
-          render={({
-            site: {
-              siteMetadata: {
-                defaultTitle,
-                defaultDescription,
-                siteUrl,
-                defaultImage,
-                twitterUsername,
-              },
-            },
-          }) => {
-            const defaultOgImage = `${siteUrl}/${defaultImage}`
-            return (
-              <React.Fragment>
-                <Helmet title={defaultTitle}>
-                  {/* Default */}
-                  <meta charset="utf-8" />
-                  <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-                  <meta name="description" content={defaultTitle} />
-                  <meta name="keywords" content="geoseong, react, javascript" />
-                  <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1, shrink-to-fit=no"
-                  />
-                  {/* WebMaster */}
-                  <meta
-                    name="google-site-verification"
-                    content="F982oVX7H0KLHXZ48aBOJW917-yg4gujHSA4TsMDsHk"
-                  />
-                  <meta
-                    name="google-site-verification"
-                    content="f-ZKSvxbMZ1cZzz5biFoZdw-cFAaye_KVsVxnVuuPfQ"
-                  />
-                  {/* AdSense */}
-                  {/* <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({
-              google_ad_client: "ca-pub-4861235624374871",
-              enable_page_level_ads: true
-            });
-          </script> */}
-                  {/* OpenGraph */}
-                  <meta property="og:locale" content="ko_KR" />
-                  <meta property="og:type" content="article" />
-                  <meta property="og:site_name" content={defaultTitle} />
-                  {/* Twittercard */}
-                  <meta name="twitter:image" content={defaultOgImage} />
-                  {/* Style */}
-                  <link
-                    rel="stylesheet"
-                    href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-                    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
-                    crossOrigin="anonymous"
-                  />
-                </Helmet>
-                <React.Fragment>
-                  <Header
-                    title={defaultTitle}
-                    style={inlineStyle}
-                    type={type}
-                    ref={this.setRef}
-                  />
-                  <div className="geoseong-page" style={inlineStyle.content}>
-                    {children}
-                  </div>
-                </React.Fragment>
-              </React.Fragment>
-            )
-          }}
+        <Helmet title={defaultTitle}>
+          {/* Default */}
+          <meta charset="utf-8" />
+          <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+          <meta name="description" content={defaultTitle} />
+          <meta name="keywords" content="geoseong, react, javascript" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          {/* WebMaster */}
+          <meta
+            name="google-site-verification"
+            content="F982oVX7H0KLHXZ48aBOJW917-yg4gujHSA4TsMDsHk"
+          />
+          <meta
+            name="google-site-verification"
+            content="f-ZKSvxbMZ1cZzz5biFoZdw-cFAaye_KVsVxnVuuPfQ"
+          />
+          {/* AdSense */}
+          {/* <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-4861235624374871",
+      enable_page_level_ads: true
+    });
+  </script> */}
+          {/* OpenGraph */}
+          <meta property="og:locale" content="ko_KR" />
+          <meta property="og:type" content="article" />
+          <meta property="og:site_name" content={defaultTitle} />
+          {intro && <meta property="og:title" content={defaultTitle} />}
+          {intro && <meta property="og:url" content={`${siteUrl}/`} />}
+          {intro && <meta property="og:image" content={defaultOgImage} />}
+          {/* Twittercard */}
+          <meta name="twitter:image" content={defaultOgImage} />
+          {intro && <meta property="twitter:title" content={defaultTitle} />}
+          {intro && (
+            <meta property="twitter:text:title" content={defaultTitle} />
+          )}
+          {/* Style */}
+          <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+            integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+            crossOrigin="anonymous"
+          />
+        </Helmet>
+        <Header
+          title={defaultTitle}
+          style={inlineStyle}
+          type={type}
+          ref={this.setRef}
         />
+        <div className="geoseong-page" style={inlineStyle.content}>
+          {children}
+        </div>
       </React.Fragment>
     )
+  }
+  render() {
+    const query = graphql`
+      query SEO {
+        site {
+          siteMetadata {
+            defaultTitle: title
+            siteUrl: siteUrl
+            defaultImage: image
+          }
+        }
+      }
+    `
+    return <StaticQuery query={query} render={this.LayoutRenderer} />
   }
 }
 

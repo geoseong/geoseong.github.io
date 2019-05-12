@@ -26,7 +26,7 @@ class IndexPage extends Component {
     } = this
 
     return (
-      <Layout type="blog">
+      <Layout type="blog" intro={true}>
         <div>
           <h3>Categories</h3>
           {pageContext.notebookList &&
