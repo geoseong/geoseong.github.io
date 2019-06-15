@@ -104,7 +104,15 @@ class RealLayout extends Component {
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
           />
-          <script src="/adsense.js" type="text/javascript" />
+          {/* https://github.com/gatsbyjs/gatsby/issues/11160#issuecomment-456131546 */}
+          <script>
+            {`
+              (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-4861235624374871",
+                enable_page_level_ads: true
+              })
+            `}
+          </script>
           {/* WebMaster */}
           <meta
             name="google-site-verification"
