@@ -121,6 +121,7 @@ class RealLayout extends Component {
           {intro && <meta property="og:title" content={defaultTitle} />}
           {intro && <meta property="og:url" content={`${siteUrl}/`} />}
           {intro && <meta property="og:image" content={defaultOgImage} />}
+          {intro && <meta name="og:description" content={defaultTitle} />}
           {/* Twittercard */}
           <meta name="twitter:image" content={defaultOgImage} />
           {intro && <meta property="twitter:title" content={defaultTitle} />}
