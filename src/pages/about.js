@@ -213,7 +213,7 @@ const About = () => (
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="font-dot7 mr-2">admin of :</span>
+              <span className="font-dot7 mr-2">co-leader of :</span>
               <span className="badge badge-secondary">
                 React Native Seoul meetup
               </span>
@@ -244,6 +244,16 @@ const About = () => (
               rel="noopener noreferrer"
             >
               <span className="badge badge-info">react-native-chart-kit</span>
+            </a>
+          </li>
+          <li>
+            <a
+              className="text-secondary"
+              href="https://github.com/geoseong/serverless-vpc-plugin/graphs/contributors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="badge badge-info">serverless-vpc-plugin</span>
             </a>
           </li>
         </ul>

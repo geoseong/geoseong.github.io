@@ -47,7 +47,7 @@
     "prettier:write": "prettier --config .prettierrc --write",
     "updateblog": "node util/extract_onenote.js",
     "deploy:all": "npm run lint:all && npm run updateblog && npm run deploy",
-    "deploy": "npm run build && cp README.md public && gh-pages -d public -b master"
+    "deploy": "npm run build && cp README.md public && cp seo/adsense.js public && gh-pages -d public -b master"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

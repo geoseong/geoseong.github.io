@@ -99,6 +99,12 @@ class RealLayout extends Component {
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
+          {/* AdSense */}
+          <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          />
+          <script src="/adsense.js" type="text/javascript" />
           {/* WebMaster */}
           <meta
             name="google-site-verification"
@@ -108,14 +114,6 @@ class RealLayout extends Component {
             name="google-site-verification"
             content="f-ZKSvxbMZ1cZzz5biFoZdw-cFAaye_KVsVxnVuuPfQ"
           />
-          {/* AdSense */}
-          {/* <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "ca-pub-4861235624374871",
-      enable_page_level_ads: true
-    });
-  </script> */}
           {/* OpenGraph */}
           <meta property="og:locale" content="ko_KR" />
           <meta property="og:type" content="article" />
