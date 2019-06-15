@@ -47,7 +47,7 @@ class IndexPage extends Component {
                     <Link
                       key={'section-' + sectionIdx}
                       className=""
-                      to={routing[section.id]}
+                      to={`/${routing[section.id]}`}
                     >
                       <span
                         key={'section-preview-' + sectionIdx}
@@ -64,7 +64,10 @@ class IndexPage extends Component {
                 <div key={'notebook-' + idx} className="card">
                   <div className="card-body">
                     <h4 className="card-title">
-                      <Link className="card-link text-light" to={item.endpoint}>
+                      <Link
+                        className="card-link text-light"
+                        to={`/${item.endpoint}`}
+                      >
                         {item.notebook}
                       </Link>
                     </h4>
@@ -75,7 +78,7 @@ class IndexPage extends Component {
                         ...inlineStyle.moreBtnArea,
                       }}
                     >
-                      <Link className="card-link" to={item.endpoint}>
+                      <Link className="card-link" to={`/${item.endpoint}`}>
                         More...
                       </Link>
                     </div>

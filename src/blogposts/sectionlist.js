@@ -46,7 +46,7 @@ class IndexPage extends Component {
           },geoseong,dev note`}
         />
         <React.Fragment>
-          <Link to={pageContext.notebook.toLowerCase()}>
+          <Link to={`/${pageContext.notebook.toLowerCase()}`}>
             <h5 className="">{pageContext.notebook}</h5>
           </Link>
           <h1 className="text-light">{pageContext.section.name}</h1>
@@ -54,7 +54,7 @@ class IndexPage extends Component {
             pageContext.page.map((item, idx) => {
               return (
                 <div key={'section-' + idx} style={inlineStyle.listItem}>
-                  <Link className="card-link" to={routing[item.id]}>
+                  <Link className="card-link" to={`/${routing[item.id]}`}>
                     <div className="">
                       <h4 className="">{item.title}</h4>
                       <h6 className="text-right">

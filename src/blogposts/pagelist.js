@@ -211,7 +211,7 @@ class IndexPage extends Component {
           <div className="text-info">
             <Link
               className="text-info btn"
-              to={pageContext.notebook.toLowerCase()}
+              to={`/${pageContext.notebook.toLowerCase()}`}
             >
               <span className="">{pageContext.notebook}</span>
             </Link>
@@ -221,7 +221,7 @@ class IndexPage extends Component {
             />
             <Link
               className="text-info btn"
-              to={routing[pageContext.page.parentSection.id]}
+              to={`/${routing[pageContext.page.parentSection.id]}`}
             >
               <span className="">{pageContext.section}</span>
             </Link>
@@ -245,7 +245,7 @@ class IndexPage extends Component {
           </div>
         )}
         <div style={inlineStyle.listBtn}>
-          <Link to={routing[pageContext.page.parentSection.id]}>
+          <Link to={`/${routing[pageContext.page.parentSection.id]}`}>
             <button type="button" className="btn btn-secondary">
               목록으로
             </button>

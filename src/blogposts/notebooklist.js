@@ -42,7 +42,7 @@ class IndexPage extends Component {
             pageContext.section.map((item, idx) => {
               return (
                 <div key={'section-' + idx} style={inlineStyle.listItem}>
-                  <Link className="card-link" to={routing[item.id]}>
+                  <Link className="card-link" to={`/${routing[item.id]}`}>
                     <div className="">
                       <h4 className="">{item.name}</h4>
                       <div

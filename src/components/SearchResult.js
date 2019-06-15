@@ -46,7 +46,7 @@ export default class SearchResult extends Component {
       this.searchResultDiv.classList.add('border-light')
       return (
         <Link
-          to={ele.endpoint}
+          to={`/${ele.endpoint}`}
           key={`searchres-${idx}`}
           className="badge-light"
         >
