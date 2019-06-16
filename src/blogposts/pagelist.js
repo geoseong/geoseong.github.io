@@ -21,15 +21,14 @@ const inlineStyle = {
 }
 class IndexPage extends Component {
   contentRef = React.createRef()
-  gistRef = React.createRef()
-  gistId = ''
-  gistFile = null
-  gistIframeId = ''
+  gistObjs = []
   state = {
-    onLoad: false,
+    // onLoadUtt: false,
   }
 
   componentDidMount = () => {
+    // setTimeout(() => {
+    // }, 300)
     this.execGitGist()
     this.initUtterances()
   }
@@ -53,35 +52,42 @@ class IndexPage extends Component {
     Object.keys(utterancesConfig).forEach(configKey => {
       utterances.setAttribute(configKey, utterancesConfig[configKey])
     })
-
-    this.setState({
-      onLoad: true,
-    })
-
     commentBox.insertAdjacentElement('afterend', utterances)
+    // this.setState({
+    //   onLoadUtt: true,
+    // })
   }
 
   execGitGist = () => {
-    if (!this.gistId) {
+    // let { gistId, gistFile, gistObjs } = this
+    let { gistObjs } = this
+    if (!gistObjs || gistObjs.length === 0) {
       return
     }
-    let ref = this.contentRef
-    let iframeDom = ref.current.querySelector(`#${this.gistIframeId}`)
-    let doc
-    if (iframeDom.contentDocument) {
-      doc = iframeDom.contentDocument
-    } else if (iframeDom.contentWindow) {
-      doc = iframeDom.contentWindow.document
+    for (let i = 0; i < gistObjs.length; i++) {
+      let { gistId, gistFile, gistIframeId } = gistObjs[i]
+      let ref = this.contentRef
+      let iframeDom = ref.current.querySelector(`#${gistIframeId}`)
+      let doc
+      if (iframeDom.contentDocument) {
+        doc = iframeDom.contentDocument
+      } else if (iframeDom.contentWindow) {
+        doc = iframeDom.contentWindow.document
+      }
+      if (!iframeDom.contentDocument && !iframeDom.contentWindow) {
+        /* draft */
+      }
+      const iframeHtml = this._updateIframeContent({
+        id: gistId,
+        file: gistFile,
+        domId: gistIframeId,
+      })
+      doc.open()
+      doc.writeln(iframeHtml)
+      doc.close()
     }
-    const iframeHtml = this._updateIframeContent({
-      id: this.gistId,
-      file: this.gistFile,
-      domId: this.gistIframeId,
-    })
-    doc.open()
-    doc.writeln(iframeHtml)
-    doc.close()
   }
+
   /* thanks to: https://github.com/tleunen/react-gist */
   _defineUrl = ({ id, file }) => {
     let fileArg = file ? '?file=' + file : ''
@@ -149,30 +155,28 @@ class IndexPage extends Component {
     }
 
     let gistDom = bodyTag.find('a[href*="gist.github.com"]')
-    let gistUrl =
-      gistDom.length > 0 &&
-      bodyTag
-        .find('a[href*="gist.github.com"]')
-        .attr('href')
-        .split('/')
-
-    if (gistUrl) {
-      let gistInfo = gistUrl[gistUrl.length - 1].split('#file-')
+    for (let i = 0; i < gistDom.length; i++) {
+      let {
+        attribs: { href },
+      } = gistDom[i]
+      let splittedHref = href.split('/')
+      let gistInfo = splittedHref[splittedHref.length - 1].split('#file-')
       let gistId = gistInfo[0]
       let gistFile = gistInfo.length > 1 && gistInfo[1]
-      const gistIframeId = gistFile
+      let gistIframeId = gistFile
         ? `gist-${gistId}-${gistFile}`
         : `gist-${gistId}`
-      this.gistId = gistId
-      this.gistFile = gistFile
-      this.gistIframeId = gistIframeId
+      this.gistObjs.push({
+        gistId,
+        gistFile,
+        gistIframeId,
+      })
       bodyTag
-        .find('a[href*="gist.github.com"]')
+        .find(`a[href="${href}"]`)
         .replaceWith(
           `<iframe id="${gistIframeId}" width="100%" style="border-style: none;"/>`
         )
     }
-
     return bodyTag
   }
 
@@ -184,7 +188,7 @@ class IndexPage extends Component {
   render() {
     const {
       props: { pageContext },
-      state: { onLoad },
+      // state: { onLoadUtt },
     } = this
 
     /* html태그가 없는 내용 */
@@ -239,11 +243,11 @@ class IndexPage extends Component {
         />
         {/* utterances */}
         <div className="commentbox mt-5" />
-        {!onLoad && (
+        {/* {!onLoadUtt && (
           <div className="comment-loading bg-dark p-3 rounded">
             댓글 로딩 중...
           </div>
-        )}
+        )} */}
         <div style={inlineStyle.listBtn}>
           <Link to={`/${routing[pageContext.page.parentSection.id]}`}>
             <button type="button" className="btn btn-secondary">
