@@ -50,6 +50,7 @@
     "deploy": "npm run build && cp README.md public && cp seo/adsense.js public && gh-pages -d public -b master"
   },
   "devDependencies": {
+    "@hot-loader/react-dom": "^16.8.6",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.13.0",
     "eslint-config-prettier": "^4.0.0",
