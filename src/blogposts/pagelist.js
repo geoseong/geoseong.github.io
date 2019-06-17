@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'gatsby'
 import cheerio from 'cheerio'
 // import Gist from 'react-gist'
+import AdSense from 'react-adsense' // https://git.hust.cc/react-adsense/
 import Layout from '../components/Layout'
 import routing from '../../postings/routings.json'
 import { getFormmatedDt } from '../../util/convert'
@@ -27,8 +28,6 @@ class IndexPage extends Component {
   }
 
   componentDidMount = () => {
-    // setTimeout(() => {
-    // }, 300)
     this.execGitGist()
     this.initUtterances()
   }
@@ -89,14 +88,13 @@ class IndexPage extends Component {
   }
 
   /* thanks to: https://github.com/tleunen/react-gist */
-  _defineUrl = ({ id, file }) => {
-    let fileArg = file ? '?file=' + file : ''
-    return 'https://gist.github.com/' + id + '.js' + fileArg.replace('-', '.')
-  }
-
-  /* thanks to: https://github.com/tleunen/react-gist */
   _updateIframeContent = ({ id, file, domId }) => {
-    let gistLink = this._defineUrl({ id, file })
+    /* thanks to: https://github.com/tleunen/react-gist */
+    const defineUrl = ({ id, file }) => {
+      let fileArg = file ? '?file=' + file : ''
+      return 'https://gist.github.com/' + id + '.js' + fileArg.replace('-', '.')
+    }
+    let gistLink = defineUrl({ id, file })
     let gistScript =
       '<script type="text/javascript" src="' + gistLink + '"></script>'
     let styles = '<style>*{font-size:12px;}</style>'
@@ -195,7 +193,7 @@ class IndexPage extends Component {
     const content = pageContext.page.content.replace(/  /g, '')
 
     return (
-      <Layout type="blog">
+      <Layout type="blog" ad={true}>
         <MetaInfo
           title={pageContext.page.title}
           description={content}
@@ -210,6 +208,7 @@ class IndexPage extends Component {
           modifiedDt={pageContext.page.lastModifiedTime}
           createdDt={pageContext.page.createdTime}
         />
+        <AdSense.Google client="ca-pub-4861235624374871" slot="1484266709" />
         <div style={inlineStyle.titleArea}>
           <h1 className="text-light">{pageContext.page.title}</h1>
           <div className="text-info">
@@ -240,6 +239,13 @@ class IndexPage extends Component {
             __html: this.getHtmlTagCovered(pageContext),
           }}
           ref={this.contentRef}
+        />
+        <AdSense.Google
+          client="ca-pub-4861235624374871"
+          slot="1484266709"
+          style={{ display: 'block' }}
+          layout="in-article"
+          format="fluid"
         />
         {/* utterances */}
         <div className="commentbox mt-5" />

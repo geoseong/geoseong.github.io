@@ -23,6 +23,7 @@
     "htmr": "^0.7.0",
     "path": "^0.12.7",
     "react": "^16.5.1",
+    "react-adsense": "^0.1.0",
     "react-dom": "^16.5.1",
     "react-gist": "^1.2.1",
     "react-helmet": "^5.2.0"
@@ -47,7 +48,7 @@
     "prettier:write": "prettier --config .prettierrc --write",
     "updateblog": "node util/extract_onenote.js",
     "deploy:all": "npm run lint:all && npm run updateblog && npm run deploy",
-    "deploy": "npm run build && cp README.md public && cp seo/adsense.js public && gh-pages -d public -b master"
+    "deploy": "npm run build && cp README.md public && cp ad/ads.txt public && gh-pages -d public -b master"
   },
   "devDependencies": {
     "@hot-loader/react-dom": "^16.8.6",
