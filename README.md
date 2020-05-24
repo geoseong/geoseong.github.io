@@ -1,4 +1,7 @@
 # Geoseong's Dev Note
+```
+Coming Soon
+```
 - [**Geoseong's Dev Note: GitHub Pages**](https://geoseong.github.io/)
 
 ### What I used in this blog is...

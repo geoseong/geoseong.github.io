@@ -208,7 +208,11 @@ class IndexPage extends Component {
           modifiedDt={pageContext.page.lastModifiedTime}
           createdDt={pageContext.page.createdTime}
         />
-        <AdSense.Google client="ca-pub-4861235624374871" slot="1484266709" />
+        <AdSense.Google
+          className="m-3"
+          client="ca-pub-4861235624374871"
+          slot="1484266709"
+        />
         <div style={inlineStyle.titleArea}>
           <h1 className="text-light">{pageContext.page.title}</h1>
           <div className="text-info">
@@ -241,6 +245,7 @@ class IndexPage extends Component {
           ref={this.contentRef}
         />
         <AdSense.Google
+          className="m-3"
           client="ca-pub-4861235624374871"
           slot="1484266709"
           style={{ display: 'block' }}

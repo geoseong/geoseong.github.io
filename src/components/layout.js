@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
-import { StaticQuery, graphql } from 'gatsby'
-import Helmet from 'react-helmet'
-import Header from './Header'
 import '../styles/bootswatch.css'
 import '../styles/geoseong.css'
+
+import React, { Component } from 'react'
+import { StaticQuery, graphql } from 'gatsby'
+
+import Header from './Header'
+import Helmet from 'react-helmet'
 
 const inlineStyle = {
   header: {
@@ -24,15 +26,15 @@ class RealLayout extends Component {
   headerDom = null
 
   componentDidMount() {
-    document.addEventListener('mousedown', e => {
-      this.handleClickOutside(e, this.headerDom)
-    })
+    // document.addEventListener('mousedown', e => {
+    //   this.handleClickOutside(e, this.headerDom)
+    // })
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', e => {
-      this.handleClickOutside(e, this.headerDom)
-    })
+    // document.removeEventListener('mousedown', e => {
+    //   this.handleClickOutside(e, this.headerDom)
+    // })
   }
 
   handleClickOutside(event, headerDom) {

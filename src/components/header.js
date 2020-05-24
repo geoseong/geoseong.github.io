@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Link } from 'gatsby'
+
 import Fuse from 'fuse.js'
+import { Link } from 'gatsby'
 import SearchResult from './SearchResult'
 
 const blogpost = require('../../postings/post_contents.json')
@@ -43,10 +44,10 @@ class Header extends Component {
     this.mobileMode = false
   }
   componentDidMount = () => {
-    this.detectSize()
-    window.addEventListener('resize', this.detectSize)
-    this.topMenuBtn[this.props.type] &&
-      this.topMenuBtn[this.props.type].classList.add('active')
+    // this.detectSize()
+    // window.addEventListener('resize', this.detectSize)
+    // this.topMenuBtn[this.props.type] &&
+    //   this.topMenuBtn[this.props.type].classList.add('active')
   }
   componentWillUnmount = () => {
     window.removeEventListener('resize', this.detectSize)
@@ -63,13 +64,13 @@ class Header extends Component {
       resultdom.classList.remove('align-mobile')
     }
   }
-  onFuseSearch = data => {
-    let searchResultRaw =
-      data.target.value.length === 0 ? [] : this.fuse.search(data.target.value)
-    this.setState({
-      searchResult: searchResultRaw,
-    })
-  }
+  // onFuseSearch = data => {
+  //   let searchResultRaw =
+  //     data.target.value.length === 0 ? [] : this.fuse.search(data.target.value)
+  //   this.setState({
+  //     searchResult: searchResultRaw,
+  //   })
+  // }
   spreadMenuMobile = () => {
     if (this.collapseDiv.classList.value.indexOf('show') > -1) {
       this.collapseDiv.classList.remove('show')
@@ -112,7 +113,7 @@ class Header extends Component {
             ref={e => (this.collapseDiv = e)}
           >
             <ul className="navbar-nav mr-auto">
-              <li
+              {/* <li
                 id="gs-topmenu-blog"
                 className="nav-item"
                 ref={e => (this.topMenuBtn.blog = e)}
@@ -120,8 +121,8 @@ class Header extends Component {
                 <Link className="nav-link" to="/">
                   Blog
                 </Link>
-              </li>
-              <li
+              </li> */}
+              {/* <li
                 id="gs-topmenu-about"
                 className="nav-item"
                 ref={e => (this.topMenuBtn.about = e)}
@@ -129,9 +130,9 @@ class Header extends Component {
                 <Link className="nav-link" to="/about">
                   About
                 </Link>
-              </li>
+              </li> */}
             </ul>
-            <form id="search-form" className="form-inline my-2 my-lg-0">
+            {/* <form id="search-form" className="form-inline my-2 my-lg-0">
               <div id="search-form-area" style={inlineStyle.relativePosition}>
                 <input
                   id="searchInput"
@@ -146,7 +147,7 @@ class Header extends Component {
                   ref={e => (this.searchResultDom = e)}
                 />
               </div>
-            </form>
+            </form> */}
           </div>
         </nav>
       </React.Fragment>
