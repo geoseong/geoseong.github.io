@@ -1,6 +1,7 @@
 const siteTitle = `geoseong's dev note`;
 const ghRepo = 'https://github.com/geoseong/geoseong.github.io';
 const domain = 'geoseong.github.io';
+const editUrl = `${ghRepo}/edit/docusaurus-blog/`;
 
 module.exports = {
   title: siteTitle,
@@ -70,12 +71,12 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: `${ghRepo}/edit/docusaurus-blog/docs/`,
+          editUrl: editUrl,
         },
         blog: {
           showReadingTime: false,
           // Please change this to your repo.
-          editUrl: `${ghRepo}/edit/docusaurus-blog/blog/`,
+          editUrl: editUrl,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
