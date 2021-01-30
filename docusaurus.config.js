@@ -70,12 +70,12 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: `${ghRepo}/edit/main/website/`,
+          editUrl: `${ghRepo}/edit/docusaurus-blog/docs/`,
         },
         blog: {
           showReadingTime: false,
           // Please change this to your repo.
-          editUrl: `${ghRepo}/edit/main/website/blog/`,
+          editUrl: `${ghRepo}/edit/docusaurus-blog/blog/`,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
