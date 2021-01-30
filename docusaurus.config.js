@@ -1,15 +1,16 @@
 const siteTitle = `geoseong's dev note`;
 const ghRepo = 'https://github.com/geoseong/geoseong.github.io';
+const domain = 'geoseong.github.io';
 
 module.exports = {
   title: siteTitle,
   tagline: 'Blog of my developer career',
-  url: 'https://geoseong.github.io',
+  url: `https://${domain}`,
   baseUrl: '/',
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'geoseong', // Usually your GitHub org/user name.
+  projectName: domain, // Usually your repo name.
   themeConfig: {
     // metadatas: [
     //   { name: 'twitter:card', content: siteTitle },
