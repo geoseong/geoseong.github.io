@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>geoseong's dev note Blog</title>
+        <link>https://geoseong.github.io/blog</link>
+        <description>geoseong's dev note Blog</description>
+        <lastBuildDate>Sat, 30 Jan 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[안녕하세요!]]></title>
+            <link>https://geoseong.github.io/blog/hello</link>
+            <guid>hello</guid>
+            <pubDate>Sat, 30 Jan 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Welcome to this blog. This blog is created with Docusaurus 2 alpha.]]></description>
+        </item>
+    </channel>
+</rss>
