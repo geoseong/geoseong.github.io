@@ -18,6 +18,7 @@ module.exports = {
     // ],
     image: 'img/logo.png',
     navbar: {
+      hideOnScroll: true,
       title: siteTitle,
       logo: {
         alt: `${siteTitle} Logo`,
@@ -32,17 +33,17 @@ module.exports = {
               label: 'AWS',
               to: 'docs/aws/index',
             },
-            {
-              label: 'GraphQL',
-              to: 'docs/graphql/index',
-            },
-            {
-              label: 'React',
-              to: 'docs/react/index',
-            },
+            // {
+            //   label: 'GraphQL',
+            //   to: 'docs/graphql/index',
+            // },
+            // {
+            //   label: 'React',
+            //   to: 'docs/react/index',
+            // },
             {
               label: 'Unity',
-              to: 'docs/unity/index',
+              to: 'docs/unity/JSONdotNET-conflicts-QuickSheet',
             },
           ],
         },
@@ -54,7 +55,8 @@ module.exports = {
         },
         {
           href: ghRepo,
-          label: 'Source',
+          className: 'header-github-link header-icon-link',
+          'aria-label': 'GitHub repository',
           position: 'right',
         },
       ],
@@ -64,7 +66,17 @@ module.exports = {
       copyright: `Since 2021. Built with Docusaurus.`,
     },
   },
-  plugins: ['@docusaurus/plugin-ideal-image'],
+  plugins: [
+    [
+      '@docusaurus/plugin-ideal-image',
+      {
+        quality: 70,
+        max: 1030, // max resized image's size.
+        min: 640, // min resized image's size. if original is lower, use that size.
+        steps: 2, // the max number of images generated between min and max (inclusive)
+      },
+    ],
+  ],
   presets: [
     [
       '@docusaurus/preset-classic',
