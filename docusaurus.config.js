@@ -13,13 +13,21 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'geoseong', // Usually your GitHub org/user name.
   projectName: domain, // Usually your repo name.
+  plugins: [
+    [
+      '@docusaurus/plugin-ideal-image',
+      {
+        quality: 70,
+        max: 1030, // max resized image's size.
+        min: 640, // min resized image's size. if original is lower, use that size.
+        steps: 2, // the max number of images generated between min and max (inclusive)
+      },
+    ],
+  ],
   themeConfig: {
     // metadatas: [
     //   { name: 'twitter:card', content: siteTitle },
     // ],
-    googleAdsense: {
-      dataAdClient: process.env.DATA_AD_CLIENT,
-    },
     image: 'img/logo.png',
     navbar: {
       hideOnScroll: true,
@@ -70,18 +78,6 @@ module.exports = {
       copyright: `Since 2021. Built with Docusaurus.`,
     },
   },
-  plugins: [
-    [
-      '@docusaurus/plugin-ideal-image',
-      {
-        quality: 70,
-        max: 1030, // max resized image's size.
-        min: 640, // min resized image's size. if original is lower, use that size.
-        steps: 2, // the max number of images generated between min and max (inclusive)
-      },
-    ],
-    'docusaurus-plugin-google-adsense',
-  ],
   presets: [
     [
       '@docusaurus/preset-classic',
