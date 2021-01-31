@@ -3,6 +3,7 @@ title: JSON .NET for Utility 설치 시 QuickSheet 에서 에러나옴
 sidebar_label: JSON .NET for Utility 설치 시 QuickSheet 에서 에러나옴
 ---
 
+[AD]
 ## Newtonsoft.Json 과 QuickSheet 같이 사용하기
 
 [QuickSheet](https://github.com/kimsama/Unity-QuickSheet) 플러그인 안에 `Assets/Plugins/QuickSheet/GDataPlugin/Editor/Google/Newtonsoft.Json.*` 파일이 meta파일 제외하고 4개가 있고, QuickSheet 플러그인은 이 dll파일을 참고해서 구동이 되는데,
@@ -49,3 +50,5 @@ Google.GData.Client references strong named Newtonsoft.Json in a different folde
 
 - [Json40r5.zip](http://json40r5.zip) 파일을 다운받는다
 - `Json40r5.zip`의 압축을 풀고, Json40r5/Bin/Net35 경로에 있는 파일들을 모두 프로젝트의 Asset폴더 안에다가 붙여 넣으면 문제는 사라진다.
+
+[AD]
