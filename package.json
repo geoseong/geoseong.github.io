@@ -4,12 +4,19 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
+    "start": "yarn renderlogic:push && docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "DEPLOYMENT_BRANCH=main GIT_USER=geoseong docusaurus deploy",
+    "deploy": "yarn renderlogic:push && DEPLOYMENT_BRANCH=main GIT_USER=geoseong docusaurus deploy",
     "serve": "docusaurus serve",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "renderlogic:mkdir": "mkdir -p helper/mdx-loader/",
+    "renderlogic:bkup": "yarn renderlogic:mkdir && cp node_modules/@docusaurus/mdx-loader/src/index.js helper/mdx-loader/bkup.js",
+    "renderlogic:pull": "yarn renderlogic:mkdir && cp node_modules/@docusaurus/mdx-loader/src/index.js helper/mdx-loader/index.js",
+    "renderlogic:mvorigintemp": "mv node_modules/@docusaurus/mdx-loader/src/index.js node_modules/@docusaurus/mdx-loader/src/_index.js",
+    "renderlogic:push": "yarn renderlogic:mvorigintemp && cp helper/mdx-loader/index.js node_modules/@docusaurus/mdx-loader/src/index.js",
+    "renderlogic:rm": "rm node_modules/@docusaurus/mdx-loader/src/index.js",
+    "renderlogic:rollback": "yarn renderlogic:rm && mv node_modules/@docusaurus/mdx-loader/src/_index.js node_modules/@docusaurus/mdx-loader/src/index.js"
   },
   "dependencies": {
     "@docusaurus/core": "2.0.0-alpha.70",
@@ -18,7 +25,9 @@
     "@docusaurus/theme-classic": "^2.0.0-alpha.70",
     "@mdx-js/react": "^1.5.8",
     "clsx": "^1.1.1",
+    "dotenv": "^8.2.0",
     "react": "^16.8.4",
+    "react-adsense": "^0.1.0",
     "react-dom": "^16.8.4"
   },
   "browserslist": {
@@ -39,6 +48,7 @@
     "@types/react": "^17.0.0",
     "@types/react-helmet": "^6.1.0",
     "@types/react-router-dom": "^5.1.7",
+    "docusaurus-plugin-google-adsense": "^0.1.0",
     "typescript": "^4.1.3"
   }
 }

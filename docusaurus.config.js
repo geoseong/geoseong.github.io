@@ -2,6 +2,7 @@ const siteTitle = `geoseong's dev note`;
 const ghRepo = 'https://github.com/geoseong/geoseong.github.io';
 const domain = 'geoseong.github.io';
 const editUrl = `${ghRepo}/edit/docusaurus-blog/`;
+require('dotenv').config();
 
 module.exports = {
   title: siteTitle,
@@ -16,6 +17,9 @@ module.exports = {
     // metadatas: [
     //   { name: 'twitter:card', content: siteTitle },
     // ],
+    googleAdsense: {
+      dataAdClient: process.env.DATA_AD_CLIENT,
+    },
     image: 'img/logo.png',
     navbar: {
       hideOnScroll: true,
@@ -76,6 +80,7 @@ module.exports = {
         steps: 2, // the max number of images generated between min and max (inclusive)
       },
     ],
+    'docusaurus-plugin-google-adsense',
   ],
   presets: [
     [
@@ -83,12 +88,10 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
           editUrl: editUrl,
         },
         blog: {
           showReadingTime: false,
-          // Please change this to your repo.
           editUrl: editUrl,
         },
         theme: {
