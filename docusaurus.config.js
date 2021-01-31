@@ -64,6 +64,7 @@ module.exports = {
       copyright: `Since 2021. Built with Docusaurus.`,
     },
   },
+  plugins: ['@docusaurus/plugin-ideal-image'],
   presets: [
     [
       '@docusaurus/preset-classic',
