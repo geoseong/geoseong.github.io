@@ -36,12 +36,12 @@ module.exports = {
     },
   ],
   unity: [
-    {
-      type: 'category',
-      label: 'Essentials',
-      collapsed: false,
-      items: ['unity/index'],
-    },
+    // {
+    //   type: 'category',
+    //   label: 'Essentials',
+    //   collapsed: false,
+    //   items: ['unity/index'],
+    // },
     {
       type: 'category',
       label: 'Troubleshooting',
@@ -49,28 +49,4 @@ module.exports = {
       items: ['unity/JSONdotNET-conflicts-QuickSheet'],
     },
   ],
-  // devGraphql: [
-  //   {
-  //     type: 'category',
-  //     label: 'Essential',
-  //     items: [
-  //       {
-  //         type: 'doc',
-  //         label: 'GraphQL',
-  //         href: 'graphql'
-  //       },
-  //       {
-  //         type: 'doc',
-  //         label: 'React',
-  //         href: 'react'
-  //       },
-  //       {
-  //         type: 'doc',
-  //         label: 'Unity',
-  //         href: 'unity'
-  //       },
-  //     ],
-  //     collapsed: false,
-  //   },
-  // ],
 };
