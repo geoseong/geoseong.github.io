@@ -8,14 +8,14 @@ module.exports = {
         'aws/index',
       ],
     },
-    {
-      type: 'category',
-      label: 'Study',
-      collapsed: false,
-      items: [
-        'aws/certified-dev-associate',
-      ],
-    }
+    // {
+    //   type: 'category',
+    //   label: 'Study',
+    //   collapsed: false,
+    //   items: [
+    //     'aws/certified-dev-associate',
+    //   ],
+    // }
   ],
   grapql: [
     {
@@ -49,4 +49,12 @@ module.exports = {
       items: ['unity/JSONdotNET-conflicts-QuickSheet'],
     },
   ],
+  scm: [
+    {
+      type: 'category',
+      label: 'Git',
+      collapsed: false,
+      items: ['scm/git/tagoverview'],
+    },
+  ]
 };

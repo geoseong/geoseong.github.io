@@ -57,6 +57,10 @@ module.exports = {
               label: 'Unity',
               to: 'docs/unity/JSONdotNET-conflicts-QuickSheet',
             },
+            // {
+            //   label: 'SCM',
+            //   to: 'docs/scm/git/tagoverview',
+            // },
           ],
         },
         { to: 'blog', label: '공지', position: 'right' },
