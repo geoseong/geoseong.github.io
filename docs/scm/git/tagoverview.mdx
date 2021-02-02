@@ -5,5 +5,209 @@ description: Git 태그 정보 확인, 추가, 삭제 등의 cli를 살펴보기
 keywords:
   - git
   - git tag
-image: -
 ---
+
+[AD]
+
+
+## 참고자료
+
+- [Git의 기초 - 태그](https://git-scm.com/book/ko/v2/Git%EC%9D%98-%EA%B8%B0%EC%B4%88-%ED%83%9C%EA%B7%B8)
+
+## 태그의 종류
+
+### Lightweight
+
+```bash
+$ git tag v1.4-lw
+```
+
+- 현재 커밋에 북마크를 다는 느낌
+- 태그의 생성자와 메일 주소 등의 정보 저장 불가
+
+### Annotated
+
+```bash
+$ git tag -a v1.4 -m "my version 1.4"
+```
+
+- 태그 생성자의 이름, 이메일, 생성날짜, 메시지 저장 가능
+- `-m` 옵션에다가 Release Note 등의 내용을 쓸 수 있다
+- `-m` 옵션을 빼고 `-a`옵션만 입력하고 엔터를 치면, 커맨드에서 화면이 전환되면서 메시지를 입력하라고 한다.
+
+## 태그 정보 확인하기
+
+```bash
+$ git show v1.4
+```
+
+- 태그의 정보와 커밋 정보를 확인 할 수 있다.
+- Lightweight 태그의 정보를 보게 되면 태그정보는 보이지 않을 것이고,
+- Annotated 태그의 정보를 보게 되면 태그정보와 커밋 정보가 둘 다 보일 것이다.
+
+## 예전 커밋에 태그하기
+
+```bash
+$ git tag -a v1.2 [커밋해쉬값]
+```
+
+## 태그 배포하기
+
+태그는 git push작업을 별도로 해야 함
+
+### 한 개만
+
+```bash
+$ git push origin v1.5
+```
+
+### 여러개
+
+:::tip
+지워진 태그까지 업데이트가 되지 않는다. 별도의 커맨드를 써야 한다. 아래에 서술해 놓았다
+:::
+
+```bash
+$ git push origin --tags
+```
+
+이미 존재하는 태그에 푸쉬하면 에러 뜬다
+
+```bash
+$ git push origin --tags
+
+To [https://github.com/geoseong/geoseong.github.io.git](https://github.com/geoseong/geoseong.github.io.git)
+! [rejected]        v0.1 -> v0.1 (already exists)
+error: failed to push some refs to '[https://github.com/geoseong/geoseong.github.io.git](https://github.com/geoseong/geoseong.github.io.git)'
+hint: Updates were rejected because the tag already exists in the remote.
+FAIL: 1
+```
+
+## 원격지의 태그 가져오기
+
+### remote가 1개만 설정 되어 있을 경우
+
+```bash
+$ git fetch --tags
+```
+
+### remote가 2개 이상 설정 되어 있을 경우
+
+```bash
+$ git fetch [remote_name] --tags
+
+## remote 확인하는 방법
+### origin과 upstream이 두 개가 있다
+$ git remote -v
+origin  https://github.com/geoseong/hackatalk.git (fetch)
+origin  https://github.com/geoseong/hackatalk.git (push)
+upstream        https://github.com/dooboolab/hackatalk.git (fetch)
+upstream        https://github.com/dooboolab/hackatalk.git (push)
+
+## upstream의 태그를 가져오고 싶다
+$ git fetch upstream --tags
+remote: Enumerating objects: 19, done.
+remote: Counting objects: 100% (19/19), done.
+remote: Total 30 (delta 19), reused 19 (delta 19), pack-reused 11
+Unpacking objects: 100% (30/30), done.
+From https://github.com/dooboolab/hackatalk
+   4a52513..02f350d  master     -> upstream/master
+ * [new tag]         1.0.5      -> 1.0.5
+```
+
+
+[AD]
+
+
+## 태그 리스트 가져오기
+
+### 태그 이름만 보기
+
+```bash
+$ git tag
+
+# 결과
+v0.1
+v0.2
+v0.3
+v1.0
+v1.2
+v1.2-c
+v2.0
+```
+
+### 태그 이름과 메시지도 같이 보기
+
+`-n` 옵션만 붙이면 메시지 한 줄만 보이고,
+
+`-n2` 옵션은 메시지 2줄이 보이는 방식이다.
+
+```bash
+$ git tag -n
+v0.1            first tag init
+v0.2            github page배포 패키지를 설치해서 대격변을 예고했지만 실패한 버전
+v0.3            v0.3
+v1.0            반응형 css 클래스적용로직 변경 & gitpage 배포만 하는 script추가 & sitemap plugin표준에 맞게 수정
+v1.2            Updates
+v1.2-c          Gatsby-blog latest version
+v2.0            Docusaurus v2 Blog
+
+$ git tag -n2
+v1.2-c          Closing Onenote blog with gatsby framework
+    
+v2.0            Docusaurus v2 Blog
+
+$ git tag -n3
+v1.2-c          Closing Onenote blog with gatsby framework
+    
+    for better way
+v2.0            Docusaurus v2 Blog
+```
+
+## 태그 이름 변경하기
+
+다이렉트로 변경하는 커맨드는 없는 것 같고, 기존 태그를 복제한 새로운 태그 생성 후 기존 태그를 지우는 방식이 주로 쓰이는 것 같다
+
+### 그대로 복제된 태그 생성
+
+```bash
+# 그대로 복제된 태그 생성 후 삭제
+$ git tag v1.2-cc v1.2-c
+$ git tag -d v1.2-cc
+```
+
+### 복제된 태그 생성 시 태그 메시지를 변경
+
+기존 태그명 뒤에 `^{}` 를 붙여주는 것이 포인트
+
+```bash
+# 복제된 태그 생성 시 태그 메시지를 변경 후 삭제
+$ git tag -a v1.2-cc v1.2-c^{}
+
+# -------------------
+## 메시지 입력 화면 전환
+태그 메시지 입력
+# 
+# Write a message for tag:
+#   v1.2-cc
+# Lines starting with '#' will be ignored.
+~                                                                                                                                                                                                                                                                
+~
+# -------------------
+
+# 기존 태그 삭제
+$ git tag -d v1.2-c
+```
+
+## 태그 삭제하기
+
+```bash
+## 로컬
+$ git tag -d [삭제하려는 태그명]
+
+## 원격에 적용
+$ git push origin :[삭제하려는 태그명]
+```
+
+
+[AD]
