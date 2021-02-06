@@ -1,7 +1,7 @@
 const siteTitle = `geoseong's dev note`;
-const ghRepo = 'https://github.com/geoseong/geoseong.github.io';
+const ghRepoUrl = 'https://github.com/geoseong/geoseong.github.io';
 const domain = 'geoseong.github.io';
-const editUrl = `${ghRepo}/edit/docusaurus-blog/`;
+const editUrl = `${ghRepoUrl}/edit/docusaurus-blog/`;
 require('dotenv').config();
 
 module.exports = {
@@ -13,6 +13,10 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'geoseong', // Usually your GitHub org/user name.
   projectName: domain, // Usually your repo name.
+  customFields: {
+    commentSelector: 'gs-comment',
+    ghRepoUtterance: 'geoseong/geoseong.github.io',
+  },
   plugins: [
     [
       '@docusaurus/plugin-ideal-image',
@@ -70,7 +74,7 @@ module.exports = {
           position: 'right',
         },
         {
-          href: ghRepo,
+          href: ghRepoUrl,
           className: 'header-github-link header-icon-link',
           'aria-label': 'GitHub repository',
           position: 'right',
@@ -79,7 +83,11 @@ module.exports = {
     },
     footer: {
       style: 'dark',
-      copyright: `Since 2021. Built with Docusaurus.`,
+      copyright: 
+        'Since 2021. Built with ' +
+        '<a href="https://v2.docusaurus.io/" target="_blank" rel="noopener noreferrer">' +
+          'Docusaurus v2' +
+        '</a>',
     },
   },
   presets: [
@@ -88,11 +96,11 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: editUrl,
+          // editUrl: editUrl,
         },
         blog: {
           showReadingTime: false,
-          editUrl: editUrl,
+          // editUrl: editUrl,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
