@@ -42,30 +42,53 @@ module.exports = {
       },
       items: [
         {
-          label: '개발',
+          label: 'Cloud',
           position: 'left',
           items: [
             {
               label: 'AWS',
               to: 'docs/aws/index',
             },
-            // {
-            //   label: 'GraphQL',
-            //   to: 'docs/graphql/index',
-            // },
-            // {
-            //   label: 'React',
-            //   to: 'docs/react/index',
-            // },
+            
+          ],
+        },
+        {
+          label: '언어 & 라이브러리',
+          position: 'left',
+          items: [
+            {
+              label: 'Javascript',
+              to: 'docs/javascript/index',
+            },
+            {
+              label: 'React',
+              to: 'docs/react/index',
+            },
+            {
+              label: 'GraphQL',
+              to: 'docs/graphql/index',
+            },
+          ]
+        },
+        {
+          label: 'Mobile',
+          position: 'left',
+          items: [
             {
               label: 'Unity',
               to: 'docs/unity/JSONdotNET-conflicts-QuickSheet',
             },
+          ]
+        },
+        {
+          label: '소스관리',
+          position: 'left',
+          items: [
             {
-              label: 'SCM',
+              label: 'Git',
               to: 'docs/scm/git/tagoverview',
             },
-          ],
+          ]
         },
         { to: 'blog', label: '공지', position: 'right' },
         {
@@ -95,8 +118,8 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
           // editUrl: editUrl,
+          sidebarPath: require.resolve('./sidebars.js'),
         },
         blog: {
           showReadingTime: false,

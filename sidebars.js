@@ -8,14 +8,14 @@ module.exports = {
         'aws/index',
       ],
     },
-    // {
-    //   type: 'category',
-    //   label: 'Study',
-    //   collapsed: false,
-    //   items: [
-    //     'aws/certified-dev-associate',
-    //   ],
-    // }
+    {
+      type: 'category',
+      label: 'Study',
+      collapsed: false,
+      items: [
+        'aws/certified-dev-associate',
+      ],
+    }
   ],
   grapql: [
     {
