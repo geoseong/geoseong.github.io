@@ -27,6 +27,14 @@ module.exports = {
       ],
     },
   ],
+  javascript: [
+    {
+      type: 'category',
+      label: 'Javascript',
+      collapsed: false,
+      items: ['javascript/regex'],
+    },
+  ],
   react: [
     {
       type: 'category',

@@ -58,16 +58,16 @@ module.exports = {
           items: [
             {
               label: 'Javascript',
-              to: 'docs/javascript/index',
+              to: 'docs/javascript/regex',
             },
-            {
-              label: 'React',
-              to: 'docs/react/index',
-            },
-            {
-              label: 'GraphQL',
-              to: 'docs/graphql/index',
-            },
+            // {
+            //   label: 'React',
+            //   to: 'docs/react/index',
+            // },
+            // {
+            //   label: 'GraphQL',
+            //   to: 'docs/graphql/index',
+            // },
           ]
         },
         {

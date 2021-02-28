@@ -1,26 +1,795 @@
 ---
-title: AWS 입문 & 소식 자료 모음
-sidebar_label: AWS 입문 & 소식 자료 모음
-description: AWS 입문 & 소식 자료 모음
+title: Javascript 정규식 기초
+sidebar_label: Javascript 정규식 기초
+description: Javascript 정규식 기초
 keywords:
-  - aws
-  - 입문
-  - quiklabs
-  - AWS Certification
-  - 자격증
-  - AWSKRUG
-image: aws/001-blog.png
-date: 2021-2-1
+  - javascript
+  - 정규식
+  - 정규식 기초
 ---
 
 import Comment from '../../components/Comment';
 import PostingDate from '../../components/PostingDate';
 
-<PostingDate created={'2021/2/1'} modified={'2021/2/11'} />
+<PostingDate created={'2021/3/1'} modified={'2021/3/1'} />
 
 [AD]
 
+모든 것을 정리하진 않았지만 정규식 쓸 일이 있을 때마다 한번쯤 볼 수 있도록 끄적여 봤다..
 
+- [https://regexr.com/](https://regexr.com/) → 정규식 학습 & 실시간 확인 가능한 사이트
+- [정규 표현식 - JavaScript MDN 문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%EC%A0%95%EA%B7%9C%EC%8B%9D)
+
+## RegExp 객체
+
+[JavaScript RegExp](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/RegExp) 객체는 global 또는 sticky 플래그를 설정(/foo/g, /foo/y 등)한 경우 이전 일치의 인덱스를 저장하므로 상태를 가지고(stateful) 있습니다
+
+## 정규식을 사용하는 메소드
+
+- [RegExp](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/RegExp) 객체: [exec()](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec), [test()](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test)
+- [String](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String) 객체: [match()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/match), [replace()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/replace), [search()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/search), [split()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/split)
+
+## RegExp
+
+### 객체 생성법
+[MDN문서: 객체 생성법](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/RegExp)
+
+- 리터럴 표기법
+- 생성자 함수
+
+```jsx
+// 아래 방법 1,2,3은 모두 같은 내용이다
+/* 방법 1 */  var re = /ab+c/i;
+/* 방법 2 */  var re = new RegExp(/ab+c/, 'i'); // 리터럴
+/* 방법 3 */  var re = new RegExp('ab+c', 'i'); // 생성자
+```
+
+### lastIndex
+[MDN문서: lastIndex](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/lastIndex)
+
+RegExp 객체(인스턴스)의 **정규식의 검색 시작 위치를 담고 있는 속성**이라고 생각하면 될 것 같다
+
+- 값 업데이트 조건
+    - 정규 표현식에 `전역 플래그(/g)`를 설정할 경우에만 작동되며, 전역 플래그를 넣지 않은 인스턴스에서는 `항상 0`이다
+    - 예를 들어 [`test()`](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test) 메서드 (혹은 [exec()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec))를 전역 플래그(/g)와 함께 사용할 경우, 정규 표현식의 `lastIndex`를 업데이트한다
+    - `test(str)`을 또 호출하면 `str` 검색을 `lastIndex`부터 계속 진행합니다. `lastIndex` 속성은 매 번 `test()`가 `true`를 반환할 때마다 증가하게 됩니다.
+- 값 초기화 조건
+    - 메소드([test()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test), [exec()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec))의 결과가 `false`를 반환할 땐 `lastIndex` 속성이 `0`으로 초기화된다
+      :::caution
+        `test()`가 `true`를 반환하기만 하면 `lastIndex`는 초기화되지 않습니다. 심지어 이전과 다른 문자열을 매개변수로 제공해도 그렇습니다!
+      :::
+
+**참고: [전역 플래그와 test()](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test#%EC%A0%84%EC%97%AD_%ED%94%8C%EB%9E%98%EA%B7%B8%EC%99%80_test)**
+
+```jsx
+const regex = /foo/g; // the "global" flag is set
+
+console.log(regex.lastIndex)    // 0
+
+console.log(regex.test('foo'))     // true
+console.log(regex.lastIndex)    // 3
+
+console.log(regex.test('foo'))     // false
+console.log(regex.lastIndex)    // 0
+
+console.log(regex.test('barfoo'))  // true
+console.log(regex.lastIndex)    // 6
+
+console.log(regex.test('foobar'))  //false
+console.log(regex.lastIndex)    // 0
+
+// regex.lastIndex is at 0
+// (...and so on)
+```
+
+### exec()
+[MDN문서: exec()](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec)
+
+주어진 문자열에서 일치 탐색을 수행한 결과를 `배열` 혹은 `null`로 반환
+
+```jsx
+var regex1 = RegExp('foo*', 'g');
+var str1 = 'table football, foosball';
+
+console.log(regex1.exec(str1)); // ["foo", index: 6, input: "table football, foosball", groups: undefined]
+console.log(regex1.lastIndex); // 9
+
+console.log(regex1.exec(str1)); // ["foo", index: 16, input: "table football, foosball", groups: undefined]
+console.log(regex1.lastIndex); // 19
+```
+
+### test()
+[MDN문서: test()](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test)
+
+```jsx
+/* Case 1 */
+const str = 'table football';
+const regex = new RegExp('foo*');
+
+console.log(regex.test(str));    // 결과 -> true
+
+/* Case 2 */
+const str = 'hello world!';
+const result = /^hello/.test(str);
+
+console.log(result);    // 결과 -> true
+```
+
+## String
+
+### match()
+[MDN문서: match()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/match)
+
+문자열이 정규식과 매치되는 부분을 검색
+
+```jsx
+var src = "azcafAJAC";
+var reg = /[a-c]/;
+
+src.**match**(reg); // ["a", index: 0, input: "azcafAJAC"]
+src.match(/[a-c]/g) // (3) ["a", "c", "a"]
+```
+
+```jsx
+var str = 'For more information, see Chapter 3.4.5.1';
+var re = /see (chapter \d+(\.\d)*)/i; // <- 정규식 내에서 괄호로 묶어내어 묶은 괄호에 해당하는 결과 또한 따로 받아볼 수 있다.
+var found = str.match(re);
+
+console.log(found);
+
+// logs [ 'see Chapter 3.4.5.1',
+//        'Chapter 3.4.5.1',
+//        '.1',
+//        index: 22,
+//        input: 'For more information, see Chapter 3.4.5.1' ]
+
+// 'see Chapter 3.4.5.1'는 완전한 매치 상태임.
+// 'Chapter 3.4.5.1'는 '(chapter \d+(\.\d)*)' 부분에 의해 발견된 것임.
+// '.1' 는 '(\.\d)'를 통해 매치된 마지막 값임.
+// 'index' 요소가 (22)라는 것은 0에서부터 셀 때 22번째 위치부터 완전 매치된 문자열이 나타남을 의미함.
+// 'input' 요소는 입력된 원래 문자열을 나타냄.
+```
+
+### replace()
+[MDN문서: replace()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
+
+어떤 패턴에 일치하는 일부 또는 모든 부분이 교체된 새로운 문자열을 반환
+
+```jsx
+var p = 'The quick brown fox jumps over the lazy dog. If the dog reacted, was it really lazy?';
+
+console.log(p.replace('dog', 'monkey'));
+// -> "The quick brown fox jumps over the lazy **monkey**. If the dog reacted, was it really lazy?"
+
+var regex = /Dog/i; // <- 플래그 활용
+console.log(p.replace(regex, 'ferret'));
+// -> "The quick brown fox jumps over the lazy **ferret**. If the dog reacted, was it really lazy?"
+
+var regex = /Dog/gi; // <- 플래그 활용
+console.log(p.replace(regex, 'ferret'));
+// -> The quick brown fox jumps over the lazy **ferret**. If the **ferret** reacted, was it really lazy?
+```
+
+### search()
+[MDN문서: search()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/search)
+
+정규표현식과 주어진 스트링간에 `첫번째로 매치되는 것의 인덱스`를 반환한다.
+
+찾지 못하면 `-1` 을 반환한다
+
+```jsx
+const paragraph = 'The quick brown fox jumps over the lazy dog. If the dog barked, was it really lazy?';
+
+// 문자(\w)나 공백(\s)이 아닌(^) 정규식
+const regex = /[^\w\s]/;
+
+console.log(paragraph.search(regex)); // 43
+
+console.log(paragraph[paragraph.search(regex)]); // "."
+```
+
+### split()
+[MDN문서: split()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/String/split)
+
+주어진 문자열을 separator마다 끊은 부분 문자열을 담은 Array.
+
+```jsx
+const str = 'The quick brown fox jumps over the lazy dog.';
+
+const words = str.split(' ');
+console.log(words[3]); // "fox"
+
+const chars = str.split('');
+console.log(chars[8]); // "k"
+
+const strCopy = str.split();
+console.log(strCopy); // ["The quick brown fox jumps over the lazy dog."]
+```
+
+### * 특수문자 문자열과 split('') 사용 시 주의
+
+:::note
+**MDN 공식 문서 왈,**
+특수문자 문자열을 **split('')**으로 나뉘면 캐릭터가 깨짐. `UTF-16 코드유닛`으로 나누게 되기 때문이라고 함. 
+[스프레드 연산자](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Spread_syntax)나 [Array.from](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/from) 등을 이용할 것을 권장한다고 [stackoverflow 질문](https://stackoverflow.com/questions/4547609/how-to-get-character-array-from-a-string/34717402#34717402)을 링크 걸어 소개 해 주고 있음.
+:::
+
+```jsx
+// 문제점
+'I💖U'.split('') // (4) ["I", "�", "�", "U"]
+
+// 해결책
+Array.from('I💖U'); // (3) ["I", "💖", "U"]
+[...'I💖U']; // (3) ["I", "💖", "U"]
+```
+
+<br />
+[AD]
+<br />
+
+## 문자 클래스
+
+<h3 id="backslash">backslash(역슬래쉬: \)</h3>
+
+문자 그대로 해석하면 안된다고 알려주는거임.
+
+:::info
+\\*, \b, \\(특수문자) …
+:::
+
+<h3 id="asterisk">'*'</h3>
+
+`0회 이상` 연속으로 반복되는 부분과 대응된다
+
+:::info
+**{0,}** 표현과 같다
+:::
+
+```jsx
+`get reeeeeeady`.match(/re*/)
+// -> ["reeeeee", index: 4, input: "get reeeeeeady"]
+
+`get reeeeeeady`.match(/re{0,}/)
+// -> ["reeeeee", index: 4, input: "get reeeeeeady"]
+
+`get reeeeeeady`.match(/re{0,1}/)
+// -> ["re", index: 4, input: "get reeeeeeady"]
+
+`get reeeeeeady`.match(/re{0,2}/)
+// -> ["ree", index: 4, input: "get reeeeeeady"]
+```
+
+<h3 id="plus">'+'</h3>
+
+`1회 이상` 연속으로 반복되는 부분과 대응된다
+
+:::info
+**{1,}** 표현과 같다
+:::
+
+<h3 id="compare-plus-asterisk">'+'와 '*'의 차이 비교</h3>
+
+```jsx
+`get reeeeeeady`.match(/e+/)
+// -> ["e", index: 1, input: "get reeeeeeady", groups: undefined]
+
+`get reeeeeeady`.match(/e*/)
+// -> ["", index: 0, input: "get reeeeeeady", groups: undefined]
+
+/* g 플래그 사용 */
+`get reeeeeeady`.match(/e+/g)
+// -> (2) ["e", "eeeeee"]
+
+`get reeeeeeady`.match(/e*/g)
+// -> (10) ["", "e", "", "", "", "eeeeee", "", "", "", ""]
+```
+
+<h3 id="question">'?'</h3>
+
+앞의 표현식이 `0 또는 1회` 등장하는 부분과 대응된다
+
+:::info
+**{0,1}** 표현과 같은 의미.
+:::
+
+```jsx
+`get reeeeeeady`.match(/re{0,1}/)
+// -> ["re", index: 4, input: "get reeeeeeady"]
+```
+
+**'?' 가 붙었을 때와 안 붙었을 때의 차이**
+
+만약 수량자 *, +, ?, {} 바로 뒤에 사용하면, 기본적으로 탐욕스럽던(가능한 한 많이 대응시킴) 수량자를 탐욕스럽지 않게(가능한 가장 적은 문자들에 대응시킴) 만듭니다
+
+```jsx
+"123abc".match(/\d+/)
+// -> ["123", index: 0, input: "123abc", groups: undefined]
+
+"123abc".match(/\d+?/)
+// -> ["1", index: 0, input: "123abc", groups: undefined]
+```
+
+**'angel'과 'angle'의 같은 정규식을 놓고 결과 비교**
+
+```jsx
+'angel'.match(/e?le?/)
+// -> ["el", index: 3, input: "angel", groups: undefined]
+
+'angle'.match(/e?le?/)
+// -> ["le", index: 3, input: "angle", groups: undefined]
+```
+
+<h3 id="dot">'.'</h3>
+
+`개행 문자(newline character, \n)를 제외한 모든 단일 문자`와 대응됨
+
+- 키보드의 특수문자는 다 대응이 되는 듯 함
+- 그러나 emoji (e.g., 💖, 😄, 🎉) 는 결과 값 안에서 깨짐
+    - 이럴 때는 `[u 플래그]()`를 활용하여 정규식이 유니코드 취급을 하도록 한다
+
+```jsx
+var str = 'nay, an apple is on the tree';
+str.match(/.n/);
+// -> ["an", index: 5, input: "nay, an apple is on the tree", groups: undefined]
+str.match(/.n../)
+// -> ["an a", index: 5, input: "nay, an apple is on the tree", groups: undefined]
+
+/* g 플래그 */
+var str = 'nay, an apple is on the tree';
+str.match(/.n/g); // -> (2) ["an", "on"]
+str.match(/.n../g); // -> (2) ["an a", "on t"]
+
+/* \t 이 포함된 string */
+'nay, a\tn apple is on the tree'.match(/.n../)
+// -> ["	n a", index: 6, input: "nay, a	n apple is on the tree", groups: undefined]
+
+/* 특수문자 */
+'nay, a!@#~!n apple is on the tree'.match(/...n/)
+// -> ["#~!n", index: 8, input: "nay, a!@#~!n apple is on the tree", groups: undefined]
+
+/* Emoji: 깨짐 */
+'nay, a😄n apple is on the tree'.match(/.n../)
+// -> ["�n a", index: 7, input: "nay, a😄n apple is on the tree", groups: undefined]
+
+/* Emoji는 u플래그로 유니코드 취급을 시키도록 한다 */
+'nay, a😄n apple is on the tree'.match(/.n../u)
+// -> ["😄n a", index: 6, input: "nay, a😄n apple is on the tree", groups: undefined]
+```
+
+<h3 id="newline">newline(개행문자: \n)</h3>
+
+정규식 내부의 `n번째 괄호`에서 대응된 부분에 대한 `역참조` 입니다. 여기서, `n은 양의 정수`입니다.
+
+```jsx
+var re = /apple(,)\sorange\1/;
+re.exec('apple, orange, cherry, peach.')
+// -> (2) ["apple, orange,", ",", index: 0, input: "apple, orange, cherry, peach.", groups: undefined]
+// : 결과로 나온 2개 항목 중 **두번째 항목**이 **1번째 괄호(\1)**에 대응되는 값이다.
+```
+
+<h3 id="assertion-xyz">[^xyz]</h3>
+
+대괄호가 양옆으로 묶여있는 여기에서의 `^`는 부정기호 `NOT`의 의미이다.
+
+```jsx
+'brisket'.match(/[^are]/g)
+// -> (5) ["b", "i", "s", "k", "t"]: 'a', 'r', 'e'를 제외한 문자 전체 검색
+```
+
+<h3 id="backslash-w">\w</h3>
+
+`밑줄 문자를 포함한 영숫자 문자`에 대응됩니다.
+
+:::info
+**[A-Za-z0-9_]** 와 동일
+:::
+
+```jsx
+var re = /\w/;
+re.exec('apple,'); // ["a", index: 0, input: "apple,", groups: undefined]
+re.exec('$5.28,'); // ["5", index: 1, input: "$5.28,", groups: undefined]
+re.exec('3D.'); // ["3", index: 0, input: "3D.", groups: undefined]
+```
+
+<h3 id="backslash-W">\W</h3>
+
+`단어 문자가 아닌 문자`에 대응됩니다.
+
+:::info
+**[^A-Za-z0-9_]** 와 동일
+:::
+
+```jsx
+var re = /\W/;
+re.exec('50%.'); // ["%", index: 2, input: "50%.", groups: undefined]
+```
+
+<h3 id="backslash-square-b">[\b]</h3>
+
+- `[\b]`는 백스페이스에 대응됨
+
+<h3 id="backslash-big-d">\D</h3>
+
+`숫자가 아닌 문자`에 대응
+
+:::info
+**`[^0-9]`** 와 동일
+:::
+
+```jsx
+'안녕!abc123'.match(/\W+/);
+// -> ["안녕!", index: 0, input: "안녕!abc123", groups: undefined]
+```
+
+<h3 id="backslash-s">\s</h3>
+
+아래 항목에 대응됨
+
+- `사이띄개(스페이스)`
+- `탭` ([\t](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%EC%A0%95%EA%B7%9C%EC%8B%9D#special-tab))
+- `폼피드` ([\f](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%EC%A0%95%EA%B7%9C%EC%8B%9D#special-form-feed))
+- `줄 바꿈` ([\n](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%EC%A0%95%EA%B7%9C%EC%8B%9D#special-line-feed))
+- 등의 `하나의 공백 문자`
+
+:::note
+[ \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]. 와 동일
+:::
+
+```jsx
+'foo bar'.match(/\s\w*/)
+// -> [" bar", index: 3, input: "foo bar", groups: undefined]
+```
+
+<h3 id="backslash-big-s">\S</h3>
+
+`공백 문자가 아닌 하나의 문자`에 대응됩니다.
+
+:::note
+[^ \f\n\r\t\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]. 와 동일
+:::
+
+```jsx
+'foo bar'.match(/\S\w*/)
+// -> ["foo", index: 0, input: "foo bar", groups: undefined]
+```
+
+<br />
+[AD]
+<br />
+
+## Assertion
+
+[Assertion 원문](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%EC%A0%95%EA%B7%9C%EC%8B%9D/Assertions) (en: [Assertions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Assertions))
+
+행이나 단어의 시작 · 끝을 나타내는 경계와 (앞, 뒤 읽고 조건식을 포함한) 어떤 식 으로든 매치가 가능한 것을 나타내는 다른 패턴이 포함됩니다.
+
+### 바운더리 타입 assertions(Boundary-type assertions)
+
+[MDN문서: Boundary-type assertions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Assertions#boundary-type_assertions)
+
+<h4 id="assertion-half-smile">'^'</h4>
+
+입력 시작에 일치시킨다.
+
+```jsx
+var re = /^A/;
+re.exec('an A'); // null
+re.exec('An A'); // ["A", index: 0, input: "An A", groups: undefined]
+```
+
+<h4 id="assertion-dollar">'$'</h4>
+
+입력의 끝에 일치시킨다.
+
+```jsx
+var re = /t$/
+re.exec('eat'); // ["t", index: 2, input: "eat", groups: undefined]
+re.exec('eat something'); // null
+```
+
+<h4 id="assertion-backslash-b">\b</h4>
+
+참고문헌
+
+- [Javascript.info](https://ko.javascript.info/regexp-boundary)
+- [MDN: 정규 표현식 - \b](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions#special-word-boundary)
+
+단어 경계에 대응된다
+
+= `다른` **`단어 문자`** `가 앞이나 뒤에 등장하지 않는 위치`에 대응
+
+**단어 문자**: 로마자 소문자와 대문자, 10진수 숫자, 밑줄 문자
+그 외의 모든 문자는 **단어 분리(word break)**
+
+- `\b ` **`다음`** `에 문자가 들어가면`, 해당 문자 **`앞에`** 아무것도 없어야 대응
+- `\b ` **`이전`** `에 문자가 들어가면`, 해당 문자 **`뒤에`** 아무것도 없어야 대응
+
+```jsx
+var randomData = "015 354 8787 687351 3512 8735";
+var regexpFourDigits = /\b\d{4}\b/g;
+randomData.match(regexpFourDigits)
+// -> (3) ["8787", "3512", "8735"]
+
+'moon'.match(/\bm/); // ["m", index: 0, input: "moon", groups: undefined]
+'moon'.match(/m\b/); // null
+'moon'.match(/oo\b/);
+// -> null
+// : 'oo' 부분에 대응되지 않는데, 왜냐하면 'oo'를 뒤따라오는 'n'이 단어 문자이기 때문
+
+'moon'.match(/oon\b/);
+// -> ["oon", index: 1, input: "moon", groups: undefined]
+// : 'oon'은 문자열의 끝이라서, 뒤따라오는 단어 문자가 없기 때문
+
+/* 단어 문자 특성 이용 */
+'__alsKDjf00-asdfasdf'.match(/\b__alsKDjf00/);
+// -> ["__alsKDjf00", index: 0, input: "__alsKDjf00-asdfasdf", groups: undefined]
+```
+
+<h4 id="assertion-backslash-big-b">\B</h4>
+
+`단어 경계가 아닌 부분`에 대응
+
+아래와 같은 경우들에 해당
+
+- 문자열의 첫번째 문자가 **단어 문자가 아닌 경우**, 해당 문자의 앞 부분에 대응됩니다.
+- 문자열의 마지막 문자가 **단어 문자가 아닌 경우**, 해당 문자의 뒷 부분에 대응됩니다.
+- 두 단어 문자의 사이에 대응됩니다.
+- 단어 문자가 아닌 두 문자 사이에 대응됩니다.
+- 빈 문자열에 대응됩니다.
+
+:::note
+문자열의 시작 부분과 끝 부분은 단어가 아닌 것으로 간주됩니다.
+:::
+
+```jsx
+var re = /\B../;
+re.exec('noonday');
+// -> ["oo", index: 1, input: "noonday", groups: undefined]
+
+var re = /\B../;
+re.exec('!noonday');
+// -> ["!n", index: 0, input: "!noonday", groups: undefined]
+
+var re = /y\B./;
+re.exec('possibly yesterday.');
+// -> ["ye", index: 9, input: "possibly yesterday.", groups: undefined]
+
+'it **th**at'.match(/t\B./)
+// ["th", index: 3, input: "it that", groups: undefined]
+'i**t_**that'.match(/t\B./)
+// ["t_", index: 1, input: "it_that", groups: undefined]
+'it-**th**at'.match(/t\B./)
+// ["th", index: 3, input: "it-that", groups: undefined]
+// -> "단어 경계"는 공백과 "-"인 것임. 언더바("_")는 밑줄문자가 아닌가봄
+```
+
+<h4 id="assertion-compare-b-and-bigb">\b와 \B 비교</h4>
+
+:::note
+[https://stackoverflow.com/questions/6664151/difference-between-b-and-b-in-regex](https://stackoverflow.com/questions/6664151/difference-between-b-and-b-in-regex)
+
+\b matches the empty string at the beginning or end of a word.
+
+\B matches the empty string **not** at the beginning or end of a word.
+:::
+
+```jsx
+var text = "**cat**mania this**cat** this**cat**maina";
+
+/*
+Now definitions,
+
+'\b' finds/matches the pattern at the beginning or end of each word.
+'\B' does not find/match the pattern at the beginning or end of each word.
+*/
+
+// Different Cases:
+
+// Case 1: At the beginning of each word
+result = text.replace(/\bcat/g, "ct");
+// -> Now, result is "**ct**mania thiscat thiscatmaina"
+
+// Case 2: At the end of each word
+result = text.replace(/cat\b/g, "ct");
+// -> Now, result is "catmania this**ct** thiscatmaina"
+
+// Case 3: Not in the beginning
+result = text.replace(/\Bcat/g, "ct");
+// -> Now, result is "catmania this**ct** this**ct**maina"
+
+// Case 4: Not in the end
+result = text.replace(/cat\B/g, "ct");
+// -> Now, result is "**ct**mania thiscat this**ct**maina"
+
+// Case 5: Neither beginning nor end
+result = text.replace(/\Bcat\B/g, "ct");
+// -> Now, result is "catmania thiscat this**ct**maina"
+```
+
+### 기타 assertions(Other assertions)
+
+[MDN문서: Other assertions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Assertions#other_assertions)
+
+<h4 id="assertion-other-lookahead">x(?=y)</h4>
+
+x 뒤에 y가 오는 부분을 찾아내게 되면 x만 대응
+
+```jsx
+var str = 'JackSprat';
+str.match(/Jack(?=Sprat)/);
+// -> ["Jack", index: 0, input: "JackSprat", groups: undefined]
+
+var str = 'JackFrost';
+str.match(/Jack(?=Sprat|Frost)/);
+// -> ["Jack", index: 0, input: "JackSprat", groups: undefined]
+```
+
+<h4 id="assertion-other-nagative-lookahead">x(?!y)</h4>
+
+x 뒤에 y가 오지 않는 부분을 찾아내게 되면 x만 대응
+
+```jsx
+var str = 'JackFrost**Jack**Hammer';
+str.match(/Jack(?!Sprat|Frost)/);
+// -> ["Jack", index: 9, input: "JackFrostJackHammer", groups: undefined]
+
+var dec = '3.141';
+dec.match(/\d+(?!\.)/);
+// -> ["141", index: 2, input: "3.141", groups: undefined]
+// -> "\d+" 는 '3' 혹은 '141' 인데, "\."은 소수점 '.'을 가르키는 것인데,
+//    '3' 혹은 '141' 뒤에 소수점 '.'이 따라오지 않는 부분을 먼저 찾게 되는데,
+//    그것이 바로 '141'
+```
+
+<h4 id="assertion-other-lookbehind">(?<span>&#60;</span>=y)x</h4>
+
+x 앞에 y가 오는 부분을 찾아내게 되면 x만 대응
+
+```jsx
+let oranges = ['ripe orange A ', 'green orange B', 'ripe orange C',];
+
+let ripe_oranges = oranges.filter( fruit => fruit.match(/(?<=ripe )orange/));
+console.log(ripe_oranges); // [ 'ripe orange A ', 'ripe orange C' ]
+```
+
+<h4 id="assertion-other-nagative-lookbehind">(?<span>&#60;</span>!y)x</h4>
+
+x 앞에 y가 오지 않는 부분을 찾아내게 되면 x만 대응
+
+```jsx
+var num = '3';
+num.match(/(?<!-)\d+/);
+// -> ["3", index: 0, input: "3", groups: undefined]
+
+var num = '-3';
+num.match(/(?<!-)\d+/);
+// -> null
+```
+
+<h4 id="compare-assertion-other-lookahead-lookbehind">x(?=y)와 (?<span>&#60;</span>=y)x 비교</h4>
+
+찾으려는 단어가 앞에 오는 것을 찾고 싶을 때인 지, 뒤에 오는 것을 찾고 싶은 지에 따라 쓰이는 정규식이 다름을 유의한다
+
+- 앞에 오는 것을 찾고 싶을 때: **x(?=y)**
+- 뒤에 오는 것을 찾고 싶을 때: **(?<=y)x**
+
+```jsx
+var str = 'JackSprat';
+
+// **x(?=y)**
+str.match(/Jack(?=Sprat)/);
+// -> ["Jack", index: 0, input: "JackSprat", groups: undefined]
+str.match(/(?=Jack)Sprat/);
+// -> null
+
+// **(?<=y)x**
+str.match(/(?<=Jack)Sprat/);
+// -> ["Sprat", index: 4, input: "JackSprat", groups: undefined]
+```
+
+
+## 플래그
+
+플래그의 종류는 
+
+우선 자주 사용하는 플래그인 g, i, u만 예제로써만 정리 해 보려고 한다.
+
+원문은 여기 → [플래그를 사용한 고급검색](https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%EC%A0%95%EA%B7%9C%EC%8B%9D#%ED%94%8C%EB%9E%98%EA%B7%B8%EB%A5%BC_%EC%82%AC%EC%9A%A9%ED%95%9C_%EA%B3%A0%EA%B8%89%EA%B2%80%EC%83%89) (en: [Advanced searching with flags](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#advanced_searching_with_flags))
+
+### g: 글로벌
+
+```jsx
+var str = 'fooexamplefoo';
+console.log(str.replace(/foo/g, ''));  // example
+console.log(str.replace(/foo/, ''));  // examplefoo
+
+var re = /\w+\s/g;
+var str = 'fee fi fo fum';
+console.log(str.match(re));  // ["fee ", "fi ", "fo "]
+```
+
+### i: 대소문자 구분없음
+
+```jsx
+var str = 'Football';
+console.log(/foo/i.exec(str));
+// -> ["Foo", index: 0, input: "Football", groups: undefined]
+console.log(/foo/i.test('Football'));
+// -> true
+
+console.log(/foo/.exec(str));
+// -> null
+console.log(/foo/.test(str));
+// -> false
+```
+
+### u: 유니코드 취급
+
+```jsx
+'nay, a😄n apple is on the tree'.match(/.n../)
+// -> ["�n a", index: 7, input: "nay, a😄n apple is on the tree", groups: undefined]
+
+'nay, a😄n apple is on the tree'.match(/.n../u)
+// -> ["😄n a", index: 6, input: "nay, a😄n apple is on the tree", groups: undefined]
+```
+
+## 정규식 사용 예제
+
+### 휴대폰번호
+
+```jsx
+var reg = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+/* case 1 */
+var phone = '010-0000-0000';
+
+reg.exec(phone); // or phone.match(reg);
+// -> 결과: (4) ["010-0000-0000", "0", "0000", "0000", index: 0, input: "010-0000-0000", groups: undefined]
+reg.test(phone);
+// -> 결과: true
+
+/* case 2 */
+var phone = '01000000000';
+
+reg.exec(phone); // or phone.match(reg);
+// -> 결과: (4) ["01000000000", "0", "0000", "0000", index: 0, input: "01000000000", groups: undefined]
+reg.test(phone);
+// -> 결과: true
+```
+
+### 국내 유선 전화번호
+
+```jsx
+var reg = /^(02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/
+var phone = '051-508-9200'; // <- 부산종합버스터미널
+
+reg.exec(phone); // or phone.match(reg);
+// -> 결과: (4) ["051-508-9200", "051", "508", "9200", index: 0, input: "051-508-9200", groups: undefined]
+reg.test(phone);
+// -> 결과: true
+```
+
+### 특수문자 발라내기
+
+```jsx
+var pattern = /[^(가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9|\s|/|.|,|\-)]/gi;   // 특수문자 제거 공백은 무시
+var content = 'i wa!nt!!@#!@#!@ fr#e#!!@edom!@# and!$ peacef@#!@#ul world';
+content.replace(pattern, '')
+
+// 결과: "i want freedom and peaceful world"
+```
+
+### 기본숫자를 "," 가 들어간 통화형태로 바꾸기
+
+```jsx
+'100000.912123123'.replace(/(\d)(?=(\d{3})+\.)/g, '$&,');
+// 100,000.912123123
+// ("$&"는 괄호로 묶여서 일치하는 전체 문자열을 의미)
+
+// 파헤치기
+'100000.912123123'.match(/\d+(?=(\d{3})+\.)/)
+// -> (2) ["100", "000", index: 0, input: "100000.912123123", groups: undefined]
+```
 
 [AD]
 
