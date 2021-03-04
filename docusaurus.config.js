@@ -90,6 +90,16 @@ module.exports = {
             },
           ]
         },
+        {
+          label: '문서관리',
+          position: 'left',
+          items: [
+            {
+              label: 'Notion',
+              to: 'docs/docu/notion/dateBetween-without-weekend',
+            },
+          ]
+        },
         { to: 'blog', label: '공지', position: 'right' },
         {
           to: 'aboutme',

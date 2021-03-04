@@ -64,5 +64,13 @@ module.exports = {
       collapsed: false,
       items: ['scm/git/tagoverview'],
     },
-  ]
+  ],
+  docu: [
+    {
+      type: 'category',
+      label: 'Notion',
+      collapsed: false,
+      items: ['docu/notion/dateBetween-without-weekend'],
+    },
+  ],
 };
