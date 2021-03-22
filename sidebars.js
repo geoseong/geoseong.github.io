@@ -62,7 +62,7 @@ module.exports = {
       type: 'category',
       label: 'Git',
       collapsed: false,
-      items: ['scm/git/tagoverview'],
+      items: ['scm/git/tagoverview', 'scm/git/github-token-authentication'],
     },
   ],
   docu: [
