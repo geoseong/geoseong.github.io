@@ -32,6 +32,9 @@ module.exports = {
     // metadatas: [
     //   { name: 'twitter:card', content: siteTitle },
     // ],
+    prism: {
+      additionalLanguages: ['csharp'],
+    },
     image: 'img/logo.png',
     navbar: {
       hideOnScroll: true,
