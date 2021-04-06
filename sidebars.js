@@ -44,12 +44,12 @@ module.exports = {
     },
   ],
   unity: [
-    // {
-    //   type: 'category',
-    //   label: 'Essentials',
-    //   collapsed: false,
-    //   items: ['unity/index'],
-    // },
+    {
+      type: 'category',
+      label: 'Visual Scripting',
+      collapsed: false,
+      items: ['unity/Bolt-overview'],
+    },
     {
       type: 'category',
       label: 'Troubleshooting',
