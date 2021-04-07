@@ -30,7 +30,7 @@ module.exports = {
   javascript: [
     {
       type: 'category',
-      label: 'Javascript',
+      label: 'Vanilla',
       collapsed: false,
       items: ['javascript/regex'],
     },

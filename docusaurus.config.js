@@ -45,7 +45,7 @@ module.exports = {
       },
       items: [
         {
-          label: 'Cloud',
+          label: '클라우드',
           position: 'left',
           items: [
             {
@@ -56,12 +56,16 @@ module.exports = {
           ],
         },
         {
-          label: '언어 & 라이브러리',
+          label: '언어 & 플랫폼',
           position: 'left',
           items: [
             {
               label: 'Javascript',
               to: 'docs/javascript/regex',
+            },
+            {
+              label: 'Unity',
+              to: 'docs/unity/Bolt-overview',
             },
             // {
             //   label: 'React',
@@ -73,16 +77,16 @@ module.exports = {
             // },
           ]
         },
-        {
-          label: 'Mobile',
-          position: 'left',
-          items: [
-            {
-              label: 'Unity',
-              to: 'docs/unity/JSONdotNET-conflicts-QuickSheet',
-            },
-          ]
-        },
+        // {
+        //   label: 'Mobile',
+        //   position: 'left',
+        //   items: [
+        //     {
+        //       label: 'Unity',
+        //       to: 'docs/unity/JSONdotNET-conflicts-QuickSheet',
+        //     },
+        //   ]
+        // },
         {
           label: '소스관리',
           position: 'left',
