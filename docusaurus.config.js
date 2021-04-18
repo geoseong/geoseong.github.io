@@ -135,12 +135,12 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
-          // editUrl: editUrl,
           sidebarPath: require.resolve('./sidebars.js'),
+          // showLastUpdateAuthor: true,
+          // showLastUpdateTime: true,
         },
         blog: {
           showReadingTime: false,
-          // editUrl: editUrl,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

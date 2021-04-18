@@ -5,6 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "yarn renderlogic:push && docusaurus start",
+    "dev": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "yarn renderlogic:push && DEPLOYMENT_BRANCH=main GIT_USER=geoseong docusaurus deploy",

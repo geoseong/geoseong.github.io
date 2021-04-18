@@ -18,9 +18,7 @@ const prismIncludeLanguages = PrismObject => {
     } = siteConfig;
     window.Prism = PrismObject;
     additionalLanguages.forEach(lang => {
-      console.log({ lang });
       require(`prismjs/components/prism-${lang}`); // eslint-disable-line
-
     });
     delete window.Prism;
   }
