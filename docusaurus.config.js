@@ -107,6 +107,20 @@ module.exports = {
             },
           ]
         },
+        {
+          label: 'PC관리',
+          position: 'left',
+          items: [
+            {
+              label: '커맨드',
+              to: 'docs/pc/pidkill',
+            },
+            {
+              label: '용량확보',
+              to: 'docs/pc/space',
+            },
+          ]
+        },
         { to: 'blog', label: '공지', position: 'right' },
         {
           to: 'aboutme',

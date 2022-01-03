@@ -73,4 +73,18 @@ module.exports = {
       items: ['docu/notion/dateBetween-without-weekend'],
     },
   ],
+  pc: [
+    {
+      type: 'category',
+      label: '커맨드',
+      collapsed: false,
+      items: ['pc/pidkill'],
+    },
+    {
+      type: 'category',
+      label: '용량확보',
+      collapsed: false,
+      items: ['pc/space'],
+    },
+  ],
 };

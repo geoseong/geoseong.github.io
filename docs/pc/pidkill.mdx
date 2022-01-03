@@ -1,0 +1,96 @@
+---
+title: Linux 포트 확인해서 죽이기
+sidebar_label: Linux 포트 확인해서 죽이기
+description: Linux 포트 확인해서 죽이기
+keywords:
+  - unix
+  - osx
+  - pid
+  - lsof
+  - netstat
+  - kill -9
+---
+
+import Comment from '../../components/Comment';
+import PostingDate from '../../components/PostingDate';
+
+<PostingDate created={'2021/7/2'} modified={'2021/7/2'} />
+
+[AD]
+
+## 이미 사용중인 포트 에러
+
+:::caution
+Error: listen EADDRINUSE: address already in use :::3000
+
+Port 3000 is already in use
+
+Address localhost:3000 is already in use
+:::
+
+가끔 제대로 죽지 않은 좀비 프로세스 때문에 특정 포트의 서버를 켤 때 이미 포트가 사용중이라고 나오는 에러를 심심찮게 마주한다.
+
+그럴 때마다 구글링으로 찾아보는데, 그때마다 조금씩 메모해 뒀던 포트로 프로세스를 검색하는 방법들을 한번 정리해 본다.
+
+## 프로세스 생성시키기
+
+[localhost:4000](http://localhost:4000) 으로 [prisma](https://www.prisma.io/) & [apollo-server](https://www.apollographql.com/docs/apollo-server/) node 서버를 시작했다.
+
+## PID 알아내기
+
+### Way 1
+
+:::note
+$ lsof -i tcp:[port no]
+:::
+
+개인적으로 이 방법을 선호한다. 왜냐면 심플하고 헤더까지 한눈에 확인이 가능하기 때문이다.
+
+```jsx
+$ lsof -i tcp:4000
+COMMAND   PID     USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+node    14972 geoseong   24u  IPv6 0x56--------------      0t0  TCP *:terabase (LISTEN)
+```
+
+### Way 2
+
+:::note
+$ netstat -vanp tcp | grep [port no]
+:::
+
+- 여기서는 헤더가 없어서 pid가 무엇인지 확인하기가 매우 어렵다. netstat 명령에 익숙하지 않은 사람은 더욱...
+
+```jsx
+$ netstat -vanp tcp | grep 4000
+tcp46      0      0  *.4000                 *.*                    LISTEN      131072 131072  14972      0 0x0100 0x00000106
+```
+
+헤더를 보고 싶다면, `netstat -vanp tcp`만 입력하면 헤더를 볼 수가 있다.
+
+여기서 나온 pid 헤더의 위치를 파악한 다음에 grep 명령어까지 다시 입력한 후에 나온 결과 보고 pid를 파악한다.
+
+- netstat에 grep명령어까지 같이 쓰면서 헤더도 보는 방법은 못 찾겠다..
+
+```jsx
+$ netstat -vanp tcp
+Active Internet connections (including servers)
+Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)     rhiwat shiwat    pid   epid  state    options
+tcp46      0      0  *.4000                 *.*                    LISTEN      131072 131072  14972      0 0x0100 0x00000106
+```
+
+## 프로세스 죽이기
+
+:::note
+$ kill -9 [PID]  (sudo kill -9 [PID])
+:::
+
+```jsx
+$ kill -9 14972
+```
+
+END
+
+
+[AD]
+
+<Comment />
