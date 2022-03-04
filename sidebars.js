@@ -17,6 +17,16 @@ module.exports = {
       ],
     }
   ],
+  Azure: [
+    {
+      type: 'category',
+      label: 'Study',
+      collapsed: false,
+      items: [
+        'azure/certified-dp900',
+      ],
+    }
+  ],
   grapql: [
     {
       type: 'category',

@@ -52,7 +52,10 @@ module.exports = {
               label: 'AWS',
               to: 'docs/aws/index',
             },
-            
+            {
+              label: 'Azure',
+              to: 'docs/azure/certified-dp900',
+            }
           ],
         },
         {
