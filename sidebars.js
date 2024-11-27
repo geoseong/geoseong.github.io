@@ -10,6 +10,14 @@ module.exports = {
     },
     {
       type: 'category',
+      label: 'Community',
+      collapsed: false,
+      items: [
+        'aws/summary-community-hero-2024',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Study',
       collapsed: false,
       items: [
