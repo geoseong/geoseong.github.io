@@ -23,7 +23,7 @@ const DEFAULT_OPTIONS = {
 
 module.exports = async function docusaurusMdxLoader(fileString) {
   const callback = this.async();
-  
+
   const {data, content} = matter(fileString);
   const reqOptions = getOptions(this) || {};
   const options = {

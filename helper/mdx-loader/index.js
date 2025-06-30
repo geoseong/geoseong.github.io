@@ -26,29 +26,17 @@ module.exports = async function docusaurusMdxLoader(fileString) {
   
   const {data, content} = matter(fileString);
   
-  // START: AdSense
+  // START: AdSense - 단순한 플레이스홀더 방식
   let _content = content;
-  _content = `
-import AdSense from 'react-adsense';
-
-${_content}
-  `;
-
-  const adKeyword = /\[AD\]/;
-  const regKeyword = new RegExp(adKeyword);
-  const adTag = `
-
-<AdSense.Google
-  client='${process.env.DATA_AD_CLIENT}'
-  slot='${process.env.AD_SLOT}'
-  style={{ display: 'block' }}
-  format='auto'
-  responsive='true'
-/>
-  `;
-  while (regKeyword.test(_content)) {
-    _content = _content.replace(adKeyword, adTag);
-  }
+  const adKeyword = /\[AD\]/g;
+  let adCounter = 0;
+  
+  _content = _content.replace(adKeyword, () => {
+    adCounter++;
+    const uniqueId = `ad-${Date.now()}-${adCounter}`;
+    // 단순한 컴포넌트 호출만 삽입 (복잡한 JSX 제거)
+    return `\n\n<AdSenseComponent adId="${uniqueId}" />\n\n`;
+  });
   // END: AdSense
 
   const reqOptions = getOptions(this) || {};

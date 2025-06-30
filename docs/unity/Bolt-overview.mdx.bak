@@ -51,7 +51,7 @@ Bolt에는 노드 기반의 시각적 그래프가 있어서 프로그래머와 
 
 ![unity/bolt/Untitled_2.png](../../static/unity/bolt/Untitled_2.png)
 
-Unity의 객체 클래스(Mono Behaviours, Scriptable Objects)를 상속받은 직접 구현한 클래스들은 자동으로 Bolt에서 사용 가능하며, Flow Graph에서 새로운 유닛을 추가할 때 `{Global Namespace}` 카테고리 안에서 확인 할 수가 있다.
+Unity의 객체 클래스(Mono Behaviours, Scriptable Objects)를 상속받은 직접 구현한 클래스들은 자동으로 Bolt에서 사용 가능하며, Flow Graph에서 새로운 유닛을 추가할 때 `Global Namespace` 카테고리 안에서 확인 할 수가 있다.
 
 ## Unity Bolt 컴포넌트 종류
 
@@ -274,7 +274,7 @@ public class ModBolt : MonoBehaviour
         Debug.Log("[Variable API]");
 
         // Events API
-        // Trigger(GameObject, {Event Name}, {Argument1}, {Argument2}, ...);
+        // Trigger(GameObject, [Event Name], [Argument1], [Argument2], ...);
         CustomEvent.Trigger(gameObject, "Trigger", "called by Events API!!");
     }
 }

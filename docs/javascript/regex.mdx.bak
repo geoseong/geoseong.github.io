@@ -132,7 +132,7 @@ src.match(/[a-c]/g) // (3) ["a", "c", "a"]
 
 ```jsx
 var str = 'For more information, see Chapter 3.4.5.1';
-var re = /see (chapter \d+(\.\d)*)/i; // <- 정규식 내에서 괄호로 묶어내어 묶은 괄호에 해당하는 결과 또한 따로 받아볼 수 있다.
+var re = /see (chapter \d+(\.\d)*)/i; 
 var found = str.match(re);
 
 console.log(found);
@@ -161,11 +161,11 @@ var p = 'The quick brown fox jumps over the lazy dog. If the dog reacted, was it
 console.log(p.replace('dog', 'monkey'));
 // -> "The quick brown fox jumps over the lazy **monkey**. If the dog reacted, was it really lazy?"
 
-var regex = /Dog/i; // <- 플래그 활용
+var regex = /Dog/i; 
 console.log(p.replace(regex, 'ferret'));
 // -> "The quick brown fox jumps over the lazy **ferret**. If the dog reacted, was it really lazy?"
 
-var regex = /Dog/gi; // <- 플래그 활용
+var regex = /Dog/gi; 
 console.log(p.replace(regex, 'ferret'));
 // -> The quick brown fox jumps over the lazy **ferret**. If the **ferret** reacted, was it really lazy?
 ```
@@ -243,7 +243,7 @@ Array.from('I💖U'); // (3) ["I", "💖", "U"]
 `0회 이상` 연속으로 반복되는 부분과 대응된다
 
 :::info
-**{0,}** 표현과 같다
+**`{0,}`** 표현과 같다
 :::
 
 ```jsx
@@ -265,7 +265,7 @@ Array.from('I💖U'); // (3) ["I", "💖", "U"]
 `1회 이상` 연속으로 반복되는 부분과 대응된다
 
 :::info
-**{1,}** 표현과 같다
+**`{1,}`** 표현과 같다
 :::
 
 <h3 id="compare-plus-asterisk">'+'와 '*'의 차이 비교</h3>
@@ -290,7 +290,7 @@ Array.from('I💖U'); // (3) ["I", "💖", "U"]
 앞의 표현식이 `0 또는 1회` 등장하는 부분과 대응된다
 
 :::info
-**{0,1}** 표현과 같은 의미.
+**`{0,1}`** 표현과 같은 의미.
 :::
 
 ```jsx
@@ -300,7 +300,7 @@ Array.from('I💖U'); // (3) ["I", "💖", "U"]
 
 **'?' 가 붙었을 때와 안 붙었을 때의 차이**
 
-만약 수량자 *, +, ?, {} 바로 뒤에 사용하면, 기본적으로 탐욕스럽던(가능한 한 많이 대응시킴) 수량자를 탐욕스럽지 않게(가능한 가장 적은 문자들에 대응시킴) 만듭니다
+만약 수량자 *, +, ?, `{}` 바로 뒤에 사용하면, 기본적으로 탐욕스럽던(가능한 한 많이 대응시킴) 수량자를 탐욕스럽지 않게(가능한 가장 적은 문자들에 대응시킴) 만듭니다
 
 ```jsx
 "123abc".match(/\d+/)
@@ -762,7 +762,7 @@ reg.test(phone);
 
 ```jsx
 var reg = /^(02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/
-var phone = '051-508-9200'; // <- 부산종합버스터미널
+var phone = '051-508-9200'; 
 
 reg.exec(phone); // or phone.match(reg);
 // -> 결과: (4) ["051-508-9200", "051", "508", "9200", index: 0, input: "051-508-9200", groups: undefined]

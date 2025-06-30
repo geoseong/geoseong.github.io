@@ -45,34 +45,12 @@ module.exports = {
       ],
     },
   ],
-  javascript: [
-    {
-      type: 'category',
-      label: 'Vanilla',
-      collapsed: false,
-      items: ['javascript/regex'],
-    },
-  ],
   react: [
     {
       type: 'category',
       label: 'Essentials',
       collapsed: false,
       items: ['react/index'],
-    },
-  ],
-  unity: [
-    {
-      type: 'category',
-      label: 'Visual Scripting',
-      collapsed: false,
-      items: ['unity/Bolt-overview'],
-    },
-    {
-      type: 'category',
-      label: 'Troubleshooting',
-      collapsed: false,
-      items: ['unity/JSONdotNET-conflicts-QuickSheet'],
     },
   ],
   scm: [

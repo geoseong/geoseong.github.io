@@ -5,10 +5,11 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "yarn renderlogic:push && NODE_OPTIONS='--openssl-legacy-provider' docusaurus start",
-    "dev": "docusaurus start",
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider --max-old-space-size=4096' docusaurus start --host 0.0.0.0 --port 3000",
     "build": "NODE_OPTIONS='--openssl-legacy-provider' docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "yarn renderlogic:push && NODE_OPTIONS='--openssl-legacy-provider' DEPLOYMENT_BRANCH=main GIT_USER=geoseong GITHUB_TOKEN=$GITHUB_TOKEN docusaurus deploy",
+    "deploy": "echo 'Use GitHub Actions for deployment. Push to docusaurus-blog branch.'",
+    "deploy:local": "yarn renderlogic:push && NODE_OPTIONS='--openssl-legacy-provider' DEPLOYMENT_BRANCH=main GIT_USER=geoseong GITHUB_TOKEN=$GITHUB_TOKEN docusaurus deploy",
     "serve": "docusaurus serve",
     "tsc": "tsc",
     "renderlogic:mkdir": "mkdir -p helper/mdx-loader/",
@@ -49,6 +50,7 @@
     "@types/react": "^17.0.0",
     "@types/react-helmet": "^6.1.0",
     "@types/react-router-dom": "^5.1.7",
+    "gh-pages": "^6.3.0",
     "typescript": "^4.1.3"
   }
 }

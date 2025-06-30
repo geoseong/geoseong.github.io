@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ docusaurus-blog ]
+  pull_request:
+    branches: [ docusaurus-blog ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'yarn'
+        
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+      
+    - name: Apply custom MDX loader
+      run: yarn renderlogic:push
+      
+    - name: Build website
+      run: NODE_OPTIONS='--openssl-legacy-provider' yarn build
+      env:
+        DATA_AD_CLIENT: ${{ secrets.DATA_AD_CLIENT }}
+        AD_SLOT: ${{ secrets.AD_SLOT }}
+        
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/docusaurus-blog'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build
+        publish_branch: main
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'

@@ -58,28 +58,28 @@ module.exports = {
             }
           ],
         },
-        {
-          label: '언어 & 플랫폼',
-          position: 'left',
-          items: [
-            {
-              label: 'Javascript',
-              to: 'docs/javascript/regex',
-            },
-            {
-              label: 'Unity',
-              to: 'docs/unity/Bolt-overview',
-            },
-            // {
-            //   label: 'React',
-            //   to: 'docs/react/index',
-            // },
-            // {
-            //   label: 'GraphQL',
-            //   to: 'docs/graphql/index',
-            // },
-          ]
-        },
+        // {
+        //   label: '언어 & 플랫폼',
+        //   position: 'left',
+        //   items: [
+        //     {
+        //       label: 'Javascript',
+        //       to: 'docs/javascript/regex',
+        //     },
+        //     {
+        //       label: 'Unity',
+        //       to: 'docs/unity/Bolt-overview',
+        //     },
+        //     // {
+        //     //   label: 'React',
+        //     //   to: 'docs/react/index',
+        //     // },
+        //     // {
+        //     //   label: 'GraphQL',
+        //     //   to: 'docs/graphql/index',
+        //     // },
+        //   ]
+        // },
         // {
         //   label: 'Mobile',
         //   position: 'left',
